@@ -1,0 +1,52 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Data and checkpoints
+data/
+*.ckpt
+checkpoints/
+/tmp/
+
+# Logs
+logs/
+*.log
+wandb/
+tensorboard/
+
+# Model weights
+*.bin
+*.safetensors
+*.h5
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets (keep .env.example for reference)
+.env
+!.env.example
+*.pem
+credentials.json
