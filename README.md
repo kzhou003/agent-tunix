@@ -19,9 +19,59 @@ This package provides a complete pipeline for training language models using GRP
 
 ### Prerequisites
 
+#### Software Requirements
 - Python 3.11+
-- NVIDIA GPU with 11GB+ VRAM (for single GPU training)
 - Kaggle account (for model weights access)
+
+#### GPU Requirements
+- NVIDIA GPU with 11GB+ VRAM (tested on RTX 2080 Ti with 11GB)
+- CUDA Toolkit 11.5+
+- NVIDIA Driver 470+
+
+#### Detailed CUDA & Driver Requirements
+
+This project requires compatible CUDA and driver versions to run JAX, TensorFlow, and other deep learning libraries.
+
+**Minimum Specifications:**
+- **NVIDIA Driver**: 470.x or higher
+- **CUDA Toolkit**: 11.5 or higher
+- **cuDNN**: 8.x or higher (automatically included with JAX/TensorFlow)
+
+**Recommended Setup:**
+- **NVIDIA Driver**: 580.x (latest stable)
+- **CUDA Toolkit**: 12.x or 13.0
+- **CUDA Compute Capability**: 7.0+ (RTX 20 series and newer, A100, H100, etc.)
+
+**Verification:**
+
+Check your driver version:
+```bash
+nvidia-smi
+```
+
+Check CUDA Toolkit version:
+```bash
+nvcc --version
+```
+
+Verify JAX can access GPU:
+```bash
+python -c "import jax; print(jax.devices())"
+```
+
+**Supported GPUs:**
+- NVIDIA RTX 20 series (2060, 2070, 2080, 2080 Ti)
+- NVIDIA RTX 30 series (3060, 3070, 3080, 3090)
+- NVIDIA RTX 40 series (4090)
+- NVIDIA A-series (A5000, A6000, A100)
+- NVIDIA H-series (H100)
+
+**Memory Requirements:**
+- 270M model: 11GB+ VRAM (with LoRA and micro-batch size 1)
+- 1B model: 14GB+ VRAM
+- 4B model: 20GB+ VRAM
+- 12B model: 40GB+ VRAM
+- 27B model: 80GB+ VRAM
 
 ### Install from source
 
@@ -30,6 +80,15 @@ git clone https://github.com/yourusername/agent-tunix.git
 cd agent-tunix
 uv pip install -e .
 ```
+
+**Note:** JAX with CUDA support will be installed as a dependency. If you encounter GPU detection issues, you may need to set environment variables:
+
+```bash
+export CUDA_HOME=/usr/local/cuda-13.0
+export LD_LIBRARY_PATH=/usr/local/cuda-13.0/lib64:$LD_LIBRARY_PATH
+```
+
+Replace `cuda-13.0` with your installed CUDA version.
 
 ## Quick Start
 
