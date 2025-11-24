@@ -2,6 +2,12 @@
 
 GRPO (Group Relative Policy Optimization) training for Gemma3-270m using Google Tunix.
 
+[![Documentation Status](https://readthedocs.org/projects/agent-tunix/badge/?version=latest)](https://agent-tunix.readthedocs.io/en/latest/?badge=latest)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/release/python-3110/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+**[📚 Full Documentation](https://agent-tunix.readthedocs.io/)** | **[🚀 Quick Start](https://agent-tunix.readthedocs.io/en/latest/getting_started/quick_start.html)** | **[⚙️ Configuration Guide](https://agent-tunix.readthedocs.io/en/latest/getting_started/configuration.html)**
+
 ## Overview
 
 This package provides a complete pipeline for training language models using GRPO, a reinforcement learning algorithm designed to enhance the reasoning abilities of LLMs. GRPO is a variant of PPO that reduces memory usage by eliminating the need for a separate value function model.
@@ -224,6 +230,33 @@ agent-tunix/
 ├── run_training.py          # Main training script
 ├── pyproject.toml           # Package configuration
 └── README.md                # This file
+```
+
+## Documentation
+
+Complete documentation is available at **[agent-tunix.readthedocs.io](https://agent-tunix.readthedocs.io/)**
+
+### Quick Links
+
+- **[Getting Started](https://agent-tunix.readthedocs.io/en/latest/getting_started/)** - Installation and quick start guide
+- **[Configuration Guide](https://agent-tunix.readthedocs.io/en/latest/getting_started/configuration.html)** - Hydra configuration system
+- **[Training Guide](https://agent-tunix.readthedocs.io/en/latest/guide/training.html)** - How to train models with GRPO
+- **[Evaluation Guide](https://agent-tunix.readthedocs.io/en/latest/guide/evaluation.html)** - Model evaluation and testing
+- **[API Reference](https://agent-tunix.readthedocs.io/en/latest/api/)** - Python API documentation
+- **[Advanced Topics](https://agent-tunix.readthedocs.io/en/latest/advanced/)** - Distributed training, custom rewards
+
+### Building Documentation Locally
+
+```bash
+# Install documentation dependencies
+pip install -e ".[docs]"
+
+# Build documentation
+cd docs
+make clean && make html
+
+# View documentation
+open _build/html/index.html
 ```
 
 ## References
