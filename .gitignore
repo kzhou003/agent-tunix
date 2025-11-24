@@ -31,6 +31,7 @@ checkpoints/
 /tmp/
 
 # Logs
+outputs/
 logs/
 *.log
 wandb/
