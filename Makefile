@@ -21,6 +21,9 @@ WHEEL_DIR := dist
 HF_REPO ?= your-username/agent-tunix-gemma3-270m
 GITHUB_REPO ?= your-username/agent-tunix
 
+# Python runner that handles venv isolation from conda/system packages
+PYTHON_RUN := env -i PATH="$(PATH)" HOME="$(HOME)" .venv/bin/python
+
 # Colors for help
 BLUE := \033[36m
 GREEN := \033[32m
@@ -54,15 +57,25 @@ update: ## Update all dependencies to latest versions
 ##@ Development
 
 lint: ## Run linting checks
-	$(PYTHON) -m ruff check src/
-	$(PYTHON) -m mypy src/
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) -m ruff check src/ && $(PYTHON_RUN) -m mypy src/; \
+	else \
+		$(PYTHON) -m ruff check src/ && $(PYTHON) -m mypy src/; \
+	fi
 
 format: ## Format code with black and ruff
-	$(PYTHON) -m black src/
-	$(PYTHON) -m ruff check --fix src/
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) -m black src/ && $(PYTHON_RUN) -m ruff check --fix src/; \
+	else \
+		$(PYTHON) -m black src/ && $(PYTHON) -m ruff check --fix src/; \
+	fi
 
 test: ## Run tests
-	$(PYTHON) -m pytest tests/ -v
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) -m pytest tests/ -v; \
+	else \
+		$(PYTHON) -m pytest tests/ -v; \
+	fi
 
 clean: ## Clean build artifacts and caches
 	rm -rf $(WHEEL_DIR)/
@@ -88,7 +101,11 @@ clean-checkpoints: ## Clean all checkpoints and data cache
 
 build: clean ## Build wheel and source distribution
 	$(UV) pip install build
-	$(PYTHON) -m build
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) -m build; \
+	else \
+		$(PYTHON) -m build; \
+	fi
 	@echo "$(GREEN)Build complete! Wheels in $(WHEEL_DIR)/$(RESET)"
 	@ls -la $(WHEEL_DIR)/
 
@@ -111,107 +128,79 @@ publish-pypi: build ## Publish package to PyPI
 
 ##@ Training
 
-train: ## Run GRPO training with default config
+train: ## Run GRPO training with default configuration
 	@echo "$(YELLOW)Starting GRPO training...$(RESET)"
-	$(PYTHON) run_training.py
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) run_training.py; \
+	else \
+		$(PYTHON) run_training.py; \
+	fi
 
 train-quick: ## Run quick training test (10 steps)
 	@echo "$(YELLOW)Running quick training test...$(RESET)"
-	$(PYTHON) -c "\
-import os; \
-os.environ['HF_HUB_DISABLE_XET'] = '1'; \
-os.environ['WANDB_MODE'] = 'disabled'; \
-from agent_tunix.config import GRPOTrainingConfig, ModelConfig, TrainingConfig, GRPOConfig, GenerationConfig; \
-from agent_tunix.train import train; \
-config = GRPOTrainingConfig( \
-    model=ModelConfig(model_size='270m', lora_rank=8, mesh_shape=((1,1), ('fsdp','tp'))), \
-    generation=GenerationConfig(max_prompt_length=64, max_generation_steps=64), \
-    grpo=GRPOConfig(num_generations=2), \
-    training=TrainingConfig(num_batches=10, micro_batch_size=1), \
-); \
-train(config)"
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) run_training.py +experiment=quick_test; \
+	else \
+		$(PYTHON) run_training.py +experiment=quick_test; \
+	fi
+
+train-show-config: ## Show training configuration
+	@echo "$(YELLOW)Training configuration:$(RESET)"
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) run_training.py --cfg job; \
+	else \
+		$(PYTHON) run_training.py --cfg job; \
+	fi
+
+train-show-defaults: ## Show configuration defaults tree
+	@echo "$(YELLOW)Configuration defaults tree:$(RESET)"
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) run_training.py --info defaults-tree; \
+	else \
+		$(PYTHON) run_training.py --info defaults-tree; \
+	fi
+
+train-sweep: ## Run hyperparameter sweep (models example)
+	@echo "$(YELLOW)Running hyperparameter sweep...$(RESET)"
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) run_training.py --multirun model=gemma3_270m,gemma3_1b 2>&1 | head -100; \
+	else \
+		$(PYTHON) run_training.py --multirun model=gemma3_270m,gemma3_1b 2>&1 | head -100; \
+	fi
 
 ##@ Evaluation
 
 evaluate: ## Evaluate trained model
 	@echo "$(YELLOW)Running evaluation...$(RESET)"
-	$(PYTHON) -c "\
-import os; \
-os.environ['HF_HUB_DISABLE_XET'] = '1'; \
-os.environ['WANDB_MODE'] = 'disabled'; \
-from agent_tunix.config import GRPOTrainingConfig, ModelConfig; \
-from agent_tunix.data import prepare_datasets; \
-from agent_tunix.models import setup_models, load_trained_checkpoint; \
-from agent_tunix.evaluate import create_sampler, evaluate; \
-config = GRPOTrainingConfig(model=ModelConfig(model_size='270m', mesh_shape=((1,1), ('fsdp','tp')))); \
-policy, ref, mesh, model_cfg, tokenizer = setup_models(config.model, './checkpoints/intermediate/'); \
-load_trained_checkpoint(policy, './checkpoints/ckpts/'); \
-_, _, test_ds = prepare_datasets('./data/train', './data/test', num_test_batches=25, micro_batch_size=1); \
-sampler = create_sampler(policy, tokenizer, model_cfg, 256, 256); \
-results = evaluate(test_ds, sampler, temperature=0.7); \
-print(f'Accuracy: {results[\"accuracy\"]:.2f}%, Format: {results[\"format_accuracy\"]:.2f}%')"
-
-##@ Model Upload
-
-upload: ## Upload trained model to HuggingFace Hub
-	@echo "$(YELLOW)Uploading model to HuggingFace Hub...$(RESET)"
-	@if [ -z "$(HF_TOKEN)" ]; then \
-		echo "$(YELLOW)Error: HF_TOKEN environment variable not set$(RESET)"; \
-		echo "Set it with: export HF_TOKEN=your_token"; \
-		exit 1; \
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) evaluate.py; \
+	else \
+		$(PYTHON) evaluate.py; \
 	fi
-	$(PYTHON) -c "\
-import os; \
-from huggingface_hub import HfApi, create_repo; \
-api = HfApi(); \
-repo_id = '$(HF_REPO)'; \
-try: \
-    create_repo(repo_id, exist_ok=True, repo_type='model'); \
-except Exception as e: \
-    print(f'Repo exists or error: {e}'); \
-api.upload_folder( \
-    folder_path='./checkpoints/ckpts/', \
-    repo_id=repo_id, \
-    repo_type='model', \
-    commit_message='Upload trained GRPO model' \
-); \
-print(f'Model uploaded to https://huggingface.co/{repo_id}')"
-	@echo "$(GREEN)Model uploaded to HuggingFace!$(RESET)"
 
-upload-config: ## Upload model config and training scripts to HuggingFace
-	@echo "$(YELLOW)Uploading config to HuggingFace Hub...$(RESET)"
-	$(PYTHON) -c "\
-import os; \
-from huggingface_hub import HfApi; \
-api = HfApi(); \
-repo_id = '$(HF_REPO)'; \
-files = ['run_training.py', 'README.md', 'pyproject.toml']; \
-for f in files: \
-    if os.path.exists(f): \
-        api.upload_file(path_or_fileobj=f, path_in_repo=f, repo_id=repo_id, repo_type='model'); \
-        print(f'Uploaded {f}')"
-	@echo "$(GREEN)Config uploaded to HuggingFace!$(RESET)"
+evaluate-show-config: ## Show evaluation configuration
+	@echo "$(YELLOW)Evaluation configuration:$(RESET)"
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) evaluate.py --cfg job; \
+	else \
+		$(PYTHON) evaluate.py --cfg job; \
+	fi
 
 ##@ Utilities
 
 check-gpu: ## Check GPU availability and memory
-	$(PYTHON) -c "\
-import jax; \
-print(f'JAX devices: {jax.devices()}'); \
-print(f'Backend: {jax.default_backend()}')" 2>/dev/null || echo "JAX not available"
-	nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv 2>/dev/null || echo "nvidia-smi not available"
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) -m agent_tunix.utils check-gpu; \
+	else \
+		$(PYTHON) -m agent_tunix.utils check-gpu; \
+	fi
 
-show-config: ## Show current training configuration
-	$(PYTHON) -c "\
-from agent_tunix.config import GRPOTrainingConfig; \
-config = GRPOTrainingConfig(); \
-print('=== Default Training Configuration ==='); \
-print(f'Model size: {config.model.model_size}'); \
-print(f'LoRA rank: {config.model.lora_rank}'); \
-print(f'Max steps: {config.max_steps}'); \
-print(f'Learning rate: {config.optimizer.learning_rate}'); \
-print(f'Checkpoint dir: {config.training.checkpoint_dir}'); \
-print(f'Data dir: {config.training.train_data_dir}')"
+show-config: ## Show default training configuration
+	@if [ -f ".venv/bin/python" ]; then \
+		$(PYTHON_RUN) -m agent_tunix.utils show-config; \
+	else \
+		$(PYTHON) -m agent_tunix.utils show-config; \
+	fi
 
 tensorboard: ## Launch TensorBoard to view training logs
 	tensorboard --logdir=./checkpoints/tensorboard/ --port=6006
