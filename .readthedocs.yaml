@@ -18,8 +18,7 @@ sphinx:
 python:
   install:
     - method: pip
-      path: .
-      extra: docs
+      path: .[docs]
 
 # Optional: specify formats to build
 # formats:
