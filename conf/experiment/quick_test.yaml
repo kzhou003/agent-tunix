@@ -3,11 +3,8 @@
 # Use with: python -m agent_tunix.train +experiment=quick_test
 
 defaults:
-  - override /model: gemma3_270m
+  - override /model: gemma3_test
   - override /training: default
-
-model:
-  lora_rank: 8
 
 training:
   num_batches: 10

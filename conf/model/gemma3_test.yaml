@@ -1,0 +1,11 @@
+# Gemma3 test configuration - optimized for CPU/single device testing
+model_family: gemma3
+model_size: 270m
+
+# LoRA configuration - minimal for testing
+lora_rank: 4
+lora_alpha: 8.0
+lora_module_path: ".*q_einsum"
+
+# Single device sharding configuration for testing
+mesh_shape: [[1], ["fsdp"]]
