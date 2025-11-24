@@ -4,7 +4,7 @@ GRPO (Group Relative Policy Optimization) training for Gemma3-270m using Google 
 
 [![Documentation Status](https://readthedocs.org/projects/agent-tunix/badge/?version=latest)](https://agent-tunix.readthedocs.io/en/latest/?badge=latest)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/release/python-3110/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 **[📚 Full Documentation](https://agent-tunix.readthedocs.io/)** | **[🚀 Quick Start](https://agent-tunix.readthedocs.io/en/latest/getting_started/quick_start.html)** | **[⚙️ Configuration Guide](https://agent-tunix.readthedocs.io/en/latest/getting_started/configuration.html)**
 
@@ -82,7 +82,7 @@ python -c "import jax; print(jax.devices())"
 ### Install from source
 
 ```bash
-git clone https://github.com/yourusername/agent-tunix.git
+git clone https://github.com/kzhou003/agent-tunix.git
 cd agent-tunix
 uv pip install -e .
 ```
@@ -214,21 +214,38 @@ agent-tunix/
 ├── checkpoints/             # Model checkpoints (gitignored)
 │   ├── ckpts/               # Training checkpoints
 │   └── intermediate/        # Intermediate model state
+├── conf/                    # Hydra configuration files
+│   ├── config.yaml          # Main configuration
+│   ├── model/               # Model configurations
+│   ├── optimizer/           # Optimizer configurations
+│   ├── training/            # Training configurations
+│   └── experiment/          # Preset experiment configurations
 ├── data/                    # Dataset cache (gitignored)
 │   ├── train/
 │   └── test/
+├── docs/                    # Sphinx documentation
+│   ├── source/
+│   ├── Makefile
+│   └── conf.py
 ├── src/
 │   └── agent_tunix/
 │       ├── __init__.py      # Package exports
-│       ├── cli.py           # Command-line interface
-│       ├── config.py        # Configuration dataclasses
+│       ├── config.py        # Configuration dataclasses (Hydra-based)
 │       ├── data.py          # Data loading and preprocessing
 │       ├── evaluate.py      # Evaluation utilities
 │       ├── models.py        # Model loading and LoRA
 │       ├── rewards.py       # Reward functions
-│       └── train.py         # Training loop
+│       ├── train.py         # Training loop
+│       └── utils.py         # Utility functions
+├── tests/                   # Pytest test suite
+│   ├── test_config.py
+│   ├── test_rewards.py
+│   └── test_utils.py
+├── .readthedocs.yaml        # ReadTheDocs configuration
+├── evaluate.py              # Model evaluation script
 ├── run_training.py          # Main training script
 ├── pyproject.toml           # Package configuration
+├── Makefile                 # Development commands
 └── README.md                # This file
 ```
 
