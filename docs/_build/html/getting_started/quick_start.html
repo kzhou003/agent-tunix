@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Start &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Configuration Guide" href="configuration.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-training">Basic Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#view-configuration">View Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-testing">Quick Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-configuration">Custom Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-experiment-presets">Using Experiment Presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-evaluation">Model Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utilities">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#makefile-shortcuts">Makefile Shortcuts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hyperparameter-sweeps">Hyperparameter Sweeps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output-structure">Output Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-help">Getting Help</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../config/overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quick Start</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/getting_started/quick_start.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quick-start">
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h1>
+<section id="basic-training">
+<h2>Basic Training<a class="headerlink" href="#basic-training" title="Link to this heading"></a></h2>
+<p>Run training with default configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>This will:
+- Load the Gemma3 270M model with LoRA
+- Use default GRPO training parameters
+- Save checkpoints to <code class="docutils literal notranslate"><span class="pre">./checkpoints/ckpts/</span></code></p>
+</section>
+<section id="view-configuration">
+<h2>View Configuration<a class="headerlink" href="#view-configuration" title="Link to this heading"></a></h2>
+<p>Before running, check the resolved configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">cfg</span> <span class="n">job</span>
+</pre></div>
+</div>
+<p>This shows all configuration values that will be used.</p>
+</section>
+<section id="quick-testing">
+<h2>Quick Testing<a class="headerlink" href="#quick-testing" title="Link to this heading"></a></h2>
+<p>Run a quick test with reduced configuration (10 steps):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span>
+</pre></div>
+</div>
+<p>This is useful for:
+- Testing setup without long training
+- Validating data pipeline
+- Debugging configuration issues</p>
+</section>
+<section id="custom-configuration">
+<h2>Custom Configuration<a class="headerlink" href="#custom-configuration" title="Link to this heading"></a></h2>
+<p>Override any configuration value from the command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Different model size</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span>
+
+<span class="c1"># Custom learning rate</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span>
+
+<span class="c1"># Multiple overrides</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span> <span class="n">training</span><span class="o">.</span><span class="n">num_batches</span><span class="o">=</span><span class="mi">100</span>
+</pre></div>
+</div>
+<p>Configuration values use dot notation for nested values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">warmup_ratio</span><span class="o">=</span><span class="mf">0.05</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">2</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">generation</span><span class="o">.</span><span class="n">max_generation_steps</span><span class="o">=</span><span class="mi">256</span>
+</pre></div>
+</div>
+</section>
+<section id="using-experiment-presets">
+<h2>Using Experiment Presets<a class="headerlink" href="#using-experiment-presets" title="Link to this heading"></a></h2>
+<p>Create and use experiment presets for common scenarios:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Quick test experiment</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span>
+
+<span class="c1"># Full training experiment</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">full_training</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../guide/experiments.html"><span class="doc">Experiments Guide</span></a> for creating custom presets.</p>
+</section>
+<section id="model-evaluation">
+<h2>Model Evaluation<a class="headerlink" href="#model-evaluation" title="Link to this heading"></a></h2>
+<p>Evaluate a trained model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># With default configuration</span>
+<span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span>
+
+<span class="c1"># With custom checkpoint</span>
+<span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">checkpoint_dir</span><span class="o">=./</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+
+<span class="c1"># Different inference strategy</span>
+<span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">inference_config</span><span class="o">=</span><span class="n">standard</span>
+</pre></div>
+</div>
+<p>Inference configurations: <code class="docutils literal notranslate"><span class="pre">greedy</span></code>, <code class="docutils literal notranslate"><span class="pre">standard</span></code>, <code class="docutils literal notranslate"><span class="pre">liberal</span></code></p>
+</section>
+<section id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Link to this heading"></a></h2>
+<p>Check GPU availability:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">agent_tunix</span><span class="o">.</span><span class="n">utils</span> <span class="n">check</span><span class="o">-</span><span class="n">gpu</span>
+</pre></div>
+</div>
+<p>Show default configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">agent_tunix</span><span class="o">.</span><span class="n">utils</span> <span class="n">show</span><span class="o">-</span><span class="n">config</span>
+</pre></div>
+</div>
+</section>
+<section id="makefile-shortcuts">
+<h2>Makefile Shortcuts<a class="headerlink" href="#makefile-shortcuts" title="Link to this heading"></a></h2>
+<p>Quick commands using Make:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">train</span>                <span class="c1"># Default training</span>
+<span class="n">make</span> <span class="n">train</span><span class="o">-</span><span class="n">quick</span>          <span class="c1"># Quick test</span>
+<span class="n">make</span> <span class="n">train</span><span class="o">-</span><span class="n">show</span><span class="o">-</span><span class="n">config</span>    <span class="c1"># Show configuration</span>
+<span class="n">make</span> <span class="n">evaluate</span>             <span class="c1"># Evaluate model</span>
+<span class="n">make</span> <span class="n">check</span><span class="o">-</span><span class="n">gpu</span>            <span class="c1"># Check GPU</span>
+<span class="n">make</span> <span class="n">show</span><span class="o">-</span><span class="n">config</span>          <span class="c1"># Show defaults</span>
+</pre></div>
+</div>
+</section>
+<section id="hyperparameter-sweeps">
+<h2>Hyperparameter Sweeps<a class="headerlink" href="#hyperparameter-sweeps" title="Link to this heading"></a></h2>
+<p>Run multiple experiments with different configurations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sweep over models</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_270m</span><span class="p">,</span><span class="n">gemma3_1b</span>
+
+<span class="c1"># Sweep over learning rates</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">3e-6</span><span class="p">,</span><span class="mf">1e-5</span>
+
+<span class="c1"># Multiple parameter sweep</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_270m</span><span class="p">,</span><span class="n">gemma3_1b</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">3e-6</span><span class="p">,</span><span class="mf">1e-5</span>
+</pre></div>
+</div>
+<p>Each configuration runs sequentially, with results saved to separate output directories.</p>
+</section>
+<section id="output-structure">
+<h2>Output Structure<a class="headerlink" href="#output-structure" title="Link to this heading"></a></h2>
+<p>Training creates the following structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>outputs/
+└── tunix-grpo/
+    └── YYYY-MM-DD/
+        └── HH-MM-SS/
+            ├── .hydra/
+            │   ├── config.yaml           # Resolved configuration
+            │   ├── overrides.yaml        # Command-line overrides
+            │   └── launcher.yaml         # Launcher configuration
+            └── checkpoints/
+                └── train.log             # Training logs
+</pre></div>
+</div>
+<p>Configurations are automatically saved for reproducibility.</p>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../guide/training.html"><span class="doc">Full Training Guide</span></a></p></li>
+<li><p><a class="reference internal" href="configuration.html"><span class="doc">Configuration Guide</span></a></p></li>
+<li><p><a class="reference internal" href="../guide/hyperparameter_tuning.html"><span class="doc">Hyperparameter Tuning</span></a></p></li>
+</ul>
+</section>
+<section id="getting-help">
+<h2>Getting Help<a class="headerlink" href="#getting-help" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Check logs in output directory for detailed information</p></li>
+<li><p>View configuration: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run_training.py</span> <span class="pre">--cfg</span> <span class="pre">job</span></code></p></li>
+<li><p>See defaults tree: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run_training.py</span> <span class="pre">--info</span> <span class="pre">defaults-tree</span></code></p></li>
+<li><p>Full help: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run_training.py</span> <span class="pre">--help</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="configuration.html" class="btn btn-neutral float-right" title="Configuration Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -92,61 +92,105 @@ Replace `cuda-13.0` with your installed CUDA version.
 
 ## Quick Start
 
-### Training
+All configuration is managed via YAML files in `conf/` with command-line overrides for flexible configuration.
+
+### Training with Default Configuration
 
 ```bash
-cd agent-tunix
+# Run training with default configuration
 python run_training.py
+
+# View the resolved configuration before running
+python run_training.py --cfg job
+
+# Show configuration defaults tree
+python run_training.py --info defaults-tree
+```
+
+### Training with Custom Configuration
+
+```bash
+# Change model size
+python run_training.py model=gemma3_1b
+
+# Override multiple values
+python run_training.py model=gemma3_1b optimizer.learning_rate=1e-5 training.num_batches=50
+
+# Use a preset experiment
+python run_training.py +experiment=quick_test
+```
+
+### Hyperparameter Sweeps
+
+```bash
+# Sweep over multiple models
+python run_training.py --multirun model=gemma3_270m,gemma3_1b
+
+# Sweep over learning rates
+python run_training.py --multirun optimizer.learning_rate=1e-6,3e-6,1e-5
+```
+
+### Model Evaluation
+
+```bash
+# Evaluate with default configuration
+python evaluate.py
+
+# Evaluate with custom checkpoint
+python evaluate.py checkpoint_dir=./checkpoints/ckpts/ inference_config=standard
 ```
 
 ### Programmatic Usage
 
 ```python
-from agent_tunix import GRPOTrainingConfig, train
-from agent_tunix.config import ModelConfig, TrainingConfig
+from agent_tunix import train
 
-config = GRPOTrainingConfig(
-    model=ModelConfig(
-        model_size="270m",
-        lora_rank=16,
-        mesh_shape=((1, 1), ("fsdp", "tp")),  # Single GPU
-    ),
-    training=TrainingConfig(
-        num_batches=100,
-        micro_batch_size=1,
-    ),
-)
-
-train(config)
+# Train using Hydra configuration
+# This requires Hydra to be initialized (usually via command line)
+# For programmatic use, directly call the training function:
+train()
 ```
+
+See [HYDRA_USAGE.md](HYDRA_USAGE.md) for complete Hydra documentation and advanced usage examples.
 
 ## Configuration
 
-### Model Configuration
+All configuration is managed through YAML files located in the `conf/` directory. Configuration is organized into logical groups:
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `model_size` | `"270m"` | Model size (`"270m"`, `"1b"`, `"4b"`, `"12b"`, `"27b"`) |
-| `lora_rank` | `32` | LoRA rank for adaptation |
-| `lora_alpha` | `32.0` | LoRA scaling factor |
+### Configuration Groups
 
-### GRPO Configuration
+- **`model/`** - Model architecture configurations (gemma3_270m, gemma3_1b, etc.)
+- **`optimizer/`** - Optimizer settings (adamw)
+- **`scheduler/`** - Learning rate scheduler configurations
+- **`grpo/`** - GRPO algorithm parameters
+- **`generation/`** - Text generation settings
+- **`training/`** - Training hyperparameters
+- **`experiment/`** - Preset experiment configurations
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `num_generations` | `4` | Number of responses per prompt (G in paper) |
-| `num_iterations` | `1` | Iterations per batch (mu in paper) |
-| `beta` | `0.08` | KL divergence penalty coefficient |
-| `epsilon` | `0.2` | Clipping epsilon for stable updates |
+### Common Parameters
 
-### Training Configuration
+#### Model Configuration
+- `model_size`: Model size (270m, 1b, 4b, 12b, 27b)
+- `lora_rank`: LoRA rank for parameter-efficient training
+- `lora_alpha`: LoRA scaling factor
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `learning_rate` | `3e-6` | Peak learning rate |
-| `warmup_ratio` | `0.1` | Warmup steps as fraction of total |
-| `max_grad_norm` | `0.1` | Gradient clipping threshold |
-| `micro_batch_size` | `4` | Batch size per device |
+#### Optimizer Configuration
+- `learning_rate`: Peak learning rate (default: 3e-6)
+- `warmup_ratio`: Warmup as fraction of total steps (default: 0.1)
+- `max_grad_norm`: Gradient clipping threshold (default: 0.1)
+
+#### GRPO Configuration
+- `num_generations`: Number of responses per prompt (default: 4)
+- `num_iterations`: Iterations per batch (default: 1)
+- `beta`: KL divergence penalty coefficient (default: 0.08)
+- `epsilon`: PPO clipping epsilon (default: 0.2)
+
+#### Training Configuration
+- `micro_batch_size`: Batch size per device (default: 4)
+- `num_batches`: Number of training batches (default: 3738)
+- `num_epochs`: Number of training epochs (default: 1)
+
+For complete configuration details and examples, see [HYDRA_USAGE.md](HYDRA_USAGE.md).
 
 ## Reward Functions
 

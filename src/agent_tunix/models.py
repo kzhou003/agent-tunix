@@ -54,6 +54,8 @@ def save_intermediate_checkpoint(
     This is a workaround to re-save the pre-trained model checkpoint
     into a format compatible with Flax NNX.
     """
+    # Convert to absolute path for Orbax compatibility
+    checkpoint_dir = os.path.abspath(checkpoint_dir)
     os.makedirs(checkpoint_dir, exist_ok=True)
 
     checkpointer = ocp.StandardCheckpointer()
@@ -80,6 +82,9 @@ def load_reference_model(
         Tuple of (model, mesh, model_config).
     """
     from tunix.models.gemma3 import params, model as model_lib
+
+    # Convert to absolute path for Orbax compatibility
+    checkpoint_path = os.path.abspath(checkpoint_path)
 
     mesh = jax.make_mesh(*mesh_shape)
 

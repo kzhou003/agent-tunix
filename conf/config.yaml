@@ -1,0 +1,38 @@
+# Main GRPO Training Configuration
+# Use with: python -m agent_tunix.train
+
+defaults:
+  - model: gemma3_270m
+  - optimizer: adamw
+  - scheduler: warmup_cosine
+  - grpo: default
+  - generation: default
+  - training: default
+  - _self_
+
+# Project metadata
+project_name: tunix-grpo
+seed: 42
+debug: false
+
+# Hydra settings
+hydra:
+  run:
+    dir: outputs/${project_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: multirun/${project_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  job_logging:
+    version: 1
+    disable_existing_loggers: false
+    formatters:
+      simple:
+        format: '[%(levelname)s] %(asctime)s - %(name)s - %(message)s'
+    handlers:
+      console:
+        class: logging.StreamHandler
+        formatter: simple
+        stream: ext://sys.stdout
+    root:
+      level: INFO
+      handlers: [console]
+  callbacks: {}

@@ -1,0 +1,515 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuration Overview &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Model Configuration Reference" href="model.html" />
+    <link rel="prev" title="Experiments Guide" href="../guide/experiments.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#directory-structure">Directory Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#main-configuration-config-yaml">Main Configuration (config.yaml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-groups">Configuration Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-configurations">Using Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-composition">Configuration Composition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nested-overrides">Nested Overrides</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#interpolations">Interpolations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-custom-configurations">Creating Custom Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-file-format">Configuration File Format</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hydra-specific-syntax">Hydra-Specific Syntax</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-patterns">Common Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Configuration Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/config/overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configuration-overview">
+<h1>Configuration Overview<a class="headerlink" href="#configuration-overview" title="Link to this heading"></a></h1>
+<p>Agent-Tunix uses Hydra, a framework for configuring complex applications. All training parameters are managed through YAML configuration files organized in the <code class="docutils literal notranslate"><span class="pre">conf/</span></code> directory.</p>
+<section id="directory-structure">
+<h2>Directory Structure<a class="headerlink" href="#directory-structure" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>conf/
+├── config.yaml                  # Main configuration
+├── model/                       # Model architecture configs
+│   ├── gemma3_270m.yaml
+│   ├── gemma3_1b.yaml
+│   └── gemma3_4b.yaml
+├── optimizer/                   # Optimizer settings
+│   └── adamw.yaml
+├── scheduler/                   # LR scheduler configs
+│   └── warmup_cosine.yaml
+├── grpo/                        # GRPO algorithm params
+│   └── default.yaml
+├── generation/                  # Text generation settings
+│   └── default.yaml
+├── training/                    # Training hyperparams
+│   └── default.yaml
+├── evaluation/                  # Evaluation settings
+│   └── default.yaml
+└── experiment/                  # Experiment presets
+    ├── quick_test.yaml
+    └── full_training.yaml
+</pre></div>
+</div>
+</section>
+<section id="main-configuration-config-yaml">
+<h2>Main Configuration (config.yaml)<a class="headerlink" href="#main-configuration-config-yaml" title="Link to this heading"></a></h2>
+<p>The main configuration file specifies defaults and merge order:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">defaults</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">model</span><span class="p">:</span> <span class="n">gemma3_270m</span>         <span class="c1"># Default model</span>
+  <span class="o">-</span> <span class="n">optimizer</span><span class="p">:</span> <span class="n">adamw</span>           <span class="c1"># Default optimizer</span>
+  <span class="o">-</span> <span class="n">scheduler</span><span class="p">:</span> <span class="n">warmup_cosine</span>   <span class="c1"># Default scheduler</span>
+  <span class="o">-</span> <span class="n">grpo</span><span class="p">:</span> <span class="n">default</span>              <span class="c1"># Default GRPO params</span>
+  <span class="o">-</span> <span class="n">generation</span><span class="p">:</span> <span class="n">default</span>        <span class="c1"># Default generation</span>
+  <span class="o">-</span> <span class="n">training</span><span class="p">:</span> <span class="n">default</span>          <span class="c1"># Default training</span>
+  <span class="o">-</span> <span class="n">_self_</span>                     <span class="c1"># This file (applied last)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">_self_</span></code> entry controls when this file merges (typically last).</p>
+</section>
+<section id="configuration-groups">
+<h2>Configuration Groups<a class="headerlink" href="#configuration-groups" title="Link to this heading"></a></h2>
+<p><strong>Model Group</strong> (<code class="docutils literal notranslate"><span class="pre">conf/model/</span></code>)</p>
+<p>Specifies model architecture and LoRA configuration.</p>
+<p><strong>Optimizer Group</strong> (<code class="docutils literal notranslate"><span class="pre">conf/optimizer/</span></code>)</p>
+<p>Specifies optimizer algorithm and settings (learning rate, warmup, etc.).</p>
+<p><strong>Scheduler Group</strong> (<code class="docutils literal notranslate"><span class="pre">conf/scheduler/</span></code>)</p>
+<p>Specifies learning rate schedule strategy.</p>
+<p><strong>GRPO Group</strong> (<code class="docutils literal notranslate"><span class="pre">conf/grpo/</span></code>)</p>
+<p>Specifies GRPO algorithm parameters (generations, beta, epsilon).</p>
+<p><strong>Generation Group</strong> (<code class="docutils literal notranslate"><span class="pre">conf/generation/</span></code>)</p>
+<p>Specifies text generation settings (temperature, sampling, lengths).</p>
+<p><strong>Training Group</strong> (<code class="docutils literal notranslate"><span class="pre">conf/training/</span></code>)</p>
+<p>Specifies training hyperparameters (batch sizes, epochs, checkpointing).</p>
+<p><strong>Evaluation Group</strong> (<code class="docutils literal notranslate"><span class="pre">conf/evaluation/</span></code>)</p>
+<p>Specifies evaluation settings (checkpoint, inference mode, metrics).</p>
+<p><strong>Experiment Group</strong> (<code class="docutils literal notranslate"><span class="pre">conf/experiment/</span></code>)</p>
+<p>Presets combining multiple config settings for specific scenarios.</p>
+</section>
+<section id="using-configurations">
+<h2>Using Configurations<a class="headerlink" href="#using-configurations" title="Link to this heading"></a></h2>
+<p><strong>Default Configuration</strong></p>
+<p>Run with all defaults:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p><strong>Override Single Parameter</strong></p>
+<p>Use dot notation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span>
+</pre></div>
+</div>
+<p><strong>Override Multiple Parameters</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p><strong>Select Different Config Group</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span>
+</pre></div>
+</div>
+<p><strong>Use Experiment Preset</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span>
+</pre></div>
+</div>
+<p><strong>View Resolved Configuration</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">cfg</span> <span class="n">job</span>
+</pre></div>
+</div>
+<p>Shows all interpolations resolved and defaults applied.</p>
+<p><strong>Dry Run</strong></p>
+<p>Test configuration without training:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">dry</span><span class="o">-</span><span class="n">run</span>
+</pre></div>
+</div>
+</section>
+<section id="configuration-composition">
+<h2>Configuration Composition<a class="headerlink" href="#configuration-composition" title="Link to this heading"></a></h2>
+<p>Hydra merges configurations in this order:</p>
+<ol class="arabic simple">
+<li><p>Load defaults (from config.yaml defaults list)</p></li>
+<li><p>Apply command-line overrides</p></li>
+<li><p>Merge with _self_</p></li>
+</ol>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Starting point: conf/config.yaml defaults</span>
+<span class="o">-</span> <span class="n">model</span><span class="p">:</span> <span class="n">gemma3_270m</span>
+
+<span class="c1"># Override: command-line argument</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span>
+
+<span class="c1"># Result: model=gemma3_1b replaces model=gemma3_270m</span>
+</pre></div>
+</div>
+<section id="nested-overrides">
+<h3>Nested Overrides<a class="headerlink" href="#nested-overrides" title="Link to this heading"></a></h3>
+<p>Override nested values with dot notation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">.</span><span class="n">lora_rank</span><span class="o">=</span><span class="mi">64</span>
+</pre></div>
+</div>
+<p>Add new fields with +:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">training</span><span class="o">.</span><span class="n">custom_param</span><span class="o">=</span><span class="n">value</span>
+</pre></div>
+</div>
+<p>Force override with ++:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">++</span><span class="n">model</span><span class="o">.</span><span class="n">custom_field</span><span class="o">=</span><span class="n">value</span>
+</pre></div>
+</div>
+<p>Delete fields with ~:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">~</span><span class="n">training</span><span class="o">.</span><span class="n">gradient_clip</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="interpolations">
+<h2>Interpolations<a class="headerlink" href="#interpolations" title="Link to this heading"></a></h2>
+<p>Reference other config values using ${path}:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># In YAML files
+model_name: gemma3
+full_name: ${model_name}_1b
+
+# Results in: full_name = gemma3_1b
+</pre></div>
+</div>
+<p>This enables:</p>
+<ul class="simple">
+<li><p>Reducing duplication</p></li>
+<li><p>Consistency across configs</p></li>
+<li><p>Semantic relationships</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># In conf/training/default.yaml
+num_batches: 3738
+total_steps: ${training.num_batches}  # References above
+</pre></div>
+</div>
+</section>
+<section id="creating-custom-configurations">
+<h2>Creating Custom Configurations<a class="headerlink" href="#creating-custom-configurations" title="Link to this heading"></a></h2>
+<p>Create custom model config in <code class="docutils literal notranslate"><span class="pre">conf/model/custom.yaml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model_family</span><span class="p">:</span> <span class="n">gemma3</span>
+<span class="n">model_size</span><span class="p">:</span> <span class="mi">4</span><span class="n">b</span>
+<span class="n">lora_rank</span><span class="p">:</span> <span class="mi">64</span>
+<span class="n">lora_alpha</span><span class="p">:</span> <span class="mf">64.0</span>
+<span class="n">lora_module_path</span><span class="p">:</span> <span class="s2">&quot;.*q_einsum|.*kv_einsum&quot;</span>
+<span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Use it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">custom</span>
+</pre></div>
+</div>
+<p>Create custom experiment in <code class="docutils literal notranslate"><span class="pre">conf/experiment/my_exp.yaml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># @package _global_</span>
+<span class="n">defaults</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">override</span> <span class="o">/</span><span class="n">model</span><span class="p">:</span> <span class="n">gemma3_1b</span>
+  <span class="o">-</span> <span class="n">override</span> <span class="o">/</span><span class="n">optimizer</span><span class="p">:</span> <span class="n">adamw</span>
+
+<span class="n">training</span><span class="p">:</span>
+  <span class="n">num_batches</span><span class="p">:</span> <span class="mi">100</span>
+  <span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">2</span>
+
+<span class="n">optimizer</span><span class="p">:</span>
+  <span class="n">learning_rate</span><span class="p">:</span> <span class="mf">1e-5</span>
+</pre></div>
+</div>
+<p>Use it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">my_exp</span>
+</pre></div>
+</div>
+</section>
+<section id="configuration-validation">
+<h2>Configuration Validation<a class="headerlink" href="#configuration-validation" title="Link to this heading"></a></h2>
+<p><strong>Check syntax</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">cfg</span> <span class="n">job</span>
+</pre></div>
+</div>
+<p><strong>View composition tree</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">info</span> <span class="n">defaults</span><span class="o">-</span><span class="n">tree</span>
+</pre></div>
+</div>
+<p><strong>List available configs</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">info</span> <span class="n">config</span><span class="o">-</span><span class="n">groups</span>
+</pre></div>
+</div>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p><strong>Check before running</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">cfg</span> <span class="n">job</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">config</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Use semantic names</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">ablation_lr_sweep</span>
+
+<span class="c1"># Avoid</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">exp1</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Document custom configs</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># In your custom.yaml, add comments</span>
+<span class="c1"># Custom model for experiment X</span>
+<span class="n">model_family</span><span class="p">:</span> <span class="n">gemma3</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Store successful configs</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Keep in version control</span>
+<span class="n">git</span> <span class="n">add</span> <span class="n">conf</span><span class="o">/</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Use experiments for reproducibility</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instead of remembering many overrides</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">best_config</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Avoid magic numbers</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create config group instead</span>
+<span class="n">conf</span><span class="o">/</span><span class="n">learning_rates</span><span class="o">/</span><span class="n">high</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">conf</span><span class="o">/</span><span class="n">learning_rates</span><span class="o">/</span><span class="n">low</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="configuration-file-format">
+<h2>Configuration File Format<a class="headerlink" href="#configuration-file-format" title="Link to this heading"></a></h2>
+<p>YAML files use standard YAML syntax:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Comments</span>
+<span class="n">model</span><span class="p">:</span>
+  <span class="n">name</span><span class="p">:</span> <span class="n">gemma3</span>
+  <span class="n">size</span><span class="p">:</span> <span class="mi">1</span><span class="n">b</span>                      <span class="c1"># Inline comment</span>
+  <span class="n">lora_rank</span><span class="p">:</span> <span class="mi">32</span>
+
+<span class="c1"># Lists</span>
+<span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+
+<span class="c1"># Strings</span>
+<span class="n">model_path</span><span class="p">:</span> <span class="s2">&quot;/path/to/model&quot;</span>
+
+<span class="c1"># Numbers</span>
+<span class="n">learning_rate</span><span class="p">:</span> <span class="mf">1e-5</span>
+
+<span class="c1"># Booleans</span>
+<span class="n">use_fp16</span><span class="p">:</span> <span class="n">false</span>
+</pre></div>
+</div>
+<section id="hydra-specific-syntax">
+<h3>Hydra-Specific Syntax<a class="headerlink" href="#hydra-specific-syntax" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">&#64;package</span> <span class="pre">_global_</span></code></dt><dd><p>Merge experiment into global namespace (required for experiments)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">${path.to.value}</span></code></dt><dd><p>Interpolate other config values</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">???</span></code></dt><dd><p>Required value (error if not provided)</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h2>
+<p>Reference environment variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># In YAML
+model_path: ${oc.env:MODEL_PATH,/default/path}
+</pre></div>
+</div>
+<p>Override all configs from environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">HYDRA_OVERRIDE_MODEL</span><span class="o">=</span><span class="n">gemma3_1b</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Advanced: Config Structured</p>
+<p>With plugins, can use Python dataclasses for type-safe configs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ModelConfig</span><span class="p">:</span>
+    <span class="n">lora_rank</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">lora_alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">32.0</span>
+</pre></div>
+</div>
+<p>(Currently optional in Agent-Tunix)</p>
+</section>
+<section id="common-patterns">
+<h2>Common Patterns<a class="headerlink" href="#common-patterns" title="Link to this heading"></a></h2>
+<p><strong>Learning Rate Search</strong></p>
+<p>Create <code class="docutils literal notranslate"><span class="pre">conf/experiment/lr_sweep.yaml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># @package _global_</span>
+<span class="n">training</span><span class="p">:</span>
+  <span class="n">num_batches</span><span class="p">:</span> <span class="mi">100</span>
+</pre></div>
+</div>
+<p>Then run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">lr_sweep</span> \
+    <span class="o">--</span><span class="n">multirun</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">1e-5</span><span class="p">,</span><span class="mf">1e-4</span>
+</pre></div>
+</div>
+<p><strong>Memory-Constrained Training</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_270m</span> \
+    <span class="n">model</span><span class="o">.</span><span class="n">lora_rank</span><span class="o">=</span><span class="mi">8</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span> \
+    <span class="n">grpo</span><span class="o">.</span><span class="n">num_generations</span><span class="o">=</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p><strong>Production Training</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">full_training</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">3e-6</span>
+</pre></div>
+</div>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="model.html"><span class="doc">Model Configuration Reference</span></a> - Model configuration reference</p></li>
+<li><p><a class="reference internal" href="optimizer.html"><span class="doc">Optimizer Configuration Reference</span></a> - Optimizer configuration reference</p></li>
+<li><p><a class="reference internal" href="training.html"><span class="doc">Training Configuration Reference</span></a> - Training configuration reference</p></li>
+<li><p><a class="reference internal" href="../getting_started/configuration.html"><span class="doc">Configuration Guide</span></a> - Detailed configuration guide</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../guide/experiments.html" class="btn btn-neutral float-left" title="Experiments Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model.html" class="btn btn-neutral float-right" title="Model Configuration Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

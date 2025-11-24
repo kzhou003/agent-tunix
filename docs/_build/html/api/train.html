@@ -1,0 +1,281 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Training API &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Evaluation API" href="evaluate.html" />
+    <link rel="prev" title="Training Configuration Reference" href="../config/training.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../config/overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Training API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#main-entry-point">Main Entry Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#training-utilities">Training Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-classes">Configuration Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#training-flow">Training Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#grpo-algorithm">GRPO Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-usage">Example Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tips-and-best-practices">Tips and Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Training API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/train.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="training-api">
+<h1>Training API<a class="headerlink" href="#training-api" title="Link to this heading"></a></h1>
+<p>This module contains the main training entry point and training utilities.</p>
+<section id="main-entry-point">
+<h2>Main Entry Point<a class="headerlink" href="#main-entry-point" title="Link to this heading"></a></h2>
+</section>
+<section id="training-utilities">
+<h2>Training Utilities<a class="headerlink" href="#training-utilities" title="Link to this heading"></a></h2>
+</section>
+<section id="configuration-classes">
+<h2>Configuration Classes<a class="headerlink" href="#configuration-classes" title="Link to this heading"></a></h2>
+<p>The training module works with Hydra’s DictConfig. Configuration structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">training</span><span class="p">:</span>
+  <span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">4</span>        <span class="c1"># Batch size per device</span>
+  <span class="n">num_batches</span><span class="p">:</span> <span class="mi">3738</span>          <span class="c1"># Total training batches</span>
+  <span class="n">num_epochs</span><span class="p">:</span> <span class="mi">1</span>              <span class="c1"># Number of epochs</span>
+  <span class="n">checkpoint_dir</span><span class="p">:</span> <span class="o">./</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+  <span class="n">save_interval_steps</span><span class="p">:</span> <span class="mi">100</span>   <span class="c1"># Save checkpoint every N steps</span>
+  <span class="n">eval_interval_steps</span><span class="p">:</span> <span class="mi">500</span>   <span class="c1"># Evaluate every N steps</span>
+
+<span class="n">optimizer</span><span class="p">:</span>
+  <span class="n">learning_rate</span><span class="p">:</span> <span class="mf">3e-6</span>        <span class="c1"># Peak learning rate</span>
+  <span class="n">warmup_ratio</span><span class="p">:</span> <span class="mf">0.1</span>          <span class="c1"># Warmup as % of total</span>
+  <span class="n">max_grad_norm</span><span class="p">:</span> <span class="mf">0.1</span>         <span class="c1"># Gradient clipping</span>
+
+<span class="n">grpo</span><span class="p">:</span>
+  <span class="n">num_generations</span><span class="p">:</span> <span class="mi">4</span>         <span class="c1"># Responses per prompt</span>
+  <span class="n">beta</span><span class="p">:</span> <span class="mf">0.08</span>                 <span class="c1"># KL divergence weight</span>
+  <span class="n">epsilon</span><span class="p">:</span> <span class="mf">0.2</span>               <span class="c1"># PPO clipping</span>
+
+<span class="n">generation</span><span class="p">:</span>
+  <span class="n">max_prompt_length</span><span class="p">:</span> <span class="mi">256</span>
+  <span class="n">max_generation_steps</span><span class="p">:</span> <span class="mi">512</span>
+  <span class="n">temperature</span><span class="p">:</span> <span class="mf">0.9</span>
+  <span class="n">top_k</span><span class="p">:</span> <span class="mi">50</span>
+  <span class="n">top_p</span><span class="p">:</span> <span class="mf">1.0</span>
+</pre></div>
+</div>
+</section>
+<section id="training-flow">
+<h2>Training Flow<a class="headerlink" href="#training-flow" title="Link to this heading"></a></h2>
+<p>The training process follows these steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Configuration Loading</strong>: Hydra loads and composes configuration from YAML files</p></li>
+<li><p><strong>Seed Management</strong>: Sets random seeds for reproducibility</p></li>
+<li><p><strong>Dataset Preparation</strong>: Loads and tokenizes training data (GSM8K by default)</p></li>
+<li><p><strong>Model Setup</strong>:
+- Loads base model from Hugging Face or Kaggle
+- Applies LoRA to specified layers
+- Initializes reference and policy models</p></li>
+<li><p><strong>Training Loop</strong>:
+- Generate multiple responses per prompt
+- Compute rewards (correctness + format matching)
+- Calculate policy gradients with KL penalty
+- Update model weights
+- Log metrics to Weights &amp; Biases</p></li>
+<li><p><strong>Checkpointing</strong>: Saves model weights and configuration periodically</p></li>
+<li><p><strong>Evaluation</strong>: Periodically evaluates on validation set</p></li>
+</ol>
+</section>
+<section id="grpo-algorithm">
+<h2>GRPO Algorithm<a class="headerlink" href="#grpo-algorithm" title="Link to this heading"></a></h2>
+<p>The Group Relative Policy Optimization algorithm:</p>
+<ol class="arabic simple">
+<li><p>For each prompt, generate K responses (num_generations)</p></li>
+<li><p>Compute rewards for each response</p></li>
+<li><p>Normalize rewards relative to group (Group Relative)</p></li>
+<li><p>Compute policy gradients with PPO clipping</p></li>
+<li><p>Apply KL divergence penalty to stay close to reference model</p></li>
+<li><p>Update weights using optimizer with gradient clipping</p></li>
+</ol>
+<p>Key hyperparameters:</p>
+<ul class="simple">
+<li><p><strong>num_generations</strong>: Number of candidate responses to generate per prompt</p></li>
+<li><p><strong>beta</strong>: Weight of KL divergence penalty (controls deviation from reference)</p></li>
+<li><p><strong>epsilon</strong>: PPO clipping range for gradient updates</p></li>
+</ul>
+</section>
+<section id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading"></a></h2>
+<p>Basic training with defaults:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">agent_tunix.train</span><span class="w"> </span><span class="kn">import</span> <span class="n">train</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">hydra</span><span class="w"> </span><span class="kn">import</span> <span class="n">compose</span><span class="p">,</span> <span class="n">initialize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">omegaconf</span><span class="w"> </span><span class="kn">import</span> <span class="n">DictConfig</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">train</span><span class="p">()</span>  <span class="c1"># Hydra decorator handles config loading</span>
+</pre></div>
+</div>
+<p>Command-line examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Default configuration</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span>
+
+<span class="c1"># Override learning rate</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span>
+
+<span class="c1"># Use different model</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span>
+
+<span class="c1"># Multiple overrides</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">2</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">3e-6</span>
+
+<span class="c1"># Use experiment preset</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span>
+
+<span class="c1"># Parameter sweep</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">1e-5</span><span class="p">,</span><span class="mf">1e-4</span>
+</pre></div>
+</div>
+</section>
+<section id="tips-and-best-practices">
+<h2>Tips and Best Practices<a class="headerlink" href="#tips-and-best-practices" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Start with quick_test</strong>: Use <code class="docutils literal notranslate"><span class="pre">+experiment=quick_test</span></code> for 10-step validation runs</p></li>
+<li><p><strong>Monitor GPU memory</strong>: Use <code class="docutils literal notranslate"><span class="pre">nvidia-smi</span></code> during training</p></li>
+<li><p><strong>Check configuration</strong>: Use <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run_training.py</span> <span class="pre">--cfg</span> <span class="pre">job</span></code> before running</p></li>
+<li><p><strong>Save checkpoints frequently</strong>: Lower <code class="docutils literal notranslate"><span class="pre">save_interval_steps</span></code> for important runs</p></li>
+<li><p><strong>Enable logging</strong>: W&amp;B is enabled by default, set <code class="docutils literal notranslate"><span class="pre">wandb_disabled=true</span></code> to disable</p></li>
+<li><p><strong>Use gradual unfreezing</strong>: Start with smaller learning rates and increase if loss plateaus</p></li>
+</ol>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../guide/training.html"><span class="doc">Training Guide</span></a> - Detailed training guide</p></li>
+<li><p><a class="reference internal" href="../guide/hyperparameter_tuning.html"><span class="doc">Hyperparameter Tuning</span></a> - Hyperparameter tuning strategies</p></li>
+<li><p><a class="reference internal" href="evaluate.html"><span class="doc">Evaluation API</span></a> - Evaluation API reference</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../config/training.html" class="btn btn-neutral float-left" title="Training Configuration Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="evaluate.html" class="btn btn-neutral float-right" title="Evaluation API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

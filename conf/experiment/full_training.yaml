@@ -1,0 +1,32 @@
+# @package _global_
+# Full training experiment - production settings
+# Use with: python -m agent_tunix.train +experiment=full_training
+
+defaults:
+  - override /model: gemma3_270m
+  - override /training: default
+
+model:
+  lora_rank: 32
+
+training:
+  num_batches: 3738
+  micro_batch_size: 4
+  num_test_batches: 100
+  num_epochs: 1
+
+generation:
+  max_prompt_length: 256
+  max_generation_steps: 512
+
+grpo:
+  num_generations: 4
+  num_iterations: 1
+
+# Enable wandb for full training
+wandb_disabled: false
+debug: false
+
+# Metadata
+experiment_name: full_training
+tags: [production, full, training]

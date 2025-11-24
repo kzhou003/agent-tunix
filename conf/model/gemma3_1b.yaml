@@ -1,0 +1,11 @@
+# Gemma3 1B model configuration
+model_family: gemma3
+model_size: 1b
+
+# LoRA configuration
+lora_rank: 32
+lora_alpha: 32.0
+lora_module_path: ".*q_einsum|.*kv_einsum|.*gate_proj|.*down_proj|.*up_proj|.*attn_vec_einsum"
+
+# Sharding configuration
+mesh_shape: [[1, 4], ["fsdp", "tp"]]

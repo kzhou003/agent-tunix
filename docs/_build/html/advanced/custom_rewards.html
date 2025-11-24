@@ -1,0 +1,640 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Reward Functions &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Troubleshooting" href="troubleshooting.html" />
+    <link rel="prev" title="Distributed Training" href="distributed_training.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../config/overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Custom Reward Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-reward-function-structure">Basic Reward Function Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#argument-patterns">Argument Patterns</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#implementing-reward-functions">Implementing Reward Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-1-math-problem-correctness">Example 1: Math Problem Correctness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-2-format-and-content-combined">Example 2: Format and Content Combined</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-3-length-penalized-reward">Example 3: Length-Penalized Reward</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-4-multi-aspect-evaluation">Example 4: Multi-Aspect Evaluation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#registering-custom-rewards">Registering Custom Rewards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iterating-on-rewards">Iterating on Rewards</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#testing-process">Testing Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analyzing-reward-distribution">Analyzing Reward Distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#reward-normalization">Reward Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reward-shaping-for-better-training">Reward Shaping for Better Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#guidance-rewards">Guidance Rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#curriculum-learning">Curriculum Learning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#common-issues-and-solutions">Common Issues and Solutions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging-reward-functions">Debugging Reward Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Custom Reward Functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/advanced/custom_rewards.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="custom-reward-functions">
+<h1>Custom Reward Functions<a class="headerlink" href="#custom-reward-functions" title="Link to this heading"></a></h1>
+<p>Creating custom reward functions allows you to tailor the training signal to your specific task requirements.</p>
+<section id="basic-reward-function-structure">
+<h2>Basic Reward Function Structure<a class="headerlink" href="#basic-reward-function-structure" title="Link to this heading"></a></h2>
+<p>A reward function takes a response and computes a numerical score:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_reward_function</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute reward for a model response.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        response: The model-generated response text</span>
+<span class="sd">        **kwargs: Additional context (prompt, answer, etc.)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Reward score, typically in range [0.0, 1.0]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Your evaluation logic here</span>
+    <span class="n">reward</span> <span class="o">=</span> <span class="n">evaluate_response</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">reward</span>
+</pre></div>
+</div>
+<section id="argument-patterns">
+<h3>Argument Patterns<a class="headerlink" href="#argument-patterns" title="Link to this heading"></a></h3>
+<p>Different calling patterns depending on your needs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Minimal</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">simple_reward</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">is_correct</span><span class="p">(</span><span class="n">response</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+<span class="c1"># With context</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">contextual_reward</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
+
+<span class="c1"># Using kwargs for flexibility</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">flexible_reward</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="n">answer</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;answer&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prompt&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">answer</span><span class="p">,</span> <span class="n">prompt</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="implementing-reward-functions">
+<h2>Implementing Reward Functions<a class="headerlink" href="#implementing-reward-functions" title="Link to this heading"></a></h2>
+<section id="example-1-math-problem-correctness">
+<h3>Example 1: Math Problem Correctness<a class="headerlink" href="#example-1-math-problem-correctness" title="Link to this heading"></a></h3>
+<p>For math problems, extract and check numerical answers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">math_reward</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reward correct mathematical answers.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">answer</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Extract number from response (last number mentioned)</span>
+        <span class="n">numbers</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;-?\d+\.?\d*&#39;</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">numbers</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
+
+        <span class="n">predicted</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">numbers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span>
+
+        <span class="c1"># Exact match</span>
+        <span class="k">if</span> <span class="n">predicted</span> <span class="o">==</span> <span class="n">expected</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">1.0</span>
+
+        <span class="c1"># Partial credit for close answers (within 10%)</span>
+        <span class="n">error_pct</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">predicted</span> <span class="o">-</span> <span class="n">expected</span><span class="p">)</span> <span class="o">/</span> <span class="n">expected</span>
+        <span class="k">if</span> <span class="n">error_pct</span> <span class="o">&lt;=</span> <span class="mf">0.1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.5</span>
+
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">agent_tunix.rewards</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_reward_function</span>
+<span class="n">register_reward_function</span><span class="p">(</span><span class="s2">&quot;math&quot;</span><span class="p">,</span> <span class="n">math_reward</span><span class="p">)</span>
+
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">reward_function</span><span class="o">=</span><span class="n">math</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-format-and-content-combined">
+<h3>Example 2: Format and Content Combined<a class="headerlink" href="#example-2-format-and-content-combined" title="Link to this heading"></a></h3>
+<p>Reward both format compliance and correctness:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">format_and_content_reward</span><span class="p">(</span>
+    <span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">format_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;The answer is [NUM].&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reward responses that match format and are correct.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Check format (0.0 to 1.0)</span>
+    <span class="n">format_score</span> <span class="o">=</span> <span class="n">evaluate_format</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">format_template</span><span class="p">)</span>
+
+    <span class="c1"># Check correctness (0.0 to 1.0)</span>
+    <span class="n">content_score</span> <span class="o">=</span> <span class="n">evaluate_correctness</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
+
+    <span class="c1"># Require both format and correctness</span>
+    <span class="k">if</span> <span class="n">format_score</span> <span class="o">&lt;</span> <span class="mf">0.8</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>  <span class="c1"># Strict format requirement</span>
+
+    <span class="c1"># Combine scores</span>
+    <span class="k">return</span> <span class="n">content_score</span> <span class="o">*</span> <span class="n">format_score</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_format</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">template</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if response matches format template.&quot;&quot;&quot;</span>
+    <span class="c1"># Example: check if contains &quot;The answer is [NUMBER].&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;The answer is&quot;</span> <span class="ow">in</span> <span class="n">response</span> <span class="ow">and</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="s2">&quot;answer&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="k">return</span> <span class="mf">0.5</span>
+    <span class="k">return</span> <span class="mf">0.0</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_correctness</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">answer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if answer is correct.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+    <span class="n">numbers</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;-?\d+\.?\d*&#39;</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">numbers</span> <span class="ow">and</span> <span class="nb">float</span><span class="p">(</span><span class="n">numbers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="nb">float</span><span class="p">(</span><span class="n">answer</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">return</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-length-penalized-reward">
+<h3>Example 3: Length-Penalized Reward<a class="headerlink" href="#example-3-length-penalized-reward" title="Link to this heading"></a></h3>
+<p>Reward shorter, more concise correct answers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">conciseness_reward</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reward correct but concise answers.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Base correctness</span>
+    <span class="n">correctness</span> <span class="o">=</span> <span class="n">evaluate_correctness</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
+
+    <span class="c1"># Penalize verbosity</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+    <span class="n">length_penalty</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">words</span> <span class="o">/</span> <span class="mi">100</span><span class="p">))</span>  <span class="c1"># Penalty after 100 words</span>
+
+    <span class="c1"># Combine</span>
+    <span class="k">return</span> <span class="n">correctness</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.7</span> <span class="o">+</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">length_penalty</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-4-multi-aspect-evaluation">
+<h3>Example 4: Multi-Aspect Evaluation<a class="headerlink" href="#example-4-multi-aspect-evaluation" title="Link to this heading"></a></h3>
+<p>Evaluate multiple dimensions of quality:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">multi_aspect_reward</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate response on multiple dimensions.&quot;&quot;&quot;</span>
+
+    <span class="n">answer</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;answer&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prompt&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Aspect 1: Correctness (0-1)</span>
+    <span class="n">correctness</span> <span class="o">=</span> <span class="n">evaluate_correctness</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
+
+    <span class="c1"># Aspect 2: Clarity (0-1)</span>
+    <span class="n">clarity</span> <span class="o">=</span> <span class="n">evaluate_clarity</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="c1"># Aspect 3: Completeness (0-1)</span>
+    <span class="n">completeness</span> <span class="o">=</span> <span class="n">evaluate_completeness</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">prompt</span><span class="p">)</span>
+
+    <span class="c1"># Aspect 4: Efficiency (0-1)</span>
+    <span class="n">efficiency</span> <span class="o">=</span> <span class="n">evaluate_efficiency</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="c1"># Weighted combination</span>
+    <span class="n">reward</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mf">0.5</span> <span class="o">*</span> <span class="n">correctness</span> <span class="o">+</span>
+        <span class="mf">0.2</span> <span class="o">*</span> <span class="n">clarity</span> <span class="o">+</span>
+        <span class="mf">0.15</span> <span class="o">*</span> <span class="n">completeness</span> <span class="o">+</span>
+        <span class="mf">0.15</span> <span class="o">*</span> <span class="n">efficiency</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">reward</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_clarity</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if response is clear and well-structured.&quot;&quot;&quot;</span>
+    <span class="c1"># Heuristics for clarity</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">))</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">sentences</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Multiple sentences</span>
+        <span class="n">clarity</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="k">elif</span> <span class="n">lines</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Multiple lines</span>
+        <span class="n">clarity</span> <span class="o">=</span> <span class="mf">0.6</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">clarity</span> <span class="o">=</span> <span class="mf">0.4</span>
+
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">clarity</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_completeness</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">prompt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if response fully addresses prompt.&quot;&quot;&quot;</span>
+    <span class="c1"># Simple heuristic: longer responses usually more complete</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.5</span>
+    <span class="k">return</span> <span class="mf">0.0</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_efficiency</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Score response efficiency (short but complete).&quot;&quot;&quot;</span>
+    <span class="n">word_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">word_count</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="n">word_count</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.8</span>
+    <span class="k">elif</span> <span class="n">word_count</span> <span class="o">&lt;</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.5</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="registering-custom-rewards">
+<h2>Registering Custom Rewards<a class="headerlink" href="#registering-custom-rewards" title="Link to this heading"></a></h2>
+<p>Create custom reward file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># src/agent_tunix/custom_rewards.py</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">my_reward_v1</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom reward function v1.&quot;&quot;&quot;</span>
+    <span class="c1"># Implementation</span>
+    <span class="k">return</span> <span class="n">score</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">my_reward_v2</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom reward function v2.&quot;&quot;&quot;</span>
+    <span class="c1"># Implementation</span>
+    <span class="k">return</span> <span class="n">score</span>
+</pre></div>
+</div>
+<p>Register in training config:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># conf/training/default.yaml</span>
+<span class="n">training</span><span class="p">:</span>
+  <span class="n">reward_function</span><span class="p">:</span> <span class="n">custom_rewards</span><span class="o">.</span><span class="n">my_reward_v1</span>
+</pre></div>
+</div>
+<p>Or use inline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">reward_function</span><span class="o">=</span><span class="n">custom_rewards</span><span class="o">.</span><span class="n">my_reward_v1</span>
+</pre></div>
+</div>
+</section>
+<section id="iterating-on-rewards">
+<h2>Iterating on Rewards<a class="headerlink" href="#iterating-on-rewards" title="Link to this heading"></a></h2>
+<section id="testing-process">
+<h3>Testing Process<a class="headerlink" href="#testing-process" title="Link to this heading"></a></h3>
+<p>Create test suite for reward functions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># test_rewards.py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agent_tunix.custom_rewards</span><span class="w"> </span><span class="kn">import</span> <span class="n">my_reward</span>
+
+<span class="n">test_cases</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="s2">&quot;The answer is 4.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;answer&quot;</span><span class="p">:</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="mf">1.0</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="s2">&quot;Four&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;answer&quot;</span><span class="p">:</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="mf">0.5</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="s2">&quot;The answer is 5.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;answer&quot;</span><span class="p">:</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="mf">0.0</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">test_cases</span><span class="p">:</span>
+    <span class="n">reward</span> <span class="o">=</span> <span class="n">my_reward</span><span class="p">(</span><span class="n">case</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">],</span> <span class="n">answer</span><span class="o">=</span><span class="n">case</span><span class="p">[</span><span class="s2">&quot;answer&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected: </span><span class="si">{</span><span class="n">case</span><span class="p">[</span><span class="s1">&#39;expected&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, Got: </span><span class="si">{</span><span class="n">reward</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">reward</span> <span class="o">-</span> <span class="n">case</span><span class="p">[</span><span class="s2">&quot;expected&quot;</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">0.01</span>
+</pre></div>
+</div>
+<p>Run tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">test_rewards</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="analyzing-reward-distribution">
+<h3>Analyzing Reward Distribution<a class="headerlink" href="#analyzing-reward-distribution" title="Link to this heading"></a></h3>
+<p>Log rewards during training to analyze distribution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">log_reward_stats</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p>Monitor:</p>
+<ul class="simple">
+<li><p>Mean reward per batch</p></li>
+<li><p>Reward variance</p></li>
+<li><p>Min/max rewards</p></li>
+<li><p>Reward histogram</p></li>
+</ul>
+<p>If rewards are skewed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Too sparse (mostly 0 or 1)
+→ Add graduated levels (0.25, 0.5, 0.75)
+
+# Too clustered
+→ Add more dimensions (format, content, efficiency)
+
+# High variance
+→ Smooth with normalization
+</pre></div>
+</div>
+</section>
+</section>
+<section id="reward-normalization">
+<h2>Reward Normalization<a class="headerlink" href="#reward-normalization" title="Link to this heading"></a></h2>
+<p>Normalize rewards for stable training:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">normalize_reward</span><span class="p">(</span><span class="n">reward</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">mean</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">std</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize reward to stable distribution.&quot;&quot;&quot;</span>
+    <span class="c1"># Clip outliers</span>
+    <span class="n">reward</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">std</span> <span class="o">+</span> <span class="n">mean</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">std</span> <span class="o">+</span> <span class="n">mean</span><span class="p">,</span> <span class="n">reward</span><span class="p">))</span>
+
+    <span class="c1"># Normalize to standard range</span>
+    <span class="n">normalized</span> <span class="o">=</span> <span class="p">(</span><span class="n">reward</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">std</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">normalized</span>
+</pre></div>
+</div>
+<p>Apply in your reward function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">normalized_reward</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="n">raw_reward</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">normalize_reward</span><span class="p">(</span><span class="n">raw_reward</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="reward-shaping-for-better-training">
+<h2>Reward Shaping for Better Training<a class="headerlink" href="#reward-shaping-for-better-training" title="Link to this heading"></a></h2>
+<section id="guidance-rewards">
+<h3>Guidance Rewards<a class="headerlink" href="#guidance-rewards" title="Link to this heading"></a></h3>
+<p>Add small bonuses to guide model behavior:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">shaped_reward</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reward with training guidance.&quot;&quot;&quot;</span>
+
+    <span class="n">base_reward</span> <span class="o">=</span> <span class="n">evaluate_correctness</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;answer&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Shape 1: Reward explicit reasoning</span>
+    <span class="k">if</span> <span class="n">has_reasoning_steps</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+        <span class="n">base_reward</span> <span class="o">+=</span> <span class="mf">0.05</span>
+
+    <span class="c1"># Shape 2: Penalize repetition</span>
+    <span class="k">if</span> <span class="n">has_repetition</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+        <span class="n">base_reward</span> <span class="o">-=</span> <span class="mf">0.05</span>
+
+    <span class="c1"># Shape 3: Encourage specific format</span>
+    <span class="k">if</span> <span class="n">follows_template</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+        <span class="n">base_reward</span> <span class="o">+=</span> <span class="mf">0.1</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">base_reward</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">has_reasoning_steps</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;because&quot;</span><span class="p">,</span> <span class="s2">&quot;therefore&quot;</span><span class="p">,</span> <span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;then&quot;</span><span class="p">,</span> <span class="s2">&quot;step&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">kw</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">has_repetition</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">follows_template</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;The answer is&quot;</span> <span class="ow">in</span> <span class="n">response</span> <span class="ow">and</span> <span class="n">response</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="curriculum-learning">
+<h3>Curriculum Learning<a class="headerlink" href="#curriculum-learning" title="Link to this heading"></a></h3>
+<p>Start with easy rewards, progress to harder:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">curriculum_reward</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Progressive reward based on training progress.&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+        <span class="c1"># Early: Just check format</span>
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">follows_format</span><span class="p">(</span><span class="n">response</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+    <span class="k">elif</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">5000</span><span class="p">:</span>
+        <span class="c1"># Middle: Format + basic correctness</span>
+        <span class="n">format_score</span> <span class="o">=</span> <span class="n">evaluate_format</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;format&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="n">content_score</span> <span class="o">=</span> <span class="n">evaluate_correctness</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;answer&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">format_score</span> <span class="o">+</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="n">content_score</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Late: Full evaluation</span>
+        <span class="k">return</span> <span class="n">multi_aspect_reward</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="common-issues-and-solutions">
+<h2>Common Issues and Solutions<a class="headerlink" href="#common-issues-and-solutions" title="Link to this heading"></a></h2>
+<p><strong>Reward Always 1.0</strong></p>
+<p>Issue: Reward function too lenient</p>
+<p>Solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Before</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">loose_reward</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="s2">&quot;answer&quot;</span> <span class="ow">in</span> <span class="n">response</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+<span class="c1"># After</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">strict_reward</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">answer</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">extract_answer</span><span class="p">(</span><span class="n">response</span><span class="p">)</span> <span class="o">==</span> <span class="n">answer</span> <span class="k">else</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p><strong>Reward Always 0.0</strong></p>
+<p>Issue: Reward function too strict</p>
+<p>Solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Before</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">strict_reward</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">answer</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">response</span> <span class="o">==</span> <span class="n">answer</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+<span class="c1"># After</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">flexible_reward</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">answer</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="n">extracted</span> <span class="o">=</span> <span class="n">extract_answer</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">extracted</span> <span class="o">==</span> <span class="n">answer</span> <span class="k">else</span> <span class="mf">0.5</span>
+</pre></div>
+</div>
+<p><strong>Model Collapses to Single Output</strong></p>
+<p>Issue: Reward doesn’t differentiate outputs well</p>
+<p>Solution: Diversify reward signal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">diverse_reward</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="n">correctness</span> <span class="o">=</span> <span class="n">evaluate_correctness</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;answer&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="n">style</span> <span class="o">=</span> <span class="n">evaluate_style_diversity</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">correctness</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">style</span>
+</pre></div>
+</div>
+</section>
+<section id="debugging-reward-functions">
+<h2>Debugging Reward Functions<a class="headerlink" href="#debugging-reward-functions" title="Link to this heading"></a></h2>
+<p>Trace reward computation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">debug_reward</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reward with debug output.&quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Response: </span><span class="si">{</span><span class="n">response</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+
+    <span class="n">correctness</span> <span class="o">=</span> <span class="n">evaluate_correctness</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;answer&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Correctness: </span><span class="si">{</span><span class="n">correctness</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">format_match</span> <span class="o">=</span> <span class="n">evaluate_format</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;format&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Format: </span><span class="si">{</span><span class="n">format_match</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">reward</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="n">correctness</span> <span class="o">+</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">format_match</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final reward: </span><span class="si">{</span><span class="n">reward</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">reward</span>
+</pre></div>
+</div>
+<p>Run with debug enabled:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">reward_function</span><span class="o">=</span><span class="n">debug_reward</span> <span class="n">training</span><span class="o">.</span><span class="n">log_level</span><span class="o">=</span><span class="n">debug</span>
+</pre></div>
+</div>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Start simple</strong>: Begin with basic correctness reward</p></li>
+<li><p><strong>Test first</strong>: Create test cases before using in training</p></li>
+<li><p><strong>Analyze distribution</strong>: Plot reward histograms during training</p></li>
+<li><p><strong>Iterate gradually</strong>: Add one aspect at a time</p></li>
+<li><p><strong>Balance components</strong>: Ensure no single component dominates</p></li>
+<li><p><strong>Document design</strong>: Record why you chose specific weights</p></li>
+<li><p><strong>Version experiments</strong>: Keep records of reward versions used</p></li>
+</ol>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../api/rewards.html"><span class="doc">Rewards API</span></a> - Reward API reference</p></li>
+<li><p><a class="reference internal" href="../guide/training.html"><span class="doc">Training Guide</span></a> - Training guide</p></li>
+<li><p><a class="reference internal" href="../guide/hyperparameter_tuning.html"><span class="doc">Hyperparameter Tuning</span></a> - Tuning strategies</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="distributed_training.html" class="btn btn-neutral float-left" title="Distributed Training" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="troubleshooting.html" class="btn btn-neutral float-right" title="Troubleshooting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

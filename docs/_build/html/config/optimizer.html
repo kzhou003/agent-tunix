@@ -1,0 +1,513 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optimizer Configuration Reference &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Training Configuration Reference" href="training.html" />
+    <link rel="prev" title="Model Configuration Reference" href="model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Optimizer Configuration Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#available-optimizers">Available Optimizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adamw-adam-with-decoupled-weight-decay">AdamW (Adam with Decoupled Weight Decay)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#optimizer-configuration-parameters">Optimizer Configuration Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#learning-rate-scheduling">Learning Rate Scheduling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optimizer-tuning-workflow">Optimizer Tuning Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-configuration-examples">Common Configuration Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diagnosing-optimizer-issues">Diagnosing Optimizer Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#complete-optimizer-configuration-example">Complete Optimizer Configuration Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interaction-with-other-settings">Interaction with Other Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Optimizer Configuration Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/config/optimizer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="optimizer-configuration-reference">
+<h1>Optimizer Configuration Reference<a class="headerlink" href="#optimizer-configuration-reference" title="Link to this heading"></a></h1>
+<p>This section details optimizer configuration options and strategies.</p>
+<section id="available-optimizers">
+<h2>Available Optimizers<a class="headerlink" href="#available-optimizers" title="Link to this heading"></a></h2>
+<section id="adamw-adam-with-decoupled-weight-decay">
+<h3>AdamW (Adam with Decoupled Weight Decay)<a class="headerlink" href="#adamw-adam-with-decoupled-weight-decay" title="Link to this heading"></a></h3>
+<p>The default optimizer for Agent-Tunix.</p>
+<p>Configuration file: <code class="docutils literal notranslate"><span class="pre">conf/optimizer/adamw.yaml</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer_name</span><span class="p">:</span> <span class="n">adamw</span>
+<span class="n">learning_rate</span><span class="p">:</span> <span class="mf">3e-6</span>
+<span class="n">weight_decay</span><span class="p">:</span> <span class="mf">0.01</span>
+<span class="n">betas</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">]</span>
+<span class="n">eps</span><span class="p">:</span> <span class="mf">1e-8</span>
+<span class="n">warmup_ratio</span><span class="p">:</span> <span class="mf">0.1</span>
+<span class="n">max_grad_norm</span><span class="p">:</span> <span class="mf">0.1</span>
+</pre></div>
+</div>
+<p>Use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">adamw</span>
+</pre></div>
+</div>
+<p><strong>Why AdamW?</strong></p>
+<ul class="simple">
+<li><p>Adaptive learning rates per parameter</p></li>
+<li><p>Decoupled weight decay (correct L2 regularization)</p></li>
+<li><p>Good convergence properties</p></li>
+<li><p>Standard in modern deep learning</p></li>
+</ul>
+</section>
+</section>
+<section id="optimizer-configuration-parameters">
+<h2>Optimizer Configuration Parameters<a class="headerlink" href="#optimizer-configuration-parameters" title="Link to this heading"></a></h2>
+<p><strong>optimizer_name</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">string</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">adamw</span></code></p>
+<p>Optimizer algorithm name.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer_name</span><span class="p">:</span> <span class="n">adamw</span>
+</pre></div>
+</div>
+<p><strong>learning_rate</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">float</span></code></p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> to <code class="docutils literal notranslate"><span class="pre">1e-4</span></code> (typical)</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">3e-6</span></code></p>
+<p>Controls step size in gradient descent. Critical hyperparameter.</p>
+<p>Guidance by model size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="mi">270</span><span class="n">M</span> <span class="n">model</span><span class="p">:</span> <span class="mf">1e-5</span> <span class="n">to</span> <span class="mf">3e-5</span>
+<span class="o">-</span> <span class="mi">1</span><span class="n">B</span> <span class="n">model</span><span class="p">:</span> <span class="mf">1e-6</span> <span class="n">to</span> <span class="mf">1e-5</span>
+<span class="o">-</span> <span class="mi">4</span><span class="n">B</span> <span class="n">model</span><span class="p">:</span> <span class="mf">1e-6</span> <span class="n">to</span> <span class="mf">3e-6</span>
+</pre></div>
+</div>
+<p>Too high (divergence):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>loss → NaN or ∞
+Solution: reduce by 10× (e.g., 1e-5 → 1e-6)
+</pre></div>
+</div>
+<p>Too low (slow training):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>loss decreases very slowly
+Solution: increase by 10× (e.g., 1e-7 → 1e-6)
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span>
+</pre></div>
+</div>
+<p><strong>weight_decay</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">float</span></code></p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">0.0</span></code> to <code class="docutils literal notranslate"><span class="pre">0.1</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">0.01</span></code></p>
+<p>L2 regularization strength. Penalizes large weights.</p>
+<p>Effects:</p>
+<ul class="simple">
+<li><p>Higher: stronger regularization, less overfitting</p></li>
+<li><p>Lower: more flexibility, potential overfitting</p></li>
+</ul>
+<p>Typical values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">No</span> <span class="n">regularization</span> <span class="n">needed</span><span class="p">:</span> <span class="mf">0.0</span>
+<span class="o">-</span> <span class="n">Standard</span><span class="p">:</span> <span class="mf">0.01</span>
+<span class="o">-</span> <span class="n">Strong</span> <span class="n">regularization</span><span class="p">:</span> <span class="mf">0.05</span><span class="o">-</span><span class="mf">0.1</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.05</span>
+</pre></div>
+</div>
+<p><strong>betas</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">list[float,</span> <span class="pre">float]</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">[0.9,</span> <span class="pre">0.999]</span></code></p>
+<p>Exponential moving average coefficients for gradient moments.</p>
+<p>Format: <code class="docutils literal notranslate"><span class="pre">[beta1,</span> <span class="pre">beta2]</span></code></p>
+<ul class="simple">
+<li><p><strong>beta1</strong> (momentum): controls first moment exponential moving average</p></li>
+<li><p><strong>beta2</strong> (second moment): controls second moment exponential moving average</p></li>
+</ul>
+<p>Typical values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Standard</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">]</span>
+<span class="o">-</span> <span class="n">Aggressive</span> <span class="p">(</span><span class="n">faster</span> <span class="n">adaptation</span><span class="p">):</span> <span class="p">[</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">]</span>
+<span class="o">-</span> <span class="n">Conservative</span> <span class="p">(</span><span class="n">smoother</span><span class="p">):</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Default usually works well. Change only if:</p>
+<ul class="simple">
+<li><p>Training unstable → try [0.95, 0.99]</p></li>
+<li><p>Converging too slowly → try [0.8, 0.999]</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="s1">&#39;optimizer.betas=[0.95,0.99]&#39;</span>
+</pre></div>
+</div>
+<p><strong>eps</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">float</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">1e-8</span></code></p>
+<p>Small value to prevent division by zero in adaptive learning rates.</p>
+<p>Rarely needs adjustment. Only increase if numerical instability:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span>
+</pre></div>
+</div>
+<p><strong>warmup_ratio</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">float</span></code></p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">0.0</span></code> to <code class="docutils literal notranslate"><span class="pre">1.0</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">0.1</span></code></p>
+<p>Fraction of training steps devoted to warmup.</p>
+<p>Effect: Learning rate gradually increases from 0 to peak during warmup.</p>
+<p>Benefits:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Stabilizes</span> <span class="n">early</span> <span class="n">training</span>
+<span class="o">-</span> <span class="n">Prevents</span> <span class="n">gradient</span> <span class="n">explosion</span>
+<span class="o">-</span> <span class="n">Improves</span> <span class="n">final</span> <span class="n">model</span> <span class="n">quality</span>
+</pre></div>
+</div>
+<p>Common values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">No</span> <span class="n">warmup</span><span class="p">:</span> <span class="mf">0.0</span>
+<span class="o">-</span> <span class="n">Light</span> <span class="n">warmup</span> <span class="p">(</span><span class="mi">5</span><span class="o">%</span><span class="p">):</span> <span class="mf">0.05</span>
+<span class="o">-</span> <span class="n">Standard</span> <span class="p">(</span><span class="mi">10</span><span class="o">%</span><span class="p">):</span> <span class="mf">0.1</span>
+<span class="o">-</span> <span class="n">Strong</span> <span class="n">warmup</span> <span class="p">(</span><span class="mi">20</span><span class="o">%</span><span class="p">):</span> <span class="mf">0.2</span>
+</pre></div>
+</div>
+<p>For short training (quick_test):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">warmup_ratio</span><span class="o">=</span><span class="mf">0.0</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">warmup_ratio</span><span class="o">=</span><span class="mf">0.2</span>
+</pre></div>
+</div>
+<p><strong>max_grad_norm</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">float</span></code></p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">0.01</span></code> to <code class="docutils literal notranslate"><span class="pre">1.0</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">0.1</span></code></p>
+<p>Gradient clipping threshold. Limits gradient magnitude to prevent exploding gradients.</p>
+<p>Effect: If ||gradient|| &gt; max_grad_norm, scale down to threshold.</p>
+<p>When needed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>- NaN/Inf loss → reduce to 0.01
+- Unstable training → reduce to 0.05
+- Smooth training → 0.1 (default)
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">max_grad_norm</span><span class="o">=</span><span class="mf">0.05</span>
+</pre></div>
+</div>
+</section>
+<section id="learning-rate-scheduling">
+<h2>Learning Rate Scheduling<a class="headerlink" href="#learning-rate-scheduling" title="Link to this heading"></a></h2>
+<p>Combined with <code class="docutils literal notranslate"><span class="pre">scheduler</span></code> configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># conf/scheduler/warmup_cosine.yaml</span>
+<span class="n">scheduler_name</span><span class="p">:</span> <span class="n">warmup_cosine</span>
+<span class="n">warmup_steps</span><span class="p">:</span> <span class="n">null</span>  <span class="c1"># Computed from warmup_ratio</span>
+<span class="n">total_steps</span><span class="p">:</span> <span class="n">null</span>   <span class="c1"># Computed from num_batches</span>
+<span class="n">lr_min</span><span class="p">:</span> <span class="mf">1e-7</span>
+</pre></div>
+</div>
+<p>Default schedule: Warmup → Cosine decay</p>
+<p>Warmup phase:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>lr(t) = learning_rate × (t / warmup_steps)
+</pre></div>
+</div>
+<p>Cosine decay phase:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>lr(t) = lr_min + 0.5 × (lr_peak - lr_min) × (1 + cos(π × progress))
+</pre></div>
+</div>
+<p>This provides:</p>
+<ul class="simple">
+<li><p>Stability in early training (warmup)</p></li>
+<li><p>Gradual cooling for convergence (cosine)</p></li>
+</ul>
+</section>
+<section id="optimizer-tuning-workflow">
+<h2>Optimizer Tuning Workflow<a class="headerlink" href="#optimizer-tuning-workflow" title="Link to this heading"></a></h2>
+<p><strong>Step 1: Find Baseline Learning Rate</strong></p>
+<p>Quick search with small dataset:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span> \
+    <span class="o">--</span><span class="n">multirun</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">1e-5</span><span class="p">,</span><span class="mf">1e-4</span>
+</pre></div>
+</div>
+<p>Monitor training loss curves. Pick best.</p>
+<p><strong>Step 2: Fine-tune Around Best Learning Rate</strong></p>
+<p>Narrow range around best from step 1:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">3e-6</span><span class="p">,</span><span class="mf">1e-5</span><span class="p">,</span><span class="mf">3e-5</span>
+</pre></div>
+</div>
+<p><strong>Step 3: Tune Warmup Ratio</strong></p>
+<p>Try different warmup values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">3e-6</span> \
+    <span class="o">--</span><span class="n">multirun</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">warmup_ratio</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.2</span>
+</pre></div>
+</div>
+<p><strong>Step 4: Tune Weight Decay</strong></p>
+<p>Reduce if overfitting, increase if underfitting:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">3e-6</span> \
+    <span class="o">--</span><span class="n">multirun</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.05</span>
+</pre></div>
+</div>
+<p><strong>Step 5: Full Training</strong></p>
+<p>Use best parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">3e-6</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">warmup_ratio</span><span class="o">=</span><span class="mf">0.1</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01</span>
+</pre></div>
+</div>
+</section>
+<section id="common-configuration-examples">
+<h2>Common Configuration Examples<a class="headerlink" href="#common-configuration-examples" title="Link to this heading"></a></h2>
+<p><strong>Conservative (stable, slow)</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span><span class="p">:</span>
+  <span class="n">learning_rate</span><span class="p">:</span> <span class="mf">1e-6</span>
+  <span class="n">warmup_ratio</span><span class="p">:</span> <span class="mf">0.2</span>
+  <span class="n">weight_decay</span><span class="p">:</span> <span class="mf">0.05</span>
+  <span class="n">max_grad_norm</span><span class="p">:</span> <span class="mf">0.05</span>
+</pre></div>
+</div>
+<p>Use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">warmup_ratio</span><span class="o">=</span><span class="mf">0.2</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.05</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">max_grad_norm</span><span class="o">=</span><span class="mf">0.05</span>
+</pre></div>
+</div>
+<p><strong>Balanced (recommended)</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span><span class="p">:</span>
+  <span class="n">learning_rate</span><span class="p">:</span> <span class="mf">3e-6</span>
+  <span class="n">warmup_ratio</span><span class="p">:</span> <span class="mf">0.1</span>
+  <span class="n">weight_decay</span><span class="p">:</span> <span class="mf">0.01</span>
+  <span class="n">max_grad_norm</span><span class="p">:</span> <span class="mf">0.1</span>
+</pre></div>
+</div>
+<p>Use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">adamw</span>  <span class="c1"># Uses defaults</span>
+</pre></div>
+</div>
+<p><strong>Aggressive (fast, risky)</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span><span class="p">:</span>
+  <span class="n">learning_rate</span><span class="p">:</span> <span class="mf">1e-5</span>
+  <span class="n">warmup_ratio</span><span class="p">:</span> <span class="mf">0.05</span>
+  <span class="n">weight_decay</span><span class="p">:</span> <span class="mf">0.0</span>
+  <span class="n">max_grad_norm</span><span class="p">:</span> <span class="mf">0.1</span>
+</pre></div>
+</div>
+<p>Use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">warmup_ratio</span><span class="o">=</span><span class="mf">0.05</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0</span>
+</pre></div>
+</div>
+</section>
+<section id="diagnosing-optimizer-issues">
+<h2>Diagnosing Optimizer Issues<a class="headerlink" href="#diagnosing-optimizer-issues" title="Link to this heading"></a></h2>
+<p><strong>Loss Diverging (NaN/Inf)</strong></p>
+<p>Cause: Learning rate too high</p>
+<p>Solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-7</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">max_grad_norm</span><span class="o">=</span><span class="mf">0.01</span>
+</pre></div>
+</div>
+<p><strong>Loss Not Decreasing</strong></p>
+<p>Cause: Learning rate too low or model not training</p>
+<p>Solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-4</span>
+</pre></div>
+</div>
+<p><strong>Oscillating Loss (high variance)</strong></p>
+<p>Cause: Learning rate borderline, warmup insufficient</p>
+<p>Solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">warmup_ratio</span><span class="o">=</span><span class="mf">0.2</span>
+</pre></div>
+</div>
+<p><strong>Slow Convergence</strong></p>
+<p>Cause: Learning rate too low or weight decay too high</p>
+<p>Solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0</span>
+</pre></div>
+</div>
+</section>
+<section id="complete-optimizer-configuration-example">
+<h2>Complete Optimizer Configuration Example<a class="headerlink" href="#complete-optimizer-configuration-example" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># conf/optimizer/custom.yaml</span>
+<span class="n">optimizer_name</span><span class="p">:</span> <span class="n">adamw</span>
+<span class="n">learning_rate</span><span class="p">:</span> <span class="mf">5e-6</span>
+<span class="n">weight_decay</span><span class="p">:</span> <span class="mf">0.02</span>
+<span class="n">betas</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">]</span>
+<span class="n">eps</span><span class="p">:</span> <span class="mf">1e-8</span>
+<span class="n">warmup_ratio</span><span class="p">:</span> <span class="mf">0.15</span>
+<span class="n">max_grad_norm</span><span class="p">:</span> <span class="mf">0.1</span>
+</pre></div>
+</div>
+<p>Use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">custom</span>
+</pre></div>
+</div>
+<p>Or override directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">5e-6</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">warmup_ratio</span><span class="o">=</span><span class="mf">0.15</span>
+</pre></div>
+</div>
+</section>
+<section id="interaction-with-other-settings">
+<h2>Interaction with Other Settings<a class="headerlink" href="#interaction-with-other-settings" title="Link to this heading"></a></h2>
+<p>Optimizer settings interact with:</p>
+<ol class="arabic simple">
+<li><p><strong>Model size</strong>: Larger models need lower learning rates</p></li>
+<li><p><strong>Batch size</strong>: Larger batches can use higher learning rates</p></li>
+<li><p><strong>LoRA rank</strong>: Doesn’t directly affect learning rate</p></li>
+<li><p><strong>Data size</strong>: Smaller datasets need lower learning rates</p></li>
+</ol>
+<p>Example adjustment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Large model, small batch → lower LR</span>
+<span class="n">model</span><span class="o">=</span><span class="n">gemma3_4b</span> \
+<span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span> \
+<span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span>
+
+<span class="c1"># Small model, large batch → higher LR</span>
+<span class="n">model</span><span class="o">=</span><span class="n">gemma3_270m</span> \
+<span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">8</span> \
+<span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-4</span>
+</pre></div>
+</div>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="overview.html"><span class="doc">Configuration Overview</span></a> - Configuration overview</p></li>
+<li><p><a class="reference internal" href="../guide/hyperparameter_tuning.html"><span class="doc">Hyperparameter Tuning</span></a> - Tuning strategies</p></li>
+<li><p><a class="reference internal" href="../getting_started/configuration.html"><span class="doc">Configuration Guide</span></a> - Configuration guide</p></li>
+<li><p><a class="reference internal" href="../api/train.html"><span class="doc">Training API</span></a> - Training API reference</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="model.html" class="btn btn-neutral float-left" title="Model Configuration Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="training.html" class="btn btn-neutral float-right" title="Training Configuration Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+# Evaluation configuration
+checkpoint_dir: ./checkpoints/ckpts/
+step: null  # Use latest checkpoint if null
+inference_config: greedy  # greedy, standard, or liberal
+num_passes: 1
+verbose: true

@@ -1,0 +1,576 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Training Configuration Reference &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Training API" href="../api/train.html" />
+    <link rel="prev" title="Optimizer Configuration Reference" href="optimizer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Training Configuration Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#training-configuration-file">Training Configuration File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#training-configuration-parameters">Training Configuration Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#memory-optimization-parameters">Memory Optimization Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#complete-training-configuration-example">Complete Training Configuration Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-configuration-patterns">Common Configuration Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#resuming-training">Resuming Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#training-dynamics">Training Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#checkpoint-management">Checkpoint Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring-training-progress">Monitoring Training Progress</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#integration-with-other-configs">Integration with Other Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Training Configuration Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/config/training.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="training-configuration-reference">
+<h1>Training Configuration Reference<a class="headerlink" href="#training-configuration-reference" title="Link to this heading"></a></h1>
+<p>This section details training configuration options for controlling the training process.</p>
+<section id="training-configuration-file">
+<h2>Training Configuration File<a class="headerlink" href="#training-configuration-file" title="Link to this heading"></a></h2>
+<p>Located at: <code class="docutils literal notranslate"><span class="pre">conf/training/default.yaml</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">4</span>
+<span class="n">num_batches</span><span class="p">:</span> <span class="mi">3738</span>
+<span class="n">num_epochs</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">checkpoint_dir</span><span class="p">:</span> <span class="o">./</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+<span class="n">save_interval_steps</span><span class="p">:</span> <span class="mi">100</span>
+<span class="n">eval_interval_steps</span><span class="p">:</span> <span class="mi">500</span>
+<span class="n">log_interval_steps</span><span class="p">:</span> <span class="mi">10</span>
+<span class="n">seed</span><span class="p">:</span> <span class="mi">42</span>
+<span class="n">device</span><span class="p">:</span> <span class="n">cuda</span>
+</pre></div>
+</div>
+</section>
+<section id="training-configuration-parameters">
+<h2>Training Configuration Parameters<a class="headerlink" href="#training-configuration-parameters" title="Link to this heading"></a></h2>
+<p><strong>micro_batch_size</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">integer</span></code></p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">16</span></code> (depending on GPU)</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">4</span></code></p>
+<p>Batch size per GPU device.</p>
+<p>Memory impact: Linear (2× batch size ≈ 2× memory)</p>
+<p>Guidance by GPU:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="mi">11</span><span class="n">GB</span> <span class="n">GPU</span> <span class="p">(</span><span class="n">RTX</span> <span class="mi">2080</span> <span class="n">Ti</span><span class="p">):</span> <span class="mi">1</span>
+<span class="o">-</span> <span class="mi">24</span><span class="n">GB</span> <span class="n">GPU</span> <span class="p">(</span><span class="n">RTX</span> <span class="n">A4000</span><span class="p">):</span> <span class="mi">2</span><span class="o">-</span><span class="mi">4</span>
+<span class="o">-</span> <span class="mi">48</span><span class="n">GB</span> <span class="n">GPU</span> <span class="p">(</span><span class="n">RTX</span> <span class="n">A6000</span><span class="p">):</span> <span class="mi">4</span><span class="o">-</span><span class="mi">8</span>
+<span class="o">-</span> <span class="mi">80</span><span class="n">GB</span> <span class="n">GPU</span> <span class="p">(</span><span class="n">H100</span><span class="p">):</span> <span class="mi">8</span><span class="o">-</span><span class="mi">16</span>
+</pre></div>
+</div>
+<p>Training dynamics:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Larger</span> <span class="n">batches</span><span class="p">:</span> <span class="n">more</span> <span class="n">stable</span> <span class="n">gradients</span><span class="p">,</span> <span class="n">slower</span> <span class="n">per</span><span class="o">-</span><span class="n">step</span> <span class="n">updates</span>
+<span class="o">-</span> <span class="n">Smaller</span> <span class="n">batches</span><span class="p">:</span> <span class="n">noisier</span> <span class="n">gradients</span><span class="p">,</span> <span class="n">faster</span> <span class="n">per</span><span class="o">-</span><span class="n">step</span> <span class="n">updates</span>
+</pre></div>
+</div>
+<p>Typical ranges:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Memory constrained</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="c1"># Balanced</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">4</span>
+
+<span class="c1"># High capacity</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">8</span>
+</pre></div>
+</div>
+<p><strong>num_batches</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">integer</span></code></p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">10</span></code> to <code class="docutils literal notranslate"><span class="pre">100000</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">3738</span></code></p>
+<p>Total number of training batches (steps).</p>
+<p>Training duration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>duration ≈ num_batches / (batches_per_hour)
+</pre></div>
+</div>
+<p>Typical speeds:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="mi">270</span><span class="n">M</span> <span class="n">model</span><span class="p">:</span> <span class="o">~</span><span class="mi">500</span> <span class="n">steps</span><span class="o">/</span><span class="n">hour</span>
+<span class="o">-</span> <span class="mi">1</span><span class="n">B</span> <span class="n">model</span><span class="p">:</span> <span class="o">~</span><span class="mi">300</span> <span class="n">steps</span><span class="o">/</span><span class="n">hour</span>
+<span class="o">-</span> <span class="mi">4</span><span class="n">B</span> <span class="n">model</span><span class="p">:</span> <span class="o">~</span><span class="mi">150</span> <span class="n">steps</span><span class="o">/</span><span class="n">hour</span>
+</pre></div>
+</div>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Quick test (10 minutes)</span>
+<span class="n">training</span><span class="o">.</span><span class="n">num_batches</span><span class="o">=</span><span class="mi">50</span>
+
+<span class="c1"># Full training (varies)</span>
+<span class="n">training</span><span class="o">.</span><span class="n">num_batches</span><span class="o">=</span><span class="mi">3738</span>
+
+<span class="c1"># Long training (1-2 days)</span>
+<span class="n">training</span><span class="o">.</span><span class="n">num_batches</span><span class="o">=</span><span class="mi">10000</span>
+</pre></div>
+</div>
+<p>Relationship with num_epochs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>total_steps = (dataset_size / batch_size) × num_epochs
+# But num_batches directly specifies total steps
+</pre></div>
+</div>
+<p><strong>num_epochs</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">integer</span></code></p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">10</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+<p>Number of complete passes through dataset.</p>
+<p>Typical:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Most</span> <span class="n">tasks</span><span class="p">:</span> <span class="mi">1</span> <span class="n">epoch</span>
+<span class="o">-</span> <span class="n">Small</span> <span class="n">datasets</span><span class="p">:</span> <span class="mi">3</span><span class="o">-</span><span class="mi">5</span> <span class="n">epochs</span>
+<span class="o">-</span> <span class="n">Large</span> <span class="n">datasets</span><span class="p">:</span> <span class="mi">1</span> <span class="n">epoch</span>
+</pre></div>
+</div>
+<p>Usually keep at 1 and adjust <code class="docutils literal notranslate"><span class="pre">num_batches</span></code> instead:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: directly specify steps</span>
+<span class="n">training</span><span class="o">.</span><span class="n">num_batches</span><span class="o">=</span><span class="mi">3738</span>
+
+<span class="c1"># Less common: use epochs</span>
+<span class="n">training</span><span class="o">.</span><span class="n">num_epochs</span><span class="o">=</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p><strong>checkpoint_dir</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">string</span></code> (path)</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">./checkpoints/ckpts/</span></code></p>
+<p>Directory where model checkpoints saved.</p>
+<p>Must be writable directory. Created if doesn’t exist.</p>
+<p>Absolute vs relative:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Relative to project root</span>
+<span class="n">training</span><span class="o">.</span><span class="n">checkpoint_dir</span><span class="o">=./</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+
+<span class="c1"># Absolute path</span>
+<span class="n">training</span><span class="o">.</span><span class="n">checkpoint_dir</span><span class="o">=/</span><span class="n">full</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">checkpoint_dir</span><span class="o">=~/</span><span class="n">my_models</span><span class="o">/</span><span class="n">checkpoints</span><span class="o">/</span>
+</pre></div>
+</div>
+<p><strong>save_interval_steps</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">integer</span></code></p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">1000</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">100</span></code></p>
+<p>Save checkpoint every N steps.</p>
+<p>Trade-offs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Frequent</span> <span class="n">saves</span> <span class="p">(</span><span class="mi">50</span><span class="p">):</span> <span class="n">more</span> <span class="n">disk</span><span class="p">,</span> <span class="n">better</span> <span class="n">coverage</span><span class="p">,</span> <span class="n">can</span> <span class="n">resume</span> <span class="kn">from</span><span class="w"> </span><span class="nn">recent</span> <span class="n">step</span>
+<span class="o">-</span> <span class="n">Infrequent</span> <span class="n">saves</span> <span class="p">(</span><span class="mi">1000</span><span class="p">):</span> <span class="n">less</span> <span class="n">disk</span><span class="p">,</span> <span class="n">fewer</span> <span class="n">checkpoints</span><span class="p">,</span> <span class="n">coarser</span> <span class="n">resume</span> <span class="n">points</span>
+</pre></div>
+</div>
+<p>Disk usage estimate:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>disk = (checkpoint_size) × (num_batches / save_interval_steps)
+</pre></div>
+</div>
+<p>For 1B model (≈4GB checkpoint):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>- save_interval=50: 4GB × (3738/50) ≈ 300GB
+- save_interval=100: 4GB × (3738/100) ≈ 150GB
+- save_interval=500: 4GB × (3738/500) ≈ 30GB
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">save_interval_steps</span><span class="o">=</span><span class="mi">200</span>
+</pre></div>
+</div>
+<p><strong>eval_interval_steps</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">integer</span></code></p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">100</span></code> to <code class="docutils literal notranslate"><span class="pre">5000</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">500</span></code></p>
+<p>Evaluate on validation set every N steps.</p>
+<p>Lower = more frequent evaluation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Every</span> <span class="mi">100</span> <span class="n">steps</span><span class="p">:</span> <span class="n">frequent</span> <span class="n">feedback</span><span class="p">,</span> <span class="n">slower</span> <span class="n">training</span>
+<span class="o">-</span> <span class="n">Every</span> <span class="mi">500</span> <span class="n">steps</span><span class="p">:</span> <span class="n">good</span> <span class="n">balance</span> <span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="o">-</span> <span class="n">Every</span> <span class="mi">1000</span> <span class="n">steps</span><span class="p">:</span> <span class="n">less</span> <span class="n">frequent</span><span class="p">,</span> <span class="n">faster</span> <span class="n">training</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">eval_interval_steps</span><span class="o">=</span><span class="mi">1000</span>
+</pre></div>
+</div>
+<p><strong>log_interval_steps</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">integer</span></code></p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">100</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">10</span></code></p>
+<p>Log metrics every N steps.</p>
+<p>Determines frequency of logged stats:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Every</span> <span class="mi">1</span> <span class="n">step</span><span class="p">:</span> <span class="n">very</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">can</span> <span class="n">slow</span> <span class="n">training</span>
+<span class="o">-</span> <span class="n">Every</span> <span class="mi">10</span> <span class="n">steps</span><span class="p">:</span> <span class="n">good</span> <span class="n">visibility</span> <span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="o">-</span> <span class="n">Every</span> <span class="mi">100</span> <span class="n">steps</span><span class="p">:</span> <span class="n">less</span> <span class="n">detailed</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">log_interval_steps</span><span class="o">=</span><span class="mi">5</span>
+</pre></div>
+</div>
+<p><strong>seed</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">integer</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">42</span></code></p>
+<p>Random seed for reproducibility.</p>
+<p>Same seed = reproducible results across runs.</p>
+<p>For different runs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">seed</span><span class="o">=</span><span class="mi">43</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">seed</span><span class="o">=</span><span class="mi">44</span>
+</pre></div>
+</div>
+<p>Reproducibility:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span>  <span class="c1"># Run 1</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span>  <span class="c1"># Run 2 (identical to Run 1)</span>
+</pre></div>
+</div>
+<p><strong>device</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">string</span></code></p>
+<p>Options: <code class="docutils literal notranslate"><span class="pre">cuda</span></code>, <code class="docutils literal notranslate"><span class="pre">cpu</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">cuda</span></code></p>
+<p>Training device.</p>
+<p>GPU (recommended):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">device</span><span class="o">=</span><span class="n">cuda</span>
+</pre></div>
+</div>
+<p>CPU (very slow, for testing):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">device</span><span class="o">=</span><span class="n">cpu</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-optimization-parameters">
+<h2>Memory Optimization Parameters<a class="headerlink" href="#memory-optimization-parameters" title="Link to this heading"></a></h2>
+<p><strong>gradient_accumulation_steps</strong></p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">integer</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+<p>Number of gradient accumulation steps before update.</p>
+<p>Effectively increases batch size without more GPU memory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>effective_batch_size = micro_batch_size × gradient_accumulation_steps
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Effective batch size of 8 with 2GB GPU</span>
+<span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">2</span>
+<span class="n">training</span><span class="o">.</span><span class="n">gradient_accumulation_steps</span><span class="o">=</span><span class="mi">4</span>
+</pre></div>
+</div>
+<p><strong>max_grad_norm</strong> (in optimizer config)</p>
+<p>Type: <code class="docutils literal notranslate"><span class="pre">float</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">0.1</span></code></p>
+<p>Gradient clipping threshold.</p>
+<p>Larger value = less clipping, more aggressive updates:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="mf">0.01</span><span class="p">:</span> <span class="n">strong</span> <span class="n">clipping</span><span class="p">,</span> <span class="n">stable</span> <span class="n">but</span> <span class="n">slow</span>
+<span class="o">-</span> <span class="mf">0.1</span><span class="p">:</span> <span class="n">moderate</span> <span class="n">clipping</span> <span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="o">-</span> <span class="mf">1.0</span><span class="p">:</span> <span class="n">weak</span> <span class="n">clipping</span><span class="p">,</span> <span class="n">aggressive</span>
+</pre></div>
+</div>
+</section>
+<section id="complete-training-configuration-example">
+<h2>Complete Training Configuration Example<a class="headerlink" href="#complete-training-configuration-example" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># conf/training/default.yaml</span>
+<span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">4</span>
+<span class="n">num_batches</span><span class="p">:</span> <span class="mi">3738</span>
+<span class="n">num_epochs</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">checkpoint_dir</span><span class="p">:</span> <span class="o">./</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+<span class="n">save_interval_steps</span><span class="p">:</span> <span class="mi">100</span>
+<span class="n">eval_interval_steps</span><span class="p">:</span> <span class="mi">500</span>
+<span class="n">log_interval_steps</span><span class="p">:</span> <span class="mi">10</span>
+<span class="n">seed</span><span class="p">:</span> <span class="mi">42</span>
+<span class="n">device</span><span class="p">:</span> <span class="n">cuda</span>
+</pre></div>
+</div>
+<p>Custom training config:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># conf/training/aggressive.yaml</span>
+<span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">8</span>
+<span class="n">num_batches</span><span class="p">:</span> <span class="mi">1000</span>
+<span class="n">num_epochs</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">checkpoint_dir</span><span class="p">:</span> <span class="o">./</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+<span class="n">save_interval_steps</span><span class="p">:</span> <span class="mi">50</span>
+<span class="n">eval_interval_steps</span><span class="p">:</span> <span class="mi">100</span>
+<span class="n">log_interval_steps</span><span class="p">:</span> <span class="mi">5</span>
+<span class="n">seed</span><span class="p">:</span> <span class="mi">42</span>
+<span class="n">device</span><span class="p">:</span> <span class="n">cuda</span>
+</pre></div>
+</div>
+<p>Use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">=</span><span class="n">aggressive</span>
+</pre></div>
+</div>
+</section>
+<section id="common-configuration-patterns">
+<h2>Common Configuration Patterns<a class="headerlink" href="#common-configuration-patterns" title="Link to this heading"></a></h2>
+<p><strong>Quick Test (10 steps)</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">2</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">num_batches</span><span class="o">=</span><span class="mi">10</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">save_interval_steps</span><span class="o">=</span><span class="mi">10</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">eval_interval_steps</span><span class="o">=</span><span class="mi">10</span>
+</pre></div>
+</div>
+<p>Or use experiment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span>
+</pre></div>
+</div>
+<p><strong>Memory Constrained (11GB GPU)</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_270m</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">num_batches</span><span class="o">=</span><span class="mi">3738</span>
+</pre></div>
+</div>
+<p><strong>High Performance (H100 GPU)</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_4b</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">8</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">num_batches</span><span class="o">=</span><span class="mi">10000</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">eval_interval_steps</span><span class="o">=</span><span class="mi">1000</span>
+</pre></div>
+</div>
+<p><strong>Production Training</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">4</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">num_batches</span><span class="o">=</span><span class="mi">10000</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">save_interval_steps</span><span class="o">=</span><span class="mi">100</span>
+</pre></div>
+</div>
+</section>
+<section id="resuming-training">
+<h2>Resuming Training<a class="headerlink" href="#resuming-training" title="Link to this heading"></a></h2>
+<p>Automatically resumes from latest checkpoint:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">checkpoint_dir</span><span class="o">=./</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Or from specific directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">checkpoint_dir</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>The framework:</p>
+<ol class="arabic simple">
+<li><p>Finds latest checkpoint in directory</p></li>
+<li><p>Loads model weights</p></li>
+<li><p>Continues training from that step</p></li>
+</ol>
+</section>
+<section id="training-dynamics">
+<h2>Training Dynamics<a class="headerlink" href="#training-dynamics" title="Link to this heading"></a></h2>
+<p>How configuration affects training:</p>
+<ol class="arabic">
+<li><p><strong>Learning Rate + Batch Size</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Larger batch → can use higher learning rate
+Smaller batch → need lower learning rate
+</pre></div>
+</div>
+</li>
+<li><p><strong>Warmup + Learning Rate</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Longer warmup (higher warmup_ratio) → more stable
+Short warmup → faster convergence but less stable
+</pre></div>
+</div>
+</li>
+<li><p><strong>Number of Batches + Evaluation Interval</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>More batches → longer training, more progress
+Less frequent eval → faster training but less monitoring
+</pre></div>
+</div>
+</li>
+<li><p><strong>LoRA Rank + Learning Rate</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Higher rank → more parameters, may need lower LR
+Lower rank → fewer parameters, can use higher LR
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="checkpoint-management">
+<h2>Checkpoint Management<a class="headerlink" href="#checkpoint-management" title="Link to this heading"></a></h2>
+<p><strong>Disk Space Required</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>total_disk ≈ checkpoint_size × (num_batches / save_interval_steps)
+</pre></div>
+</div>
+<p>For 1B model (≈4GB):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>3738 steps, save every 100 steps
+total_disk ≈ 4GB × (3738/100) ≈ 150GB
+</pre></div>
+</div>
+<p><strong>Keeping Only Important Checkpoints</strong></p>
+<p>Save less frequently:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">save_interval_steps</span><span class="o">=</span><span class="mi">500</span>
+</pre></div>
+</div>
+<p>Or manually delete old checkpoints:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Keep only last 5 checkpoints</span>
+<span class="n">ls</span> <span class="o">-</span><span class="n">dt</span> <span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span><span class="n">actor</span><span class="o">/*/</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="o">+</span><span class="mi">6</span> <span class="o">|</span> <span class="n">xargs</span> <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span>
+</pre></div>
+</div>
+<p><strong>Finding Checkpoint Sizes</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">du</span> <span class="o">-</span><span class="n">sh</span> <span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span><span class="n">actor</span><span class="o">/*/</span>
+</pre></div>
+</div>
+</section>
+<section id="monitoring-training-progress">
+<h2>Monitoring Training Progress<a class="headerlink" href="#monitoring-training-progress" title="Link to this heading"></a></h2>
+<p><strong>Check Training Loss</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tail</span> <span class="o">-</span><span class="n">f</span> <span class="n">outputs</span><span class="o">/</span><span class="n">tunix</span><span class="o">-</span><span class="n">grpo</span><span class="o">/</span><span class="n">YYYY</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">DD</span><span class="o">/</span><span class="n">HH</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">SS</span><span class="o">/</span><span class="n">train</span><span class="o">.</span><span class="n">log</span>
+</pre></div>
+</div>
+<p><strong>Use Weights &amp; Biases</strong></p>
+<p>Enabled by default. View at <a class="reference external" href="https://wandb.ai">https://wandb.ai</a></p>
+<p><strong>Use TensorBoard</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">tensorboard</span>
+<span class="c1"># Open http://localhost:6006</span>
+</pre></div>
+</div>
+</section>
+<section id="integration-with-other-configs">
+<h2>Integration with Other Configs<a class="headerlink" href="#integration-with-other-configs" title="Link to this heading"></a></h2>
+<p>Training settings interact with:</p>
+<ol class="arabic simple">
+<li><p><strong>Model</strong>: Larger models need lower batch sizes</p></li>
+<li><p><strong>GRPO</strong>: num_generations multiplies memory usage</p></li>
+<li><p><strong>Optimizer</strong>: Learning rate should match batch size</p></li>
+<li><p><strong>Scheduler</strong>: warmup_ratio affects convergence</p></li>
+</ol>
+<p>Coordinated tuning example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># For 4GB GPU</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_270m</span> \
+    <span class="n">model</span><span class="o">.</span><span class="n">lora_rank</span><span class="o">=</span><span class="mi">8</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span> \
+    <span class="n">grpo</span><span class="o">.</span><span class="n">num_generations</span><span class="o">=</span><span class="mi">2</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span>
+
+<span class="c1"># For 80GB GPU</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_4b</span> \
+    <span class="n">model</span><span class="o">.</span><span class="n">lora_rank</span><span class="o">=</span><span class="mi">64</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">8</span> \
+    <span class="n">grpo</span><span class="o">.</span><span class="n">num_generations</span><span class="o">=</span><span class="mi">4</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">3e-6</span>
+</pre></div>
+</div>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="overview.html"><span class="doc">Configuration Overview</span></a> - Configuration overview</p></li>
+<li><p><a class="reference internal" href="../guide/training.html"><span class="doc">Training Guide</span></a> - Training guide</p></li>
+<li><p><a class="reference internal" href="../guide/hyperparameter_tuning.html"><span class="doc">Hyperparameter Tuning</span></a> - Tuning strategies</p></li>
+<li><p><a class="reference internal" href="../getting_started/configuration.html"><span class="doc">Configuration Guide</span></a> - Configuration guide</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="optimizer.html" class="btn btn-neutral float-left" title="Optimizer Configuration Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../api/train.html" class="btn btn-neutral float-right" title="Training API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

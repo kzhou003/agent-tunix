@@ -1,0 +1,392 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evaluation API &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Models API" href="models.html" />
+    <link rel="prev" title="Training API" href="train.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../config/overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="train.html">Training API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Evaluation API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#main-entry-point">Main Entry Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#evaluation-functions">Evaluation Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-classes">Configuration Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inference-configurations">Inference Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#evaluation-metrics">Evaluation Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#checkpoint-selection">Checkpoint Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-configuration">Advanced Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multiple-passes">Multiple Passes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#batch-evaluation">Batch Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interpreting-results">Interpreting Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#programmatic-usage">Programmatic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-evaluation-workflow">Example Evaluation Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Evaluation API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/evaluate.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="evaluation-api">
+<h1>Evaluation API<a class="headerlink" href="#evaluation-api" title="Link to this heading"></a></h1>
+<p>This module provides evaluation utilities for assessing model performance.</p>
+<section id="main-entry-point">
+<h2>Main Entry Point<a class="headerlink" href="#main-entry-point" title="Link to this heading"></a></h2>
+</section>
+<section id="evaluation-functions">
+<h2>Evaluation Functions<a class="headerlink" href="#evaluation-functions" title="Link to this heading"></a></h2>
+</section>
+<section id="configuration-classes">
+<h2>Configuration Classes<a class="headerlink" href="#configuration-classes" title="Link to this heading"></a></h2>
+<p>Evaluation configuration structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">evaluation</span><span class="p">:</span>
+  <span class="n">checkpoint_dir</span><span class="p">:</span> <span class="o">./</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+  <span class="n">step</span><span class="p">:</span> <span class="n">null</span>                           <span class="c1"># null for latest</span>
+  <span class="n">inference_config</span><span class="p">:</span> <span class="n">greedy</span>
+  <span class="n">num_passes</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">verbose</span><span class="p">:</span> <span class="n">true</span>
+</pre></div>
+</div>
+</section>
+<section id="inference-configurations">
+<h2>Inference Configurations<a class="headerlink" href="#inference-configurations" title="Link to this heading"></a></h2>
+<p>Three predefined inference strategies:</p>
+<p><strong>Greedy</strong></p>
+<p>Deterministic, always select highest probability token:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">inference_config</span><span class="p">:</span> <span class="n">greedy</span>
+<span class="c1"># temperature: 1e-4</span>
+<span class="c1"># top_k: 1</span>
+<span class="c1"># top_p: 1.0</span>
+</pre></div>
+</div>
+<p>Best for: Reproducible results, benchmarking, production inference</p>
+<p><strong>Standard</strong></p>
+<p>Balanced sampling with moderate diversity:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">inference_config</span><span class="p">:</span> <span class="n">standard</span>
+<span class="c1"># temperature: 0.7</span>
+<span class="c1"># top_k: 50</span>
+<span class="c1"># top_p: 0.95</span>
+</pre></div>
+</div>
+<p>Best for: Reasonable diversity while maintaining coherence</p>
+<p><strong>Liberal</strong></p>
+<p>High diversity, creative responses:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">inference_config</span><span class="p">:</span> <span class="n">liberal</span>
+<span class="c1"># temperature: 0.85</span>
+<span class="c1"># top_k: 2000</span>
+<span class="c1"># top_p: 1.0</span>
+</pre></div>
+</div>
+<p>Best for: Exploring model capabilities, creative tasks</p>
+</section>
+<section id="evaluation-metrics">
+<h2>Evaluation Metrics<a class="headerlink" href="#evaluation-metrics" title="Link to this heading"></a></h2>
+<p>The framework computes three main metrics:</p>
+<ul class="simple">
+<li><p><strong>Accuracy</strong>: Percentage of exactly correct answers (number matching expected output)</p></li>
+<li><p><strong>Partial Accuracy</strong>: Percentage within 10% of correct value</p></li>
+<li><p><strong>Format Accuracy</strong>: Percentage of responses matching expected format structure</p></li>
+</ul>
+<p>Example output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Evaluation</span> <span class="n">Results</span>
+<span class="o">==================</span>
+<span class="n">Correct</span><span class="p">:</span> <span class="mi">125</span><span class="o">/</span><span class="mi">500</span>
+<span class="n">Accuracy</span><span class="p">:</span> <span class="mf">25.00</span><span class="o">%</span>
+<span class="n">Partial</span> <span class="n">Accuracy</span><span class="p">:</span> <span class="mf">45.20</span><span class="o">%</span>
+<span class="n">Format</span> <span class="n">Accuracy</span><span class="p">:</span> <span class="mf">78.50</span><span class="o">%</span>
+</pre></div>
+</div>
+</section>
+<section id="checkpoint-selection">
+<h2>Checkpoint Selection<a class="headerlink" href="#checkpoint-selection" title="Link to this heading"></a></h2>
+<p>Evaluate latest checkpoint:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Evaluate specific step:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">step</span><span class="o">=</span><span class="mi">1000</span>
+</pre></div>
+</div>
+<p>Use custom checkpoint directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">checkpoint_dir</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">checkpoints</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>List available checkpoints:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">la</span> <span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span><span class="n">actor</span><span class="o">/</span>
+</pre></div>
+</div>
+</section>
+<section id="advanced-configuration">
+<h2>Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Link to this heading"></a></h2>
+<p>Create custom evaluation config in <code class="docutils literal notranslate"><span class="pre">conf/evaluation/custom.yaml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">checkpoint_dir</span><span class="p">:</span> <span class="o">./</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+<span class="n">step</span><span class="p">:</span> <span class="mi">500</span>
+<span class="n">inference_config</span><span class="p">:</span> <span class="n">greedy</span>
+<span class="n">num_passes</span><span class="p">:</span> <span class="mi">5</span>
+<span class="n">verbose</span><span class="p">:</span> <span class="n">true</span>
+</pre></div>
+</div>
+<p>Use it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">config</span> <span class="n">custom</span>
+</pre></div>
+</div>
+</section>
+<section id="multiple-passes">
+<h2>Multiple Passes<a class="headerlink" href="#multiple-passes" title="Link to this heading"></a></h2>
+<p>Run multiple generation passes per question for uncertainty estimation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">num_passes</span><span class="o">=</span><span class="mi">3</span>
+</pre></div>
+</div>
+<p>Useful for:</p>
+<ul class="simple">
+<li><p>Understanding model consistency</p></li>
+<li><p>Finding best response from multiple attempts</p></li>
+<li><p>Estimating confidence/uncertainty</p></li>
+</ul>
+</section>
+<section id="batch-evaluation">
+<h2>Batch Evaluation<a class="headerlink" href="#batch-evaluation" title="Link to this heading"></a></h2>
+<p>Evaluate multiple checkpoints:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>for step in 100 200 300 400 500; do
+    python evaluate.py step=$step &gt;&gt; results.txt
+done
+</pre></div>
+</div>
+<p>Or with Hydra sweeps:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">step</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="mi">500</span>
+</pre></div>
+</div>
+</section>
+<section id="interpreting-results">
+<h2>Interpreting Results<a class="headerlink" href="#interpreting-results" title="Link to this heading"></a></h2>
+<p><strong>High Accuracy, Low Format Accuracy</strong></p>
+<p>Model produces correct answers but in wrong format. May indicate:</p>
+<ul class="simple">
+<li><p>Reward function not properly calibrated</p></li>
+<li><p>Format specification unclear to model</p></li>
+<li><p>Need for stricter format enforcement during training</p></li>
+</ul>
+<p><strong>Low Accuracy, High Format Accuracy</strong></p>
+<p>Model follows format but answers are incorrect. May need:</p>
+<ul class="simple">
+<li><p>More training data</p></li>
+<li><p>Better reward signal</p></li>
+<li><p>Longer training duration</p></li>
+<li><p>Different hyperparameters</p></li>
+</ul>
+<p><strong>Low Accuracy, Low Format Accuracy</strong></p>
+<p>Fundamental training issue. Check:</p>
+<ul class="simple">
+<li><p>Data quality and completeness</p></li>
+<li><p>Model size adequacy for task complexity</p></li>
+<li><p>Training configuration correctness</p></li>
+<li><p>Learning rate appropriateness</p></li>
+<li><p>Sufficient training steps</p></li>
+</ul>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<p><strong>No checkpoint found</strong></p>
+<p>Verify training completed and checkpoints exist:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">la</span> <span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span><span class="n">actor</span><span class="o">/</span>
+</pre></div>
+</div>
+<p><strong>CUDA out of memory</strong></p>
+<p>Reduce batch size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p><strong>Evaluation takes too long</strong></p>
+<ul class="simple">
+<li><p>Use greedy inference (faster)</p></li>
+<li><p>Reduce evaluation set size</p></li>
+<li><p>Evaluate fewer test batches</p></li>
+</ul>
+<p><strong>Metric discrepancies</strong></p>
+<p>Ensure using same inference configuration as training:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">inference_config</span><span class="o">=</span><span class="n">greedy</span>
+</pre></div>
+</div>
+</section>
+<section id="programmatic-usage">
+<h2>Programmatic Usage<a class="headerlink" href="#programmatic-usage" title="Link to this heading"></a></h2>
+<p>Use evaluation functions in custom scripts:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">agent_tunix.evaluate</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_sampler</span><span class="p">,</span> <span class="n">evaluate_with_config</span>
+
+<span class="c1"># Create sampler for generation</span>
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">create_sampler</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">model_config</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+
+<span class="c1"># Evaluate with predefined config</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">evaluate_with_config</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">sampler</span><span class="p">,</span> <span class="s2">&quot;greedy&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Partial Accuracy: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;partial_accuracy&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Format Accuracy: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;format_accuracy&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-evaluation-workflow">
+<h2>Example Evaluation Workflow<a class="headerlink" href="#example-evaluation-workflow" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Evaluate latest checkpoint with greedy inference:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</li>
+<li><p>Compare different inference strategies:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>for config in greedy standard liberal; do
+    echo &quot;=== $config ===&quot;
+    python evaluate.py inference_config=$config
+done
+</pre></div>
+</div>
+</li>
+<li><p>Get uncertainty estimates with multiple passes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">num_passes</span><span class="o">=</span><span class="mi">5</span>
+</pre></div>
+</div>
+</li>
+<li><p>Compare multiple checkpoints:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">step</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="mi">500</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../guide/evaluation.html"><span class="doc">Evaluation Guide</span></a> - Detailed evaluation guide</p></li>
+<li><p><a class="reference internal" href="train.html"><span class="doc">Training API</span></a> - Training API reference</p></li>
+<li><p><a class="reference internal" href="models.html"><span class="doc">Models API</span></a> - Model architecture reference</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="train.html" class="btn btn-neutral float-left" title="Training API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="models.html" class="btn btn-neutral float-right" title="Models API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

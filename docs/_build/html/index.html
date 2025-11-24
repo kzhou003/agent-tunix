@@ -1,0 +1,456 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent-Tunix Documentation &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="getting_started/installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="config/overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config/model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config/optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config/training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advanced/distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced/custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Agent-Tunix Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="agent-tunix-documentation">
+<h1>Agent-Tunix Documentation<a class="headerlink" href="#agent-tunix-documentation" title="Link to this heading"></a></h1>
+<p>Agent-Tunix is a GRPO (Group Relative Policy Optimization) training framework for Gemma3 language models using Google Tunix, with parameter-efficient fine-tuning via LoRA.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/installation.html#system-requirements">System Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/installation.html#cuda-and-driver-setup">CUDA and Driver Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/installation.html#installation-methods">Installation Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/installation.html#verify-installation">Verify Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/installation.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/installation.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/installation.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started/quick_start.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/quick_start.html#basic-training">Basic Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/quick_start.html#view-configuration">View Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/quick_start.html#quick-testing">Quick Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/quick_start.html#custom-configuration">Custom Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/quick_start.html#using-experiment-presets">Using Experiment Presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/quick_start.html#model-evaluation">Model Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/quick_start.html#utilities">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/quick_start.html#makefile-shortcuts">Makefile Shortcuts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/quick_start.html#hyperparameter-sweeps">Hyperparameter Sweeps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/quick_start.html#output-structure">Output Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/quick_start.html#next-steps">Next Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/quick_start.html#getting-help">Getting Help</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started/configuration.html">Configuration Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/configuration.html#configuration-overview">Configuration Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/configuration.html#configuration-structure">Configuration Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/configuration.html#main-configuration">Main Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/configuration.html#configuration-groups">Configuration Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/configuration.html#command-line-overrides">Command-Line Overrides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/configuration.html#experiment-presets">Experiment Presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/configuration.html#configuration-inspection">Configuration Inspection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/configuration.html#advanced-creating-custom-configurations">Advanced: Creating Custom Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/configuration.html#configuration-best-practices">Configuration Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/configuration.html#memory-requirements-by-model">Memory Requirements by Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/configuration.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide/training.html">Training Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#basic-training">Basic Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#training-process">Training Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#training-configuration">Training Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#monitoring-training">Monitoring Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#memory-optimization">Memory Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#distributed-training">Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#resuming-training">Resuming Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#custom-reward-functions">Custom Reward Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#tips-and-best-practices">Tips and Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#example-training-runs">Example Training Runs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/training.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide/evaluation.html">Evaluation Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#model-evaluation">Model Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#evaluation-metrics">Evaluation Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#inference-strategies">Inference Strategies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#multiple-passes">Multiple Passes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#checkpoint-selection">Checkpoint Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#advanced-configuration">Advanced Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#batch-evaluation">Batch Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#interpreting-results">Interpreting Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#troubleshooting-evaluation">Troubleshooting Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#example-evaluation-workflow">Example Evaluation Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#programmatic-evaluation">Programmatic Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/evaluation.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide/hyperparameter_tuning.html">Hyperparameter Tuning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide/hyperparameter_tuning.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/hyperparameter_tuning.html#key-hyperparameters">Key Hyperparameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/hyperparameter_tuning.html#tuning-strategies">Tuning Strategies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/hyperparameter_tuning.html#monitoring-during-tuning">Monitoring During Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/hyperparameter_tuning.html#common-tuning-issues">Common Tuning Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/hyperparameter_tuning.html#efficient-search">Efficient Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/hyperparameter_tuning.html#memory-aware-tuning">Memory-Aware Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/hyperparameter_tuning.html#example-tuning-workflow">Example Tuning Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/hyperparameter_tuning.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/hyperparameter_tuning.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide/experiments.html">Experiments Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide/experiments.html#what-are-experiments">What are Experiments?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/experiments.html#using-built-in-experiments">Using Built-in Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/experiments.html#creating-custom-experiments">Creating Custom Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/experiments.html#experiment-structure">Experiment Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/experiments.html#example-experiments">Example Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/experiments.html#experiment-workflow">Experiment Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/experiments.html#combining-experiments-with-sweeps">Combining Experiments with Sweeps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/experiments.html#advanced-experiment-hierarchies">Advanced: Experiment Hierarchies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/experiments.html#naming-conventions">Naming Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/experiments.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/experiments.html#managing-experiments">Managing Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/experiments.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="config/overview.html">Configuration Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#directory-structure">Directory Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#main-configuration-config-yaml">Main Configuration (config.yaml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#configuration-groups">Configuration Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#using-configurations">Using Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#configuration-composition">Configuration Composition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#interpolations">Interpolations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#creating-custom-configurations">Creating Custom Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#configuration-file-format">Configuration File Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#common-patterns">Common Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/overview.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="config/model.html">Model Configuration Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="config/model.html#available-models">Available Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/model.html#model-configuration-parameters">Model Configuration Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/model.html#complete-model-configuration-example">Complete Model Configuration Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/model.html#memory-requirements-by-configuration">Memory Requirements by Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/model.html#tuning-lora-rank">Tuning LoRA Rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/model.html#creating-custom-models">Creating Custom Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/model.html#integration-with-training">Integration with Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/model.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="config/optimizer.html">Optimizer Configuration Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="config/optimizer.html#available-optimizers">Available Optimizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/optimizer.html#optimizer-configuration-parameters">Optimizer Configuration Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/optimizer.html#learning-rate-scheduling">Learning Rate Scheduling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/optimizer.html#optimizer-tuning-workflow">Optimizer Tuning Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/optimizer.html#common-configuration-examples">Common Configuration Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/optimizer.html#diagnosing-optimizer-issues">Diagnosing Optimizer Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/optimizer.html#complete-optimizer-configuration-example">Complete Optimizer Configuration Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/optimizer.html#interaction-with-other-settings">Interaction with Other Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/optimizer.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="config/training.html">Training Configuration Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="config/training.html#training-configuration-file">Training Configuration File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/training.html#training-configuration-parameters">Training Configuration Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/training.html#memory-optimization-parameters">Memory Optimization Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/training.html#complete-training-configuration-example">Complete Training Configuration Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/training.html#common-configuration-patterns">Common Configuration Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/training.html#resuming-training">Resuming Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/training.html#training-dynamics">Training Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/training.html#checkpoint-management">Checkpoint Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/training.html#monitoring-training-progress">Monitoring Training Progress</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/training.html#integration-with-other-configs">Integration with Other Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config/training.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/train.html">Training API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/train.html#main-entry-point">Main Entry Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/train.html#training-utilities">Training Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/train.html#configuration-classes">Configuration Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/train.html#training-flow">Training Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/train.html#grpo-algorithm">GRPO Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/train.html#example-usage">Example Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/train.html#tips-and-best-practices">Tips and Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/train.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/evaluate.html">Evaluation API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#main-entry-point">Main Entry Point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#evaluation-functions">Evaluation Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#configuration-classes">Configuration Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#inference-configurations">Inference Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#evaluation-metrics">Evaluation Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#checkpoint-selection">Checkpoint Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#advanced-configuration">Advanced Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#multiple-passes">Multiple Passes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#batch-evaluation">Batch Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#interpreting-results">Interpreting Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#programmatic-usage">Programmatic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#example-evaluation-workflow">Example Evaluation Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluate.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/models.html">Models API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/models.html#available-models">Available Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/models.html#model-configuration">Model Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/models.html#lora-low-rank-adaptation">LoRA (Low-Rank Adaptation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/models.html#custom-model-configuration">Custom Model Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/models.html#distributed-training">Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/models.html#model-loading">Model Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/models.html#memory-requirements-by-model">Memory Requirements by Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/models.html#advanced-topics">Advanced Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/models.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/data.html">Data API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#dataset-support">Dataset Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#data-loading">Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#custom-datasets">Custom Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#data-format-requirements">Data Format Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#tokenization">Tokenization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#preprocessing-pipeline">Preprocessing Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#data-splits">Data Splits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#batch-processing">Batch Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#sequence-lengths">Sequence Lengths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#advanced-custom-data-loading">Advanced: Custom Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#data-validation">Data Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/data.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/rewards.html">Rewards API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/rewards.html#reward-system-overview">Reward System Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/rewards.html#built-in-reward-functions">Built-in Reward Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/rewards.html#combined-reward">Combined Reward</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/rewards.html#custom-reward-functions">Custom Reward Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/rewards.html#reward-design-patterns">Reward Design Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/rewards.html#reward-shaping">Reward Shaping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/rewards.html#reward-debugging">Reward Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/rewards.html#common-reward-issues">Common Reward Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/rewards.html#testing-rewards">Testing Rewards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/rewards.html#advanced-topics">Advanced Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/rewards.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advanced/distributed_training.html">Distributed Training</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#single-gpu-setup">Single GPU Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#data-parallel-multiple-gpus">Data Parallel (Multiple GPUs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#tensor-parallel-model-sharding">Tensor Parallel (Model Sharding)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#hybrid-parallelism">Hybrid Parallelism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#multi-node-setup">Multi-Node Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#performance-tuning">Performance Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#debugging-distributed-training">Debugging Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#common-issues">Common Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#example-distributed-setups">Example Distributed Setups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#monitoring">Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/distributed_training.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced/custom_rewards.html">Custom Reward Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced/custom_rewards.html#basic-reward-function-structure">Basic Reward Function Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/custom_rewards.html#implementing-reward-functions">Implementing Reward Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/custom_rewards.html#registering-custom-rewards">Registering Custom Rewards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/custom_rewards.html#iterating-on-rewards">Iterating on Rewards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/custom_rewards.html#reward-normalization">Reward Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/custom_rewards.html#reward-shaping-for-better-training">Reward Shaping for Better Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/custom_rewards.html#common-issues-and-solutions">Common Issues and Solutions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/custom_rewards.html#debugging-reward-functions">Debugging Reward Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/custom_rewards.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/custom_rewards.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced/troubleshooting.html">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced/troubleshooting.html#installation-issues">Installation Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/troubleshooting.html#training-issues">Training Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/troubleshooting.html#evaluation-issues">Evaluation Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/troubleshooting.html#configuration-issues">Configuration Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/troubleshooting.html#distributed-training-issues">Distributed Training Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/troubleshooting.html#debugging-tips">Debugging Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/troubleshooting.html#getting-help">Getting Help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/troubleshooting.html#common-patterns">Common Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced/troubleshooting.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/glossary.html">Glossary</a></li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+<section id="quick-links">
+<h1>Quick Links<a class="headerlink" href="#quick-links" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="getting_started/quick_start.html"><span class="doc">Quick Start Guide</span></a></p></li>
+<li><p><a class="reference internal" href="guide/training.html"><span class="doc">Configuration Guide</span></a></p></li>
+<li><p><a class="reference internal" href="api/train.html"><span class="doc">API Reference</span></a></p></li>
+<li><p><a class="reference external" href="https://github.com/yourusername/agent-tunix">GitHub Repository</a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_started/installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

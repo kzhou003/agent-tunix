@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyperparameter Tuning &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Experiments Guide" href="experiments.html" />
+    <link rel="prev" title="Evaluation Guide" href="evaluation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hyperparameter Tuning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#key-hyperparameters">Key Hyperparameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tuning-strategies">Tuning Strategies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring-during-tuning">Monitoring During Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-tuning-issues">Common Tuning Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#efficient-search">Efficient Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#memory-aware-tuning">Memory-Aware Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-tuning-workflow">Example Tuning Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../config/overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Hyperparameter Tuning</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guide/hyperparameter_tuning.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hyperparameter-tuning">
+<h1>Hyperparameter Tuning<a class="headerlink" href="#hyperparameter-tuning" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>Hyperparameter tuning is critical for model performance. This guide covers common tuning strategies.</p>
+</section>
+<section id="key-hyperparameters">
+<h2>Key Hyperparameters<a class="headerlink" href="#key-hyperparameters" title="Link to this heading"></a></h2>
+<p><strong>Learning Rate</strong></p>
+<p>Controls update step size. Too high causes divergence, too low causes slow convergence.</p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> to <code class="docutils literal notranslate"><span class="pre">1e-4</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">3e-6</span></code></p>
+<p>Sweep:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">1e-5</span><span class="p">,</span><span class="mf">1e-4</span>
+</pre></div>
+</div>
+<p><strong>Batch Size</strong></p>
+<p>Larger batches provide better gradient estimates but require more memory.</p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">8</span></code> (depending on GPU)</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">4</span></code></p>
+<p>Sweep:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span>
+</pre></div>
+</div>
+<p><strong>LoRA Rank</strong></p>
+<p>Higher rank provides more capacity but requires more memory and computation.</p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">4</span></code> to <code class="docutils literal notranslate"><span class="pre">64</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">32</span></code></p>
+<p>Sweep:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">model</span><span class="o">.</span><span class="n">lora_rank</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span>
+</pre></div>
+</div>
+<p><strong>Number of Generations</strong></p>
+<p>More generations provide better reward signal but increase computation.</p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">8</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">4</span></code></p>
+<p>Sweep:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">grpo</span><span class="o">.</span><span class="n">num_generations</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span>
+</pre></div>
+</div>
+<p><strong>KL Beta</strong></p>
+<p>Strength of KL divergence penalty. Higher values keep closer to reference model.</p>
+<p>Range: <code class="docutils literal notranslate"><span class="pre">0.01</span></code> to <code class="docutils literal notranslate"><span class="pre">1.0</span></code></p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">0.08</span></code></p>
+<p>Sweep:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">grpo</span><span class="o">.</span><span class="n">beta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.5</span>
+</pre></div>
+</div>
+</section>
+<section id="tuning-strategies">
+<h2>Tuning Strategies<a class="headerlink" href="#tuning-strategies" title="Link to this heading"></a></h2>
+<p><strong>1. Learning Rate Search</strong></p>
+<p>Find optimal learning rate first:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">1e-5</span><span class="p">,</span><span class="mf">1e-4</span>
+</pre></div>
+</div>
+<p>Monitor loss curves and pick best one.</p>
+<p><strong>2. Batch Size vs Learning Rate</strong></p>
+<p>Larger batches often allow higher learning rates:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">3e-6</span><span class="p">,</span><span class="mf">1e-5</span>
+</pre></div>
+</div>
+<p><strong>3. Model Capacity</strong></p>
+<p>Test different model sizes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_270m</span><span class="p">,</span><span class="n">gemma3_1b</span>
+</pre></div>
+</div>
+<p><strong>4. Algorithm Parameters</strong></p>
+<p>Tune GRPO-specific parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">grpo</span><span class="o">.</span><span class="n">num_generations</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span> <span class="n">grpo</span><span class="o">.</span><span class="n">beta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">1.0</span>
+</pre></div>
+</div>
+</section>
+<section id="monitoring-during-tuning">
+<h2>Monitoring During Tuning<a class="headerlink" href="#monitoring-during-tuning" title="Link to this heading"></a></h2>
+<p><strong>1. Watch logs</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tail</span> <span class="o">-</span><span class="n">f</span> <span class="n">outputs</span><span class="o">/</span><span class="n">tunix</span><span class="o">-</span><span class="n">grpo</span><span class="o">/</span><span class="n">YYYY</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">DD</span><span class="o">/</span><span class="n">HH</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">SS</span><span class="o">/</span><span class="n">train</span><span class="o">.</span><span class="n">log</span>
+</pre></div>
+</div>
+<p><strong>2. Use Weights &amp; Biases</strong></p>
+<p>Compare runs at: <a class="reference external" href="https://wandb.ai">https://wandb.ai</a></p>
+<p><strong>3. Check tensorboard</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">tensorboard</span>
+</pre></div>
+</div>
+</section>
+<section id="common-tuning-issues">
+<h2>Common Tuning Issues<a class="headerlink" href="#common-tuning-issues" title="Link to this heading"></a></h2>
+<p><strong>Loss Not Decreasing</strong></p>
+<ul class="simple">
+<li><p>Learning rate too low: increase to 1e-5</p></li>
+<li><p>Batch size too small: increase to 2 or 4</p></li>
+<li><p>Model too small: try 1b model</p></li>
+</ul>
+<p><strong>Loss Diverging (NaN)</strong></p>
+<ul class="simple">
+<li><p>Learning rate too high: reduce to 1e-7</p></li>
+<li><p>Gradient clipping insufficient: reduce <code class="docutils literal notranslate"><span class="pre">max_grad_norm</span></code></p></li>
+<li><p>Batch size too large: reduce</p></li>
+</ul>
+<p><strong>Slow Convergence</strong></p>
+<ul class="simple">
+<li><p>Learning rate too low</p></li>
+<li><p>Batch size too small</p></li>
+<li><p>Not enough generations</p></li>
+</ul>
+<p><strong>Mode Collapse</strong></p>
+<p>Model stops improving. Try:</p>
+<ul class="simple">
+<li><p>Increase diversity: higher temperature</p></li>
+<li><p>Modify reward function</p></li>
+<li><p>Change LoRA rank</p></li>
+</ul>
+</section>
+<section id="efficient-search">
+<h2>Efficient Search<a class="headerlink" href="#efficient-search" title="Link to this heading"></a></h2>
+<p><strong>Grid Search</strong></p>
+<p>Systematic search over parameter combinations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">3e-6</span><span class="p">,</span><span class="mf">1e-5</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span>
+</pre></div>
+</div>
+<p><strong>Random Search</strong></p>
+<p>Random sampling of parameter space:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="s1">&#39;log_uniform(1e-7,1e-4)&#39;</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="s1">&#39;choice(1,2,4)&#39;</span>
+</pre></div>
+</div>
+<p><strong>Early Stopping</strong></p>
+<p>Stop unpromising runs early:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Quick test first</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span>
+
+<span class="c1"># Then full training only for promising configs</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-aware-tuning">
+<h2>Memory-Aware Tuning<a class="headerlink" href="#memory-aware-tuning" title="Link to this heading"></a></h2>
+<p><strong>For 11GB GPU (RTX 2080 Ti)</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">lora_rank</span><span class="p">:</span> <span class="mi">8</span><span class="o">-</span><span class="mi">16</span>
+<span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">model</span><span class="p">:</span> <span class="n">gemma3_270m</span>
+<span class="n">grpo</span><span class="o">.</span><span class="n">num_generations</span><span class="p">:</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p><strong>For 48GB GPU (RTX A6000)</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">lora_rank</span><span class="p">:</span> <span class="mi">32</span><span class="o">-</span><span class="mi">64</span>
+<span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">4</span>
+<span class="n">model</span><span class="p">:</span> <span class="n">gemma3_1b</span>
+<span class="n">grpo</span><span class="o">.</span><span class="n">num_generations</span><span class="p">:</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p><strong>For 80GB GPU (H100)</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">lora_rank</span><span class="p">:</span> <span class="mi">64</span>
+<span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">8</span>
+<span class="n">model</span><span class="p">:</span> <span class="n">gemma3_4b</span>
+<span class="n">grpo</span><span class="o">.</span><span class="n">num_generations</span><span class="p">:</span> <span class="mi">8</span>
+</pre></div>
+</div>
+</section>
+<section id="example-tuning-workflow">
+<h2>Example Tuning Workflow<a class="headerlink" href="#example-tuning-workflow" title="Link to this heading"></a></h2>
+<p><strong>Phase 1: Learning Rate Search</strong> (1 hour):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span> <span class="o">--</span><span class="n">multirun</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">1e-5</span><span class="p">,</span><span class="mf">1e-4</span>
+</pre></div>
+</div>
+<p><strong>Phase 2: Batch Size Tuning</strong> (2 hours):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">3e-6</span>
+</pre></div>
+</div>
+<p><strong>Phase 3: Model Size</strong> (varies):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_270m</span><span class="p">,</span><span class="n">gemma3_1b</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p><strong>Phase 4: Final Training</strong></p>
+<p>Use best parameters from previous phases:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Start simple</strong>: Tune one parameter at a time</p></li>
+<li><p><strong>Use short runs</strong>: Test with <code class="docutils literal notranslate"><span class="pre">+experiment=quick_test</span></code></p></li>
+<li><p><strong>Log everything</strong>: Enable W&amp;B logging</p></li>
+<li><p><strong>Save results</strong>: Document best configurations</p></li>
+<li><p><strong>Reproduce winners</strong>: Verify best configs on full runs</p></li>
+<li><p><strong>Monitor hardware</strong>: Check GPU memory and utilization</p></li>
+</ol>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="training.html"><span class="doc">Training Guide</span></a></p></li>
+<li><p><a class="reference internal" href="evaluation.html"><span class="doc">Evaluation Guide</span></a></p></li>
+<li><p><a class="reference internal" href="../getting_started/configuration.html"><span class="doc">Configuration Guide</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="evaluation.html" class="btn btn-neutral float-left" title="Evaluation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="experiments.html" class="btn btn-neutral float-right" title="Experiments Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

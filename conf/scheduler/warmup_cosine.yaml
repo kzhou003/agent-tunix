@@ -1,0 +1,3 @@
+# Warmup cosine decay scheduler
+warmup_steps_ratio: 0.1
+decay_steps_ratio: 1.0

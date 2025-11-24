@@ -1,0 +1,26 @@
+# Training configuration
+# Data
+train_data_dir: ./data/train
+test_data_dir: ./data/test
+data_source: huggingface  # tfds, kaggle, or huggingface
+train_fraction: 1.0
+
+# Batch sizes
+micro_batch_size: 4
+num_batches: 3738
+num_test_batches: 100
+num_epochs: 1
+
+# Evaluation
+eval_every_n_steps: 10
+
+# Checkpointing
+checkpoint_dir: ./checkpoints/ckpts/
+intermediate_checkpoint_dir: ./checkpoints/intermediate/
+save_interval_steps: 500
+max_checkpoints_to_keep: 4
+
+# Logging
+log_dir: ./checkpoints/tensorboard/
+flush_every_n_steps: 20
+wandb_project: tunix-grpo

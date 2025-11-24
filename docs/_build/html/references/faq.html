@@ -1,0 +1,555 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frequently Asked Questions &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
+    <link rel="prev" title="Troubleshooting" href="../advanced/troubleshooting.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../config/overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Frequently Asked Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#general-questions">General Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-and-installation">Setup and Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#training">Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#evaluation">Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hyperparameter-tuning">Hyperparameter Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-topics">Advanced Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-and-optimization">Performance and Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#still-can-t-find-answer">Still Can’t Find Answer?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Frequently Asked Questions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/references/faq.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="frequently-asked-questions">
+<h1>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Link to this heading"></a></h1>
+<section id="general-questions">
+<h2>General Questions<a class="headerlink" href="#general-questions" title="Link to this heading"></a></h2>
+<p><strong>What is Agent-Tunix?</strong></p>
+<p>Agent-Tunix is a framework for training language models using GRPO (Group Relative Policy Optimization) with parameter-efficient fine-tuning via LoRA. It’s designed for reinforcement learning from reward feedback.</p>
+<p><strong>What models does Agent-Tunix support?</strong></p>
+<p>Currently supports Google Gemma3 family:</p>
+<ul class="simple">
+<li><p>Gemma3 270M (lightweight)</p></li>
+<li><p>Gemma3 1B (standard)</p></li>
+<li><p>Gemma3 4B (large)</p></li>
+</ul>
+<p>Can be extended to other models by adding configuration files.</p>
+<p><strong>Do I need multiple GPUs to use Agent-Tunix?</strong></p>
+<p>No. The framework works on a single GPU. For smaller models (270M), even 11GB GPUs (like RTX 2080 Ti) can work. Multi-GPU support is optional for faster training.</p>
+<p><strong>Can I run on CPU?</strong></p>
+<p>Not recommended. The framework is optimized for GPUs. You can set <code class="docutils literal notranslate"><span class="pre">device=cpu</span></code> but training will be very slow.</p>
+<p><strong>What’s the difference between GRPO and other RL methods?</strong></p>
+<p>GRPO (Group Relative Policy Optimization):</p>
+<ul class="simple">
+<li><p>Generates K responses per prompt</p></li>
+<li><p>Normalizes rewards relative to the group</p></li>
+<li><p>More sample-efficient than standard PPO</p></li>
+<li><p>Designed for discrete sequence generation</p></li>
+</ul>
+<p><strong>Do I need to understand GRPO to use Agent-Tunix?</strong></p>
+<p>No. You can use the framework with default settings without understanding GRPO details. The configuration handles most complexity.</p>
+</section>
+<section id="setup-and-installation">
+<h2>Setup and Installation<a class="headerlink" href="#setup-and-installation" title="Link to this heading"></a></h2>
+<p><strong>I’m getting CUDA errors. How do I fix this?</strong></p>
+<p>First, verify CUDA is installed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">agent_tunix</span><span class="o">.</span><span class="n">utils</span> <span class="n">check</span><span class="o">-</span><span class="n">gpu</span>
+</pre></div>
+</div>
+<p>If not installed, follow the <a class="reference internal" href="../getting_started/installation.html"><span class="doc">Installation</span></a> guide.</p>
+<p><strong>How much VRAM do I need?</strong></p>
+<p>Minimum requirements by model:</p>
+<ul class="simple">
+<li><p>Gemma3 270M: 11GB (batch size 1)</p></li>
+<li><p>Gemma3 1B: 24GB (batch size 2)</p></li>
+<li><p>Gemma3 4B: 48GB (batch size 4)</p></li>
+</ul>
+<p>See <a class="reference internal" href="../getting_started/configuration.html"><span class="doc">Configuration Guide</span></a> for memory optimization tips.</p>
+<p><strong>How do I install with a different CUDA version?</strong></p>
+<p>See the <a class="reference internal" href="../getting_started/installation.html"><span class="doc">Installation</span></a> guide’s CUDA section for instructions.</p>
+<p><strong>Can I use WSL2 on Windows?</strong></p>
+<p>Yes. Install CUDA in WSL2 and follow normal installation steps. GPU passthrough works on WSL2.</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<p><strong>How do I override configuration values?</strong></p>
+<p>Use dot notation on command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../getting_started/configuration.html"><span class="doc">Configuration Guide</span></a> for more examples.</p>
+<p><strong>What’s the difference between parameters and overrides?</strong></p>
+<ul class="simple">
+<li><p><strong>Parameters</strong>: Settings defined in YAML config files</p></li>
+<li><p><strong>Overrides</strong>: Command-line changes to parameters</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parameter in conf/optimizer/adamw.yaml</span>
+<span class="n">learning_rate</span><span class="p">:</span> <span class="mf">3e-6</span>
+
+<span class="c1"># Override from command line</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span>
+</pre></div>
+</div>
+<p><strong>Can I use multiple experiments?</strong></p>
+<p>Yes. Use the <code class="docutils literal notranslate"><span class="pre">+experiment=</span></code> syntax:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span>
+</pre></div>
+</div>
+<p>Create custom experiments in <code class="docutils literal notranslate"><span class="pre">conf/experiment/</span></code>.</p>
+<p><strong>What’s the difference between +experiment and –multirun?</strong></p>
+<ul class="simple">
+<li><p><strong>+experiment</strong>: Load preset configuration combining multiple settings</p></li>
+<li><p><strong>–multirun</strong>: Run multiple training jobs with different parameter combinations</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Single run with preset</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span>
+
+<span class="c1"># Multiple runs with parameter sweep</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">multirun</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">1e-5</span><span class="p">,</span><span class="mf">1e-4</span>
+</pre></div>
+</div>
+<p><strong>Where are configuration files located?</strong></p>
+<p>In <code class="docutils literal notranslate"><span class="pre">conf/</span></code> directory structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>conf/
+├── config.yaml              # Main config
+├── model/                   # Model configs
+├── optimizer/               # Optimizer configs
+├── scheduler/               # Scheduler configs
+├── grpo/                    # GRPO algorithm configs
+├── generation/              # Generation configs
+├── training/                # Training configs
+├── evaluation/              # Evaluation configs
+└── experiment/              # Experiment presets
+</pre></div>
+</div>
+</section>
+<section id="training">
+<h2>Training<a class="headerlink" href="#training" title="Link to this heading"></a></h2>
+<p><strong>How long does training take?</strong></p>
+<p>Depends on configuration:</p>
+<ul class="simple">
+<li><p>Quick test: ~5 minutes (10 steps)</p></li>
+<li><p>Full training: 1-24 hours (depends on GPU and data size)</p></li>
+</ul>
+<p>Check logs for training speed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tail</span> <span class="o">-</span><span class="n">f</span> <span class="n">outputs</span><span class="o">/</span><span class="n">tunix</span><span class="o">-</span><span class="n">grpo</span><span class="o">/</span><span class="n">YYYY</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">DD</span><span class="o">/</span><span class="n">HH</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">SS</span><span class="o">/</span><span class="n">train</span><span class="o">.</span><span class="n">log</span>
+</pre></div>
+</div>
+<p><strong>How often should I save checkpoints?</strong></p>
+<p>Default is every 100 steps. Adjust:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">save_interval_steps</span><span class="o">=</span><span class="mi">50</span>
+</pre></div>
+</div>
+<p>More frequent saves → more disk usage but better checkpoint coverage.</p>
+<p><strong>Can I resume training from a checkpoint?</strong></p>
+<p>Yes. Provide checkpoint directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">checkpoint_dir</span><span class="o">=./</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Automatically loads latest checkpoint.</p>
+<p><strong>How do I know if my learning rate is good?</strong></p>
+<p>Monitor training loss:</p>
+<ul class="simple">
+<li><p><strong>Decreasing smoothly</strong>: Good learning rate</p></li>
+<li><p><strong>Increasing (diverging)</strong>: Learning rate too high</p></li>
+<li><p><strong>Decreasing very slowly</strong>: Learning rate too low</p></li>
+<li><p><strong>Noisy</strong>: Consider gradient clipping</p></li>
+</ul>
+<p>Use Weights &amp; Biases or TensorBoard to visualize:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">tensorboard</span>
+<span class="c1"># Open http://localhost:6006</span>
+</pre></div>
+</div>
+<p><strong>What’s a good batch size?</strong></p>
+<p>Depends on GPU memory:</p>
+<ul class="simple">
+<li><p>11GB GPU: 1</p></li>
+<li><p>24GB GPU: 2-4</p></li>
+<li><p>48GB GPU: 4-8</p></li>
+<li><p>80GB+ GPU: 8-16</p></li>
+</ul>
+<p>Larger batches = more stable gradients but slower per-step updates.</p>
+<p><strong>Should I use more generations per prompt?</strong></p>
+<p>More generations = better reward signal but slower training.</p>
+<p>Default is 4. Try 2-8:</p>
+<ul class="simple">
+<li><p>2: Fast training, sparse reward signal</p></li>
+<li><p>4: Good balance (default)</p></li>
+<li><p>8: Better training but 2x slower</p></li>
+</ul>
+<p><strong>How do I debug training issues?</strong></p>
+<p>Enable verbose logging:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span>
+</pre></div>
+</div>
+<p>Check logs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tail</span> <span class="o">-</span><span class="n">f</span> <span class="n">outputs</span><span class="o">/</span><span class="n">tunix</span><span class="o">-</span><span class="n">grpo</span><span class="o">/</span><span class="n">YYYY</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">DD</span><span class="o">/</span><span class="n">HH</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">SS</span><span class="o">/</span><span class="n">train</span><span class="o">.</span><span class="n">log</span>
+</pre></div>
+</div>
+<p><strong>Can I use my own data?</strong></p>
+<p>Yes. Create a custom data loading function in <code class="docutils literal notranslate"><span class="pre">src/agent_tunix/data.py</span></code>.</p>
+<p>See <a class="reference internal" href="../api/data.html"><span class="doc">Data API</span></a> for guidelines.</p>
+<p><strong>How do custom rewards work?</strong></p>
+<p>Reward functions evaluate responses and return scores (0.0-1.0):</p>
+<ul class="simple">
+<li><p>1.0 = perfect response</p></li>
+<li><p>0.5 = partial credit</p></li>
+<li><p>0.0 = incorrect</p></li>
+</ul>
+<p>See <a class="reference internal" href="../advanced/custom_rewards.html"><span class="doc">Custom Reward Functions</span></a> for examples.</p>
+<p><strong>Can I use multiple GPUs?</strong></p>
+<p>Yes. Configure mesh shape:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">.</span><span class="n">mesh_shape</span><span class="o">=</span><span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span><span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../advanced/distributed_training.html"><span class="doc">Distributed Training</span></a>.</p>
+</section>
+<section id="evaluation">
+<h2>Evaluation<a class="headerlink" href="#evaluation" title="Link to this heading"></a></h2>
+<p><strong>How do I evaluate my trained model?</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Uses latest checkpoint by default.</p>
+<p><strong>Can I evaluate on a specific checkpoint?</strong></p>
+<p>Yes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">step</span><span class="o">=</span><span class="mi">1000</span>
+</pre></div>
+</div>
+<p>List available checkpoints:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span><span class="n">actor</span><span class="o">/</span>
+</pre></div>
+</div>
+<p><strong>What metrics are computed?</strong></p>
+<ul class="simple">
+<li><p><strong>Accuracy</strong>: Exact match percentage</p></li>
+<li><p><strong>Partial Accuracy</strong>: Within 10% of correct answer</p></li>
+<li><p><strong>Format Accuracy</strong>: Response matches expected format</p></li>
+</ul>
+<p><strong>How do different inference strategies compare?</strong></p>
+<p>Three strategies available:</p>
+<ul class="simple">
+<li><p><strong>Greedy</strong>: Deterministic, fastest, reproducible</p></li>
+<li><p><strong>Standard</strong>: Balanced sampling, moderate diversity</p></li>
+<li><p><strong>Liberal</strong>: High diversity, creative outputs</p></li>
+</ul>
+<p>Try all three:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>for config in greedy standard liberal; do
+    python evaluate.py inference_config=$config
+done
+</pre></div>
+</div>
+<p><strong>Can I get confidence estimates?</strong></p>
+<p>Yes, use multiple passes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">num_passes</span><span class="o">=</span><span class="mi">5</span>
+</pre></div>
+</div>
+<p>Runs 5 generations per question and compares consistency.</p>
+<p><strong>What if evaluation takes too long?</strong></p>
+<p>Solutions:</p>
+<ol class="arabic">
+<li><p>Use greedy inference (fastest):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">inference_config</span><span class="o">=</span><span class="n">greedy</span>
+</pre></div>
+</div>
+</li>
+<li><p>Evaluate fewer samples</p></li>
+<li><p>Use earlier checkpoint:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">step</span><span class="o">=</span><span class="mi">100</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="hyperparameter-tuning">
+<h2>Hyperparameter Tuning<a class="headerlink" href="#hyperparameter-tuning" title="Link to this heading"></a></h2>
+<p><strong>How do I find good hyperparameters?</strong></p>
+<p>Use the workflow in <a class="reference internal" href="../guide/hyperparameter_tuning.html"><span class="doc">Hyperparameter Tuning</span></a>:</p>
+<ol class="arabic simple">
+<li><p><strong>Quick learning rate search</strong> (1 hour)</p></li>
+<li><p><strong>Batch size tuning</strong> (2 hours)</p></li>
+<li><p><strong>Model size testing</strong> (varies)</p></li>
+<li><p><strong>Final training</strong> with best parameters</p></li>
+</ol>
+<p><strong>Should I tune one parameter at a time?</strong></p>
+<p>Yes, generally. Tune in this order:</p>
+<ol class="arabic simple">
+<li><p>Learning rate</p></li>
+<li><p>Batch size</p></li>
+<li><p>LoRA rank</p></li>
+<li><p>Number of generations</p></li>
+<li><p>KL beta</p></li>
+</ol>
+<p>Tuning one at a time is easier to interpret.</p>
+<p><strong>What’s a good starting learning rate?</strong></p>
+<p>Default is 3e-6. Good range to try:</p>
+<ul class="simple">
+<li><p>Too high: 1e-4 (likely diverges)</p></li>
+<li><p>Good: 1e-6 to 1e-5</p></li>
+<li><p>Too low: 1e-7 (very slow)</p></li>
+</ul>
+<p>Start with 1e-5 and adjust based on training loss.</p>
+<p><strong>When should I use warmup?</strong></p>
+<p>Almost always for stable training. Default warmup_ratio=0.1 (10% of training).</p>
+<p>Reduces warmup for very short training:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">warmup_ratio</span><span class="o">=</span><span class="mf">0.0</span>
+</pre></div>
+</div>
+</section>
+<section id="advanced-topics">
+<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Link to this heading"></a></h2>
+<p><strong>Can I use other models besides Gemma3?</strong></p>
+<p>Yes. Create configuration in <code class="docutils literal notranslate"><span class="pre">conf/model/</span></code>. You’ll need to:</p>
+<ol class="arabic simple">
+<li><p>Configure model architecture</p></li>
+<li><p>Set LoRA module paths</p></li>
+<li><p>Update tokenizer path</p></li>
+</ol>
+<p><strong>Can I fine-tune a model I already trained?</strong></p>
+<p>Yes. Resume from checkpoint:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">checkpoint_dir</span><span class="o">=./</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+</pre></div>
+</div>
+<p><strong>How do I implement distributed training?</strong></p>
+<p>See <a class="reference internal" href="../advanced/distributed_training.html"><span class="doc">Distributed Training</span></a>.</p>
+<p>Requires setting up NCCL and configuring mesh shape.</p>
+<p><strong>Can I use quantization to reduce memory?</strong></p>
+<p>Not currently. LoRA already reduces parameters significantly.</p>
+<p>Could be added as feature.</p>
+<p><strong>How do I profile training?</strong></p>
+<p>Enable profiling:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">profile</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p>Check output directory for profiling results.</p>
+<p><strong>Can I use Weights &amp; Biases?</strong></p>
+<p>Yes, enabled by default. Disable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">wandb_disabled</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p>Set up credentials:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wandb</span> <span class="n">login</span>
+</pre></div>
+</div>
+<p><strong>Can I export the model for inference?</strong></p>
+<p>Yes. Save LoRA weights from checkpoint.</p>
+<p>See evaluation guide for inference options.</p>
+</section>
+<section id="performance-and-optimization">
+<h2>Performance and Optimization<a class="headerlink" href="#performance-and-optimization" title="Link to this heading"></a></h2>
+<p><strong>How do I speed up training?</strong></p>
+<ol class="arabic simple">
+<li><p>Use larger batch size (if memory allows)</p></li>
+<li><p>Reduce sequence length</p></li>
+<li><p>Use fewer generations per prompt</p></li>
+<li><p>Reduce gradient accumulation steps</p></li>
+</ol>
+<p><strong>How do I reduce memory usage?</strong></p>
+<p>See <a class="reference internal" href="../guide/training.html"><span class="doc">Training Guide</span></a> Memory Optimization section:</p>
+<ol class="arabic simple">
+<li><p>Reduce batch size</p></li>
+<li><p>Use smaller model</p></li>
+<li><p>Reduce LoRA rank</p></li>
+<li><p>Shorten sequences</p></li>
+<li><p>Reduce generations</p></li>
+</ol>
+<p><strong>Can I use mixed precision (fp16, bf16)?</strong></p>
+<p>Not currently enabled by default. Could be added.</p>
+<p><strong>Should I save every checkpoint?</strong></p>
+<p>Only save important ones to save disk space:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">save_interval_steps</span><span class="o">=</span><span class="mi">1000</span>
+</pre></div>
+</div>
+<p>Or use checkpointing (saves every N steps to limited slots).</p>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<p><strong>Training stops with NaN loss</strong></p>
+<p>See <a class="reference internal" href="../advanced/troubleshooting.html"><span class="doc">Troubleshooting</span></a> NaN Loss section.</p>
+<p>Usually caused by:</p>
+<ul class="simple">
+<li><p>Learning rate too high</p></li>
+<li><p>Gradient overflow</p></li>
+<li><p>Bad data example</p></li>
+</ul>
+<p><strong>Training is very slow</strong></p>
+<p>Check GPU utilization:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">watch</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span> <span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span>
+</pre></div>
+</div>
+<p>Solutions in <a class="reference internal" href="../advanced/troubleshooting.html"><span class="doc">Troubleshooting</span></a> Slow Training section.</p>
+<p><strong>I can’t find my checkpoint</strong></p>
+<p>Find all checkpoints:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">find</span> <span class="o">.</span> <span class="o">-</span><span class="n">path</span> <span class="s2">&quot;*/checkpoints/*&quot;</span> <span class="o">-</span><span class="n">name</span> <span class="s2">&quot;*.pt&quot;</span>
+</pre></div>
+</div>
+<p>Or use specific path:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">checkpoint_dir</span><span class="o">=/</span><span class="n">full</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">checkpoints</span><span class="o">/</span>
+</pre></div>
+</div>
+<p><strong>My model accuracy is poor</strong></p>
+<p>See <a class="reference internal" href="../advanced/troubleshooting.html"><span class="doc">Troubleshooting</span></a> Model Not Improving section.</p>
+<p>Usually need:</p>
+<ul class="simple">
+<li><p>More training data</p></li>
+<li><p>Better reward function</p></li>
+<li><p>Longer training</p></li>
+<li><p>Tuned hyperparameters</p></li>
+</ul>
+<p><strong>I’m getting out of memory errors</strong></p>
+<p>See Memory requirements section and follow incremental reduction guide in troubleshooting.</p>
+</section>
+<section id="still-can-t-find-answer">
+<h2>Still Can’t Find Answer?<a class="headerlink" href="#still-can-t-find-answer" title="Link to this heading"></a></h2>
+<p>Check:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="../advanced/troubleshooting.html"><span class="doc">Troubleshooting</span></a> - Detailed troubleshooting guide</p></li>
+<li><p><a class="reference internal" href="../guide/training.html"><span class="doc">Training Guide</span></a> - Training guide</p></li>
+<li><p><a class="reference internal" href="../getting_started/configuration.html"><span class="doc">Configuration Guide</span></a> - Configuration reference</p></li>
+<li><p>API reference docs for specific modules</p></li>
+</ol>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../guide/training.html"><span class="doc">Training Guide</span></a> - Training guide</p></li>
+<li><p><a class="reference internal" href="../advanced/troubleshooting.html"><span class="doc">Troubleshooting</span></a> - Troubleshooting guide</p></li>
+<li><p><a class="reference internal" href="../getting_started/configuration.html"><span class="doc">Configuration Guide</span></a> - Configuration reference</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../advanced/troubleshooting.html" class="btn btn-neutral float-left" title="Troubleshooting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

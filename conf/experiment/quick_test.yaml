@@ -1,0 +1,30 @@
+# @package _global_
+# Quick testing experiment - reduced config for rapid iteration
+# Use with: python -m agent_tunix.train +experiment=quick_test
+
+defaults:
+  - override /model: gemma3_270m
+  - override /training: default
+
+model:
+  lora_rank: 8
+
+training:
+  num_batches: 10
+  micro_batch_size: 1
+  num_test_batches: 5
+
+generation:
+  max_prompt_length: 64
+  max_generation_steps: 64
+
+grpo:
+  num_generations: 2
+
+# Disable wandb for quick tests
+wandb_disabled: true
+debug: true
+
+# Metadata
+experiment_name: quick_test
+tags: [testing, quick, reduced]

@@ -1,0 +1,417 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experiments Guide &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Configuration Overview" href="../config/overview.html" />
+    <link rel="prev" title="Hyperparameter Tuning" href="hyperparameter_tuning.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Experiments Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-are-experiments">What are Experiments?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-built-in-experiments">Using Built-in Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-custom-experiments">Creating Custom Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#experiment-structure">Experiment Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-experiments">Example Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#experiment-workflow">Experiment Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#combining-experiments-with-sweeps">Combining Experiments with Sweeps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-experiment-hierarchies">Advanced: Experiment Hierarchies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#naming-conventions">Naming Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#managing-experiments">Managing Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../config/overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Experiments Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guide/experiments.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="experiments-guide">
+<h1>Experiments Guide<a class="headerlink" href="#experiments-guide" title="Link to this heading"></a></h1>
+<section id="what-are-experiments">
+<h2>What are Experiments?<a class="headerlink" href="#what-are-experiments" title="Link to this heading"></a></h2>
+<p>Experiments are configuration presets that combine multiple settings for specific scenarios. They’re stored in <code class="docutils literal notranslate"><span class="pre">conf/experiment/</span></code> as YAML files.</p>
+</section>
+<section id="using-built-in-experiments">
+<h2>Using Built-in Experiments<a class="headerlink" href="#using-built-in-experiments" title="Link to this heading"></a></h2>
+<p><strong>Quick Test</strong></p>
+<p>Fast test with 10 steps, reduced configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span>
+</pre></div>
+</div>
+<p>Good for:</p>
+<ul class="simple">
+<li><p>Testing setup</p></li>
+<li><p>Validating data pipeline</p></li>
+<li><p>Debugging configuration</p></li>
+</ul>
+<p><strong>Full Training</strong></p>
+<p>Production settings with default parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">full_training</span>
+</pre></div>
+</div>
+<p>Good for:</p>
+<ul class="simple">
+<li><p>Real training runs</p></li>
+<li><p>Benchmarking</p></li>
+<li><p>Production models</p></li>
+</ul>
+</section>
+<section id="creating-custom-experiments">
+<h2>Creating Custom Experiments<a class="headerlink" href="#creating-custom-experiments" title="Link to this heading"></a></h2>
+<p>Create <code class="docutils literal notranslate"><span class="pre">conf/experiment/my_exp.yaml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># @package _global_</span>
+<span class="c1"># This is an experiment configuration</span>
+
+<span class="n">defaults</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">override</span> <span class="o">/</span><span class="n">model</span><span class="p">:</span> <span class="n">gemma3_1b</span>
+  <span class="o">-</span> <span class="n">override</span> <span class="o">/</span><span class="n">optimizer</span><span class="p">:</span> <span class="n">adamw</span>
+
+<span class="c1"># Override specific values</span>
+<span class="n">training</span><span class="p">:</span>
+  <span class="n">num_batches</span><span class="p">:</span> <span class="mi">100</span>
+  <span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">2</span>
+
+<span class="n">optimizer</span><span class="p">:</span>
+  <span class="n">learning_rate</span><span class="p">:</span> <span class="mf">1e-5</span>
+
+<span class="c1"># Metadata</span>
+<span class="n">experiment_name</span><span class="p">:</span> <span class="n">my_experiment</span>
+<span class="n">tags</span><span class="p">:</span> <span class="p">[</span><span class="n">custom</span><span class="p">,</span> <span class="n">testing</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Use it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">my_exp</span>
+</pre></div>
+</div>
+</section>
+<section id="experiment-structure">
+<h2>Experiment Structure<a class="headerlink" href="#experiment-structure" title="Link to this heading"></a></h2>
+<p><strong>Package Declaration</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">&#64;package</span> <span class="pre">_global_</span></code> is required and tells the system to merge experiment into global config.</p>
+<p><strong>Defaults List</strong></p>
+<p>Override default configurations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">defaults</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">override</span> <span class="o">/</span><span class="n">model</span><span class="p">:</span> <span class="n">gemma3_1b</span>
+  <span class="o">-</span> <span class="n">override</span> <span class="o">/</span><span class="n">optimizer</span><span class="p">:</span> <span class="n">adamw</span>
+</pre></div>
+</div>
+<p><strong>Configuration Overrides</strong></p>
+<p>Specific value overrides:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">training</span><span class="p">:</span>
+  <span class="n">num_batches</span><span class="p">:</span> <span class="mi">100</span>
+  <span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">4</span>
+
+<span class="n">grpo</span><span class="p">:</span>
+  <span class="n">num_generations</span><span class="p">:</span> <span class="mi">8</span>
+</pre></div>
+</div>
+<p><strong>Metadata</strong> (optional)</p>
+<p>Add tags for organization:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_name</span><span class="p">:</span> <span class="n">learning_rate_ablation</span>
+<span class="n">tags</span><span class="p">:</span> <span class="p">[</span><span class="n">ablation</span><span class="p">,</span> <span class="n">hyperparameter</span><span class="p">]</span>
+<span class="n">description</span><span class="p">:</span> <span class="n">Ablating</span> <span class="n">learning</span> <span class="n">rates</span> <span class="kn">from</span><span class="w"> </span><span class="mf">1e-7</span> <span class="n">to</span> <span class="mf">1e-4</span>
+</pre></div>
+</div>
+</section>
+<section id="example-experiments">
+<h2>Example Experiments<a class="headerlink" href="#example-experiments" title="Link to this heading"></a></h2>
+<p><strong>Memory-Efficient Training</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">conf/experiment/low_memory.yaml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># @package _global_</span>
+
+<span class="n">defaults</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">override</span> <span class="o">/</span><span class="n">model</span><span class="p">:</span> <span class="n">gemma3_270m</span>
+
+<span class="n">model</span><span class="p">:</span>
+  <span class="n">lora_rank</span><span class="p">:</span> <span class="mi">8</span>
+
+<span class="n">training</span><span class="p">:</span>
+  <span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">1</span>
+
+<span class="n">grpo</span><span class="p">:</span>
+  <span class="n">num_generations</span><span class="p">:</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>Use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">low_memory</span>
+</pre></div>
+</div>
+<p><strong>Large Batch Training</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">conf/experiment/large_batch.yaml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># @package _global_</span>
+
+<span class="n">defaults</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">override</span> <span class="o">/</span><span class="n">model</span><span class="p">:</span> <span class="n">gemma3_1b</span>
+
+<span class="n">model</span><span class="p">:</span>
+  <span class="n">lora_rank</span><span class="p">:</span> <span class="mi">64</span>
+
+<span class="n">training</span><span class="p">:</span>
+  <span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">8</span>
+
+<span class="n">optimizer</span><span class="p">:</span>
+  <span class="n">learning_rate</span><span class="p">:</span> <span class="mf">1e-4</span>
+</pre></div>
+</div>
+<p>Use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">large_batch</span>
+</pre></div>
+</div>
+<p><strong>Ablation Study</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">conf/experiment/lr_ablation.yaml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># @package _global_</span>
+
+<span class="n">training</span><span class="p">:</span>
+  <span class="n">num_batches</span><span class="p">:</span> <span class="mi">50</span>
+
+<span class="n">experiment_name</span><span class="p">:</span> <span class="n">learning_rate_ablation</span>
+<span class="n">tags</span><span class="p">:</span> <span class="p">[</span><span class="n">ablation</span><span class="p">,</span> <span class="n">lr</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Then sweep:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">lr_ablation</span> <span class="o">--</span><span class="n">multirun</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">1e-5</span><span class="p">,</span><span class="mf">1e-4</span>
+</pre></div>
+</div>
+</section>
+<section id="experiment-workflow">
+<h2>Experiment Workflow<a class="headerlink" href="#experiment-workflow" title="Link to this heading"></a></h2>
+<p><strong>1. Design Experiment</strong></p>
+<p>Create YAML file with settings.</p>
+<p><strong>2. Test Configuration</strong></p>
+<p>Verify config before running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">my_exp</span> <span class="o">--</span><span class="n">cfg</span> <span class="n">job</span>
+</pre></div>
+</div>
+<p><strong>3. Run Experiment</strong></p>
+<p>Execute the experiment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">my_exp</span>
+</pre></div>
+</div>
+<p><strong>4. Evaluate Results</strong></p>
+<p>Check metrics and logs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">checkpoint_dir</span><span class="o">=./</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+</pre></div>
+</div>
+<p><strong>5. Document Results</strong></p>
+<p>Record findings and best settings for future reference.</p>
+</section>
+<section id="combining-experiments-with-sweeps">
+<h2>Combining Experiments with Sweeps<a class="headerlink" href="#combining-experiments-with-sweeps" title="Link to this heading"></a></h2>
+<p>Run an experiment with parameter sweep:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">my_exp</span> <span class="o">--</span><span class="n">multirun</span> \
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span><span class="mf">3e-6</span><span class="p">,</span><span class="mf">1e-5</span>
+</pre></div>
+</div>
+<p>This runs the experiment configuration with three different learning rates.</p>
+</section>
+<section id="advanced-experiment-hierarchies">
+<h2>Advanced: Experiment Hierarchies<a class="headerlink" href="#advanced-experiment-hierarchies" title="Link to this heading"></a></h2>
+<p>Create base experiments and extend them:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>**Base experiment** ``conf/experiment/base.yaml``::
+</pre></div>
+</div>
+<blockquote>
+<div><p># &#64;package _global_</p>
+<dl class="simple">
+<dt>defaults:</dt><dd><ul class="simple">
+<li><p>override /model: gemma3_1b</p></li>
+</ul>
+</dd>
+<dt>training:</dt><dd><p>num_batches: 100</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>Extended experiment</strong> <code class="docutils literal notranslate"><span class="pre">conf/experiment/extended.yaml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># @package _global_</span>
+
+<span class="n">defaults</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">base</span>
+
+<span class="n">training</span><span class="p">:</span>
+  <span class="n">num_batches</span><span class="p">:</span> <span class="mi">500</span>
+  <span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</section>
+<section id="naming-conventions">
+<h2>Naming Conventions<a class="headerlink" href="#naming-conventions" title="Link to this heading"></a></h2>
+<p>Recommend consistent naming:</p>
+<ul class="simple">
+<li><p><strong>Descriptive</strong>: <code class="docutils literal notranslate"><span class="pre">lr_ablation</span></code>, <code class="docutils literal notranslate"><span class="pre">batch_size_study</span></code></p></li>
+<li><p><strong>Dated</strong>: <code class="docutils literal notranslate"><span class="pre">2024_01_experiment</span></code></p></li>
+<li><p><strong>Tagged</strong>: <code class="docutils literal notranslate"><span class="pre">ablation_lr</span></code>, <code class="docutils literal notranslate"><span class="pre">benchmark_v2</span></code></p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>conf/experiment/
+├── quick_test.yaml
+├── full_training.yaml
+├── ablation_lr.yaml
+├── ablation_batch_size.yaml
+├── benchmark_v1.yaml
+├── benchmark_v2.yaml
+└── memory_constrained.yaml
+</pre></div>
+</div>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Document each experiment</strong>: Add description and tags</p></li>
+<li><p><strong>Keep experiments reproducible</strong>: Don’t change configs after creating experiment</p></li>
+<li><p><strong>Version experiments</strong>: Use dates or version numbers</p></li>
+<li><p><strong>Clean naming</strong>: Use descriptive, self-explanatory names</p></li>
+<li><p><strong>Track results</strong>: Document findings with each experiment</p></li>
+<li><p><strong>Store important configs</strong>: Keep successful experiments in version control</p></li>
+</ol>
+</section>
+<section id="managing-experiments">
+<h2>Managing Experiments<a class="headerlink" href="#managing-experiments" title="Link to this heading"></a></h2>
+<p><strong>List all available experiments</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">info</span> <span class="n">config</span><span class="o">-</span><span class="n">groups</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">experiment</span>
+</pre></div>
+</div>
+<p><strong>Show experiment config</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">my_exp</span> <span class="o">--</span><span class="n">cfg</span> <span class="n">job</span>
+</pre></div>
+</div>
+<p><strong>Compare experiments</strong></p>
+<p>Run multiple and compare results in W&amp;B or TensorBoard.</p>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="hyperparameter_tuning.html"><span class="doc">Hyperparameter Tuning</span></a></p></li>
+<li><p><a class="reference internal" href="training.html"><span class="doc">Training Guide</span></a></p></li>
+<li><p><a class="reference internal" href="../getting_started/configuration.html"><span class="doc">Configuration Guide</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="hyperparameter_tuning.html" class="btn btn-neutral float-left" title="Hyperparameter Tuning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../config/overview.html" class="btn btn-neutral float-right" title="Configuration Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,403 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data API &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Rewards API" href="rewards.html" />
+    <link rel="prev" title="Models API" href="models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../config/overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#dataset-support">Dataset Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-loading">Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-datasets">Custom Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-format-requirements">Data Format Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tokenization">Tokenization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preprocessing-pipeline">Preprocessing Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-splits">Data Splits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#batch-processing">Batch Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sequence-lengths">Sequence Lengths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-custom-data-loading">Advanced: Custom Data Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-validation">Data Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Data API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/data.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="data-api">
+<h1>Data API<a class="headerlink" href="#data-api" title="Link to this heading"></a></h1>
+<p>This module provides data loading and preprocessing utilities.</p>
+<section id="dataset-support">
+<h2>Dataset Support<a class="headerlink" href="#dataset-support" title="Link to this heading"></a></h2>
+<p><strong>GSM8K (Grade School Math)</strong></p>
+<p>Default dataset for math reasoning tasks:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Auto-loaded with default configuration</span>
+</pre></div>
+</div>
+<p>Dataset specifications:</p>
+<ul class="simple">
+<li><p>Task: Grade school math word problems</p></li>
+<li><p>Format: Question → Answer with step-by-step reasoning</p></li>
+<li><p>Size: ~8,000 training examples</p></li>
+<li><p>Data source: Hugging Face datasets</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Question: Natalia sold clips to 48 of her friends in April, and then she sold
+clips to 42 of her friends in May. If she got $2.50 for each clip, how much
+money did she earn in total?
+
+Answer: Natalia sold clips to 48 + 42 = 90 friends in total.
+If she got $2.50 for each clip, she earned 90 * $2.50 = $225.
+</pre></div>
+</div>
+</section>
+<section id="data-loading">
+<h2>Data Loading<a class="headerlink" href="#data-loading" title="Link to this heading"></a></h2>
+<p>The framework automatically handles:</p>
+<ol class="arabic simple">
+<li><p><strong>Downloading</strong>: Fetches dataset from source if not cached</p></li>
+<li><p><strong>Splitting</strong>: Creates train/validation/test splits</p></li>
+<li><p><strong>Tokenization</strong>: Converts text to token IDs</p></li>
+<li><p><strong>Batching</strong>: Creates mini-batches for training</p></li>
+<li><p><strong>Padding</strong>: Handles variable-length sequences</p></li>
+</ol>
+</section>
+<section id="custom-datasets">
+<h2>Custom Datasets<a class="headerlink" href="#custom-datasets" title="Link to this heading"></a></h2>
+<p>To use a custom dataset, create a data loading function in <code class="docutils literal notranslate"><span class="pre">src/agent_tunix/data.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">load_custom_dataset</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load custom dataset and tokenize.&quot;&quot;&quot;</span>
+    <span class="c1"># 1. Load data from your source</span>
+    <span class="n">examples</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">)</span>
+
+    <span class="c1"># 2. Format as (prompt, answer) pairs</span>
+    <span class="n">formatted</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;prompt&quot;</span><span class="p">:</span> <span class="n">ex</span><span class="p">[</span><span class="s2">&quot;question&quot;</span><span class="p">],</span> <span class="s2">&quot;answer&quot;</span><span class="p">:</span> <span class="n">ex</span><span class="p">[</span><span class="s2">&quot;answer&quot;</span><span class="p">]}</span>
+        <span class="k">for</span> <span class="n">ex</span> <span class="ow">in</span> <span class="n">examples</span>
+    <span class="p">]</span>
+
+    <span class="c1"># 3. Tokenize</span>
+    <span class="n">tokenized</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span>
+        <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ex</span><span class="p">[</span><span class="s1">&#39;prompt&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ex</span><span class="p">[</span><span class="s1">&#39;answer&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">ex</span> <span class="ow">in</span> <span class="n">formatted</span><span class="p">],</span>
+        <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="n">max_length</span><span class="p">,</span>
+        <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;np&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># 4. Return dataset object</span>
+    <span class="k">return</span> <span class="n">formatted</span><span class="p">,</span> <span class="n">tokenized</span>
+</pre></div>
+</div>
+</section>
+<section id="data-format-requirements">
+<h2>Data Format Requirements<a class="headerlink" href="#data-format-requirements" title="Link to this heading"></a></h2>
+<p>Minimum required fields:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;prompt&quot;</span><span class="p">:</span> <span class="s2">&quot;What is 2 + 2?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;answer&quot;</span><span class="p">:</span> <span class="s2">&quot;The answer is 4.&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For math problems, we recommend step-by-step format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;prompt&quot;</span><span class="p">:</span> <span class="s2">&quot;What is 2 + 2?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;answer&quot;</span><span class="p">:</span> <span class="s2">&quot;2 + 2 = 4. The answer is 4.&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="tokenization">
+<h2>Tokenization<a class="headerlink" href="#tokenization" title="Link to this heading"></a></h2>
+<p>The framework uses the model’s tokenizer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoTokenizer</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;google/gemma-1b&quot;</span><span class="p">)</span>
+
+<span class="c1"># Tokenize input</span>
+<span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="s2">&quot;What is 2 + 2?&quot;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+
+<span class="c1"># Token IDs</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">])</span>
+
+<span class="c1"># Attention masks (1 for real tokens, 0 for padding)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="s1">&#39;attention_mask&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="preprocessing-pipeline">
+<h2>Preprocessing Pipeline<a class="headerlink" href="#preprocessing-pipeline" title="Link to this heading"></a></h2>
+<p>Standard preprocessing steps:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">Load</span> <span class="n">raw</span> <span class="n">data</span>
+<span class="mf">2.</span> <span class="n">Split</span> <span class="n">into</span> <span class="n">train</span><span class="o">/</span><span class="n">val</span><span class="o">/</span><span class="n">test</span>
+<span class="mf">3.</span> <span class="n">Tokenize</span> <span class="k">with</span> <span class="n">model</span> <span class="n">tokenizer</span>
+<span class="mf">4.</span> <span class="n">Pad</span> <span class="n">sequences</span> <span class="n">to</span> <span class="n">max_length</span>
+<span class="mf">5.</span> <span class="n">Create</span> <span class="n">attention</span> <span class="n">masks</span>
+<span class="mf">6.</span> <span class="n">Create</span> <span class="n">PyTorch</span><span class="o">/</span><span class="n">JAX</span> <span class="n">datasets</span>
+<span class="mf">7.</span> <span class="n">Define</span> <span class="n">data</span> <span class="n">loaders</span> <span class="k">for</span> <span class="n">batching</span>
+</pre></div>
+</div>
+</section>
+<section id="data-splits">
+<h2>Data Splits<a class="headerlink" href="#data-splits" title="Link to this heading"></a></h2>
+<p>Default splits:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Train</span><span class="p">:</span>      <span class="mi">80</span><span class="o">%</span> <span class="n">of</span> <span class="n">data</span>
+<span class="n">Validation</span><span class="p">:</span> <span class="mi">10</span><span class="o">%</span> <span class="n">of</span> <span class="n">data</span>
+<span class="n">Test</span><span class="p">:</span>       <span class="mi">10</span><span class="o">%</span> <span class="n">of</span> <span class="n">data</span>
+</pre></div>
+</div>
+<p>Customize in configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">training</span><span class="p">:</span>
+  <span class="n">train_split</span><span class="p">:</span> <span class="mf">0.8</span>
+  <span class="n">val_split</span><span class="p">:</span> <span class="mf">0.1</span>
+  <span class="n">test_split</span><span class="p">:</span> <span class="mf">0.1</span>
+</pre></div>
+</div>
+</section>
+<section id="batch-processing">
+<h2>Batch Processing<a class="headerlink" href="#batch-processing" title="Link to this heading"></a></h2>
+<p>Mini-batch configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">training</span><span class="p">:</span>
+  <span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">4</span>          <span class="c1"># Batch per device</span>
+
+<span class="n">grpo</span><span class="p">:</span>
+  <span class="n">num_generations</span><span class="p">:</span> <span class="mi">4</span>           <span class="c1"># Responses per prompt</span>
+</pre></div>
+</div>
+<p>Processing flow:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">Load</span> <span class="n">batch</span> <span class="n">of</span> <span class="n">prompts</span>
+<span class="mf">2.</span> <span class="n">For</span> <span class="n">each</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">generate</span> <span class="n">K</span> <span class="n">responses</span> <span class="p">(</span><span class="n">num_generations</span><span class="p">)</span>
+<span class="mf">3.</span> <span class="n">Compute</span> <span class="n">rewards</span> <span class="k">for</span> <span class="n">each</span> <span class="n">response</span>
+<span class="mf">4.</span> <span class="n">Update</span> <span class="n">model</span> <span class="n">based</span> <span class="n">on</span> <span class="n">rewards</span>
+</pre></div>
+</div>
+</section>
+<section id="sequence-lengths">
+<h2>Sequence Lengths<a class="headerlink" href="#sequence-lengths" title="Link to this heading"></a></h2>
+<p>Configure sequence lengths:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">generation</span><span class="p">:</span>
+  <span class="n">max_prompt_length</span><span class="p">:</span> <span class="mi">256</span>       <span class="c1"># Maximum prompt tokens</span>
+  <span class="n">max_generation_steps</span><span class="p">:</span> <span class="mi">512</span>    <span class="c1"># Maximum response tokens</span>
+</pre></div>
+</div>
+<p>Practical limits:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Longer</span> <span class="n">prompts</span><span class="p">:</span> <span class="n">more</span> <span class="n">context</span> <span class="n">but</span> <span class="n">less</span> <span class="n">generation</span> <span class="n">space</span>
+<span class="o">-</span> <span class="n">Shorter</span> <span class="n">sequences</span><span class="p">:</span> <span class="n">faster</span> <span class="n">training</span> <span class="n">but</span> <span class="n">less</span> <span class="n">capacity</span>
+<span class="o">-</span> <span class="n">Balance</span> <span class="n">based</span> <span class="n">on</span> <span class="n">your</span> <span class="n">task</span> <span class="n">requirements</span>
+</pre></div>
+</div>
+</section>
+<section id="advanced-custom-data-loading">
+<h2>Advanced: Custom Data Loading<a class="headerlink" href="#advanced-custom-data-loading" title="Link to this heading"></a></h2>
+<p>For advanced use cases, create custom data loaders:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CustomDataLoader</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">load_json</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
+        <span class="n">prompts</span> <span class="o">=</span> <span class="p">[</span><span class="n">ex</span><span class="p">[</span><span class="s2">&quot;prompt&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">ex</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+        <span class="n">answers</span> <span class="o">=</span> <span class="p">[</span><span class="n">ex</span><span class="p">[</span><span class="s2">&quot;answer&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">ex</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+
+        <span class="c1"># Tokenize</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span>
+            <span class="n">prompts</span><span class="p">,</span>
+            <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;np&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span>
+            <span class="n">answers</span><span class="p">,</span>
+            <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;np&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;input_ids&quot;</span><span class="p">:</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;input_ids&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;attention_mask&quot;</span><span class="p">:</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;attention_mask&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;target_ids&quot;</span><span class="p">:</span> <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;input_ids&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;target_mask&quot;</span><span class="p">:</span> <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;attention_mask&quot;</span><span class="p">]</span>
+        <span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="data-validation">
+<h2>Data Validation<a class="headerlink" href="#data-validation" title="Link to this heading"></a></h2>
+<p>Verify data quality:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check dataset statistics</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agent_tunix.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
+<span class="n">dataset</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dataset size: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Example: </span><span class="si">{</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<p><strong>Data loading too slow</strong></p>
+<ul class="simple">
+<li><p>Use smaller max_length</p></li>
+<li><p>Reduce batch size temporarily</p></li>
+<li><p>Pre-tokenize and cache data</p></li>
+</ul>
+<p><strong>Out of memory during batching</strong></p>
+<ul class="simple">
+<li><p>Reduce micro_batch_size</p></li>
+<li><p>Reduce max sequence lengths</p></li>
+<li><p>Use gradient accumulation instead of larger batches</p></li>
+</ul>
+<p><strong>Tokenization mismatches</strong></p>
+<ul class="simple">
+<li><p>Use same tokenizer as model</p></li>
+<li><p>Check special token handling</p></li>
+<li><p>Verify padding configuration</p></li>
+</ul>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../guide/training.html"><span class="doc">Training Guide</span></a> - Training guide</p></li>
+<li><p><a class="reference internal" href="train.html"><span class="doc">Training API</span></a> - Training API reference</p></li>
+<li><p><a class="reference internal" href="../advanced/custom_rewards.html"><span class="doc">Custom Reward Functions</span></a> - Custom reward functions for your data</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="models.html" class="btn btn-neutral float-left" title="Models API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rewards.html" class="btn btn-neutral float-right" title="Rewards API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

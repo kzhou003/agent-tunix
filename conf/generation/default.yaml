@@ -1,0 +1,7 @@
+# Text generation configuration
+max_prompt_length: 256
+max_generation_steps: 512
+temperature: 0.9
+top_p: 1.0
+top_k: 50
+eos_tokens: [1, 106]

@@ -1,0 +1,474 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Distributed Training &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Custom Reward Functions" href="custom_rewards.html" />
+    <link rel="prev" title="Rewards API" href="../api/rewards.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../config/overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Distributed Training</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#single-gpu-setup">Single GPU Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-parallel-multiple-gpus">Data Parallel (Multiple GPUs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tensor-parallel-model-sharding">Tensor Parallel (Model Sharding)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hybrid-parallelism">Hybrid Parallelism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multi-node-setup">Multi-Node Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-tuning">Performance Tuning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#memory-optimization">Memory Optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#communication-optimization">Communication Optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#load-balancing">Load Balancing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging-distributed-training">Debugging Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-issues">Common Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-distributed-setups">Example Distributed Setups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring">Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Distributed Training</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/advanced/distributed_training.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="distributed-training">
+<h1>Distributed Training<a class="headerlink" href="#distributed-training" title="Link to this heading"></a></h1>
+<p>Running training across multiple GPUs or nodes significantly speeds up training and enables handling larger models.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>Three parallelism strategies available:</p>
+<ul class="simple">
+<li><p><strong>Data Parallelism (FSDP)</strong>: Replicate model on each GPU, shard data</p></li>
+<li><p><strong>Tensor Parallelism (TP)</strong>: Shard model tensors across GPUs</p></li>
+<li><p><strong>Hybrid</strong>: Combine both for very large models on many GPUs</p></li>
+</ul>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<p>Configure parallelism via mesh shape in model config:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="p">:</span>
+  <span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="n">num_fsdp</span><span class="p">,</span> <span class="n">num_tp</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">num_fsdp</span></code>: Number of GPUs for data parallelism</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_tp</span></code>: Number of GPUs for tensor parallelism</p></li>
+</ul>
+</section>
+<section id="single-gpu-setup">
+<h2>Single GPU Setup<a class="headerlink" href="#single-gpu-setup" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">.</span><span class="n">mesh_shape</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span><span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</section>
+<section id="data-parallel-multiple-gpus">
+<h2>Data Parallel (Multiple GPUs)<a class="headerlink" href="#data-parallel-multiple-gpus" title="Link to this heading"></a></h2>
+<p>Shard data across 4 GPUs, each with full model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Each GPU:</p>
+<ul class="simple">
+<li><p>Receives different batch of data</p></li>
+<li><p>Has full copy of model</p></li>
+<li><p>Communicates gradients with other GPUs</p></li>
+</ul>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">.</span><span class="n">mesh_shape</span><span class="o">=</span><span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span><span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Advantages:</p>
+<ul class="simple">
+<li><p>Simple to implement</p></li>
+<li><p>Good scaling up to 8-16 GPUs</p></li>
+<li><p>Minimal communication overhead</p></li>
+</ul>
+</section>
+<section id="tensor-parallel-model-sharding">
+<h2>Tensor Parallel (Model Sharding)<a class="headerlink" href="#tensor-parallel-model-sharding" title="Link to this heading"></a></h2>
+<p>Shard large models across 4 GPUs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Each GPU:</p>
+<ul class="simple">
+<li><p>Has part of each tensor</p></li>
+<li><p>Needs to synchronize between forward/backward passes</p></li>
+<li><p>Suitable for models that don’t fit on single GPU</p></li>
+</ul>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">.</span><span class="n">mesh_shape</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span><span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Best for:</p>
+<ul class="simple">
+<li><p>Very large models (10B+)</p></li>
+<li><p>Memory per GPU is limited</p></li>
+<li><p>Model parallelism is necessary</p></li>
+</ul>
+</section>
+<section id="hybrid-parallelism">
+<h2>Hybrid Parallelism<a class="headerlink" href="#hybrid-parallelism" title="Link to this heading"></a></h2>
+<p>Combine both strategies for large scale:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>This creates:</p>
+<ul class="simple">
+<li><p>2 groups of 4 GPUs each</p></li>
+<li><p>Within each group: 2 data parallel, 2 tensor parallel</p></li>
+<li><p>Between groups: communication for data parallelism</p></li>
+<li><p>Within groups: communication for tensor parallelism</p></li>
+</ul>
+<p>Suitable for:</p>
+<ul class="simple">
+<li><p>4-16 GPU training</p></li>
+<li><p>Models &gt;1B parameters</p></li>
+<li><p>Balancing communication overhead</p></li>
+</ul>
+</section>
+<section id="multi-node-setup">
+<h2>Multi-Node Setup<a class="headerlink" href="#multi-node-setup" title="Link to this heading"></a></h2>
+<p>For training across multiple machines/nodes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Configuration steps:</p>
+<ol class="arabic">
+<li><p>Ensure network connectivity between nodes</p></li>
+<li><p>Set distributed environment variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">MASTER_ADDR</span><span class="o">=&lt;</span><span class="n">master</span><span class="o">-</span><span class="n">node</span><span class="o">-</span><span class="n">ip</span><span class="o">&gt;</span>
+<span class="n">export</span> <span class="n">MASTER_PORT</span><span class="o">=</span><span class="mi">29500</span>
+<span class="n">export</span> <span class="n">RANK</span><span class="o">=&lt;</span><span class="n">node</span><span class="o">-</span><span class="n">rank</span><span class="o">&gt;</span>
+<span class="n">export</span> <span class="n">WORLD_SIZE</span><span class="o">=&lt;</span><span class="n">total</span><span class="o">-</span><span class="n">num</span><span class="o">-</span><span class="n">gpus</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Launch training:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torchrun</span> <span class="o">--</span><span class="n">nproc_per_node</span><span class="o">=</span><span class="mi">4</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">.</span><span class="n">mesh_shape</span><span class="o">=</span><span class="p">[[</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span><span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Or with JAX:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">jax</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">launch</span> <span class="o">--</span><span class="n">nprocs</span><span class="o">=</span><span class="mi">4</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-tuning">
+<h2>Performance Tuning<a class="headerlink" href="#performance-tuning" title="Link to this heading"></a></h2>
+<section id="memory-optimization">
+<h3>Memory Optimization<a class="headerlink" href="#memory-optimization" title="Link to this heading"></a></h3>
+<p>With FSDP, reduce per-GPU memory by sharding:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Without FSDP: each GPU needs full model</span>
+<span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">2</span>
+
+<span class="c1"># With FSDP across 4 GPUs: split model</span>
+<span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">4</span> <span class="n">model</span><span class="o">.</span><span class="n">mesh_shape</span><span class="o">=</span><span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span><span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>With FSDP, each GPU stores:</p>
+<ul class="simple">
+<li><p>1/N-th of model weights</p></li>
+<li><p>Full activations for one batch</p></li>
+<li><p>Gradients (periodically)</p></li>
+</ul>
+</section>
+<section id="communication-optimization">
+<h3>Communication Optimization<a class="headerlink" href="#communication-optimization" title="Link to this heading"></a></h3>
+<p>Minimize communication overhead:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fewer gradient sync steps</span>
+<span class="n">training</span><span class="p">:</span>
+  <span class="n">gradient_accumulation_steps</span><span class="p">:</span> <span class="mi">4</span>
+  <span class="n">sync_gradients_every</span><span class="p">:</span> <span class="mi">2</span>
+
+<span class="c1"># Use lower precision for communication</span>
+<span class="n">training</span><span class="p">:</span>
+  <span class="n">mixed_precision</span><span class="p">:</span> <span class="n">bf16</span>
+</pre></div>
+</div>
+</section>
+<section id="load-balancing">
+<h3>Load Balancing<a class="headerlink" href="#load-balancing" title="Link to this heading"></a></h3>
+<p>Ensure even work distribution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check GPU utilization</span>
+<span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span> <span class="n">dmon</span>
+
+<span class="c1"># Adjust batch sizes if imbalanced</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">8</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="debugging-distributed-training">
+<h2>Debugging Distributed Training<a class="headerlink" href="#debugging-distributed-training" title="Link to this heading"></a></h2>
+<p><strong>Check GPU Connectivity</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of devices: </span><span class="si">{</span><span class="n">jax</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">device</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">devices</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Device </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p><strong>Monitor Communication</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable JAX profiling</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">profile_communication</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p><strong>Check Rank and Size</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>python -c &quot;
+import os
+print(f&#39;Rank: {os.environ.get(\&quot;RANK\&quot;, \&quot;0\&quot;)}&#39;)
+print(f&#39;World size: {os.environ.get(\&quot;WORLD_SIZE\&quot;, \&quot;1\&quot;)}&#39;)
+&quot;
+</pre></div>
+</div>
+</section>
+<section id="common-issues">
+<h2>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h2>
+<p><strong>Device Mismatch</strong></p>
+<p>Issue: Different GPUs have different compute capabilities:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">RuntimeError</span><span class="p">:</span> <span class="n">Devices</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">homogeneous</span>
+</pre></div>
+</div>
+<p>Solution: Use same GPU types across all nodes</p>
+<p><strong>Communication Timeout</strong></p>
+<p>Issue: Slow network or unresponsive nodes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">TimeoutError</span><span class="p">:</span> <span class="n">Communication</span> <span class="n">timed</span> <span class="n">out</span>
+</pre></div>
+</div>
+<p>Solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Increase timeout</span>
+<span class="n">export</span> <span class="n">NCCL_P2P_CONNECT_TIMEOUT</span><span class="o">=</span><span class="mi">300</span>
+
+<span class="c1"># Check network connectivity</span>
+<span class="n">ping</span> <span class="o">&lt;</span><span class="n">other</span><span class="o">-</span><span class="n">node</span><span class="o">-</span><span class="n">ip</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><strong>Unbalanced Training</strong></p>
+<p>Issue: Some GPUs finish earlier than others:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Solution</span><span class="p">:</span> <span class="n">Adjust</span> <span class="n">batch</span> <span class="n">sizes</span> <span class="ow">or</span> <span class="n">model</span> <span class="n">loading</span>
+</pre></div>
+</div>
+<p><strong>OOM During Communication</strong></p>
+<p>Issue: Not enough GPU memory for communication buffers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Solution</span><span class="p">::</span>
+
+    <span class="c1"># Use gradient accumulation</span>
+    <span class="n">training</span><span class="p">:</span>
+      <span class="n">gradient_accumulation_steps</span><span class="p">:</span> <span class="mi">2</span>
+
+    <span class="c1"># Reduce batch size</span>
+    <span class="n">training</span><span class="p">:</span>
+      <span class="n">micro_batch_size</span><span class="p">:</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+<section id="example-distributed-setups">
+<h2>Example Distributed Setups<a class="headerlink" href="#example-distributed-setups" title="Link to this heading"></a></h2>
+<p><strong>4 GPUs on Single Machine</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span> \
+    <span class="n">model</span><span class="o">.</span><span class="n">mesh_shape</span><span class="o">=</span><span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span><span class="s2">&quot;tp&quot;</span><span class="p">]]</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">4</span>
+</pre></div>
+</div>
+<p><strong>8 GPUs Across 2 Machines (4 per machine)</strong></p>
+<p>Machine 1:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">MASTER_ADDR</span><span class="o">=</span><span class="mf">192.168.1.10</span>
+<span class="n">export</span> <span class="n">MASTER_PORT</span><span class="o">=</span><span class="mi">29500</span>
+<span class="n">export</span> <span class="n">RANK</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">export</span> <span class="n">WORLD_SIZE</span><span class="o">=</span><span class="mi">8</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">jax</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">launch</span> <span class="o">--</span><span class="n">nprocs</span><span class="o">=</span><span class="mi">4</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span> \
+    <span class="n">model</span><span class="o">.</span><span class="n">mesh_shape</span><span class="o">=</span><span class="p">[[</span><span class="mi">8</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span><span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Machine 2:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">MASTER_ADDR</span><span class="o">=</span><span class="mf">192.168.1.10</span>
+<span class="n">export</span> <span class="n">MASTER_PORT</span><span class="o">=</span><span class="mi">29500</span>
+<span class="n">export</span> <span class="n">RANK</span><span class="o">=</span><span class="mi">4</span>
+<span class="n">export</span> <span class="n">WORLD_SIZE</span><span class="o">=</span><span class="mi">8</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">jax</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">launch</span> <span class="o">--</span><span class="n">nprocs</span><span class="o">=</span><span class="mi">4</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span> \
+    <span class="n">model</span><span class="o">.</span><span class="n">mesh_shape</span><span class="o">=</span><span class="p">[[</span><span class="mi">8</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span><span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p><strong>16 GPUs with Hybrid Parallelism</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">model</span><span class="o">=</span><span class="n">gemma3_4b</span> \
+    <span class="n">model</span><span class="o">.</span><span class="n">mesh_shape</span><span class="o">=</span><span class="p">[[</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span><span class="s2">&quot;tp&quot;</span><span class="p">]]</span> \
+    <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">8</span>
+</pre></div>
+</div>
+</section>
+<section id="monitoring">
+<h2>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h2>
+<p>Watch distributed training:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monitor all GPU processes</span>
+<span class="n">watch</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span> <span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span>
+
+<span class="c1"># Check inter-GPU communication (requires profiling)</span>
+<span class="n">tensorboard</span> <span class="o">--</span><span class="n">logdir</span> <span class="n">outputs</span><span class="o">/</span>
+
+<span class="c1"># Monitor training logs</span>
+<span class="n">tail</span> <span class="o">-</span><span class="n">f</span> <span class="n">outputs</span><span class="o">/</span><span class="n">tunix</span><span class="o">-</span><span class="n">grpo</span><span class="o">/</span><span class="n">YYYY</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">DD</span><span class="o">/</span><span class="n">HH</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">SS</span><span class="o">/</span><span class="n">train</span><span class="o">.</span><span class="n">log</span>
+</pre></div>
+</div>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Start small</strong>: Test with 2 GPUs before scaling</p></li>
+<li><p><strong>Use same GPU types</strong>: Avoid heterogeneous clusters initially</p></li>
+<li><p><strong>Profile communication</strong>: Identify bottlenecks</p></li>
+<li><p><strong>Use high-performance interconnect</strong>: NVLink, InfiniBand for multi-node</p></li>
+<li><p><strong>Monitor balance</strong>: Ensure all GPUs have similar utilization</p></li>
+<li><p><strong>Scale gradually</strong>: Test each parallelism strategy separately</p></li>
+<li><p><strong>Document configuration</strong>: Keep notes on working mesh shapes</p></li>
+</ol>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../guide/training.html"><span class="doc">Training Guide</span></a> - Training guide</p></li>
+<li><p><a class="reference internal" href="../api/models.html"><span class="doc">Models API</span></a> - Model configuration reference</p></li>
+<li><p><a class="reference internal" href="../getting_started/configuration.html"><span class="doc">Configuration Guide</span></a> - Configuration guide</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../api/rewards.html" class="btn btn-neutral float-left" title="Rewards API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="custom_rewards.html" class="btn btn-neutral float-right" title="Custom Reward Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

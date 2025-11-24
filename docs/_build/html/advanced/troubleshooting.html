@@ -1,0 +1,775 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troubleshooting &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Frequently Asked Questions" href="../references/faq.html" />
+    <link rel="prev" title="Custom Reward Functions" href="custom_rewards.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../config/overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/models.html">Models API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation-issues">Installation Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#training-issues">Training Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#evaluation-issues">Evaluation Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-issues">Configuration Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distributed-training-issues">Distributed Training Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging-tips">Debugging Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-help">Getting Help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-patterns">Common Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Troubleshooting</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/advanced/troubleshooting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="troubleshooting">
+<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h1>
+<p>Common issues and solutions for training and evaluation.</p>
+<section id="installation-issues">
+<h2>Installation Issues<a class="headerlink" href="#installation-issues" title="Link to this heading"></a></h2>
+<p><strong>CUDA Not Found</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">RuntimeError</span><span class="p">:</span> <span class="n">CUDA</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">available</span>
+</pre></div>
+</div>
+<p>Solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify CUDA installation</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">agent_tunix</span><span class="o">.</span><span class="n">utils</span> <span class="n">check</span><span class="o">-</span><span class="n">gpu</span>
+
+<span class="c1"># Check NVIDIA drivers</span>
+<span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span>
+
+<span class="c1"># Install CUDA if missing (see installation guide)</span>
+</pre></div>
+</div>
+<p><strong>JAX Backend Issues</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ModuleNotFoundError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="s1">&#39;jax&#39;</span>
+</pre></div>
+</div>
+<p>Solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reinstall JAX with CUDA support</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">jax</span><span class="p">[</span><span class="n">cuda11_cudnn82</span><span class="p">]</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">storage</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">jax</span><span class="o">-</span><span class="n">releases</span><span class="o">/</span><span class="n">jax_cuda_releases</span><span class="o">.</span><span class="n">html</span>
+
+<span class="c1"># Or with latest CUDA</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">jax</span><span class="p">[</span><span class="n">cuda12_cudnn83</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>GPU Out of Memory on Import</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">RuntimeError</span><span class="p">:</span> <span class="n">CUDA</span> <span class="n">out</span> <span class="n">of</span> <span class="n">memory</span>
+</pre></div>
+</div>
+<p>Solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set XLA to only allocate needed memory</span>
+<span class="n">export</span> <span class="n">XLA_PYTHON_CLIENT_PREALLOCATE</span><span class="o">=</span><span class="n">false</span>
+
+<span class="c1"># Reduce TensorFlow/JAX memory allocation</span>
+<span class="n">export</span> <span class="n">JAX_PLATFORM_NAME</span><span class="o">=</span><span class="n">cpu</span>  <span class="c1"># Use CPU for testing</span>
+</pre></div>
+</div>
+</section>
+<section id="training-issues">
+<h2>Training Issues<a class="headerlink" href="#training-issues" title="Link to this heading"></a></h2>
+<p><strong>Training Starts But Stops Immediately</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ValueError</span><span class="p">:</span> <span class="n">Data</span> <span class="n">loading</span> <span class="n">failed</span>
+</pre></div>
+</div>
+<p>Solution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">Check</span> <span class="n">data</span> <span class="n">availability</span><span class="p">::</span>
+
+    <span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;from datasets import load_dataset; load_dataset(&#39;gsm8k&#39;)&quot;</span>
+
+<span class="mf">2.</span> <span class="n">Verify</span> <span class="n">tokenizer</span> <span class="n">exists</span><span class="p">::</span>
+
+    <span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">cfg</span> <span class="n">job</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">tokenizer</span>
+
+<span class="mf">3.</span> <span class="n">Check</span> <span class="n">configuration</span><span class="p">::</span>
+
+    <span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">cfg</span> <span class="n">job</span>
+</pre></div>
+</div>
+<p><strong>Loss is NaN</strong></p>
+<p>Symptoms:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span><span class="p">:</span> <span class="n">nan</span>
+<span class="n">Training</span> <span class="n">crashes</span> <span class="n">after</span> <span class="n">few</span> <span class="n">steps</span>
+</pre></div>
+</div>
+<p>Causes and solutions:</p>
+<ol class="arabic">
+<li><p><strong>Learning rate too high</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-7</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Gradient overflow</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">max_grad_norm</span><span class="o">=</span><span class="mf">0.01</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Batch size too large</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Bad data example</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check and clean data</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;from agent_tunix.data import load_dataset; ds, _ = load_dataset(); print(ds[0])&quot;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Loss Not Decreasing</strong></p>
+<p>Symptoms:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Loss</span> <span class="n">stays</span> <span class="n">constant</span> <span class="ow">or</span> <span class="n">increases</span>
+</pre></div>
+</div>
+<p>Causes and solutions:</p>
+<ol class="arabic">
+<li><p><strong>Learning rate too low</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-4</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Model not training (frozen weights)</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if parameters are trainable</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;from agent_tunix.train import create_model; model = create_model(cfg); print(model.trainable_params())&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Data too small</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use more training data or reduce num_batches</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">num_batches</span><span class="o">=</span><span class="mi">10000</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>LoRA not properly configured</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">.</span><span class="n">lora_rank</span><span class="o">=</span><span class="mi">64</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Memory Error During Training</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">RuntimeError</span><span class="p">:</span> <span class="n">CUDA</span> <span class="n">out</span> <span class="n">of</span> <span class="n">memory</span>
+</pre></div>
+</div>
+<p>Solutions (in order of impact):</p>
+<ol class="arabic">
+<li><p>Reduce batch size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+</li>
+<li><p>Reduce model size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_270m</span>
+</pre></div>
+</div>
+</li>
+<li><p>Reduce LoRA rank:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">.</span><span class="n">lora_rank</span><span class="o">=</span><span class="mi">8</span>
+</pre></div>
+</div>
+</li>
+<li><p>Reduce sequence length:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> \
+    <span class="n">generation</span><span class="o">.</span><span class="n">max_prompt_length</span><span class="o">=</span><span class="mi">128</span> \
+    <span class="n">generation</span><span class="o">.</span><span class="n">max_generation_steps</span><span class="o">=</span><span class="mi">256</span>
+</pre></div>
+</div>
+</li>
+<li><p>Reduce generations per prompt:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">grpo</span><span class="o">.</span><span class="n">num_generations</span><span class="o">=</span><span class="mi">2</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use gradient accumulation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">gradient_accumulation_steps</span><span class="o">=</span><span class="mi">4</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Slow Training</strong></p>
+<p>Check GPU utilization:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monitor in another terminal</span>
+<span class="n">watch</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span> <span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span>
+</pre></div>
+</div>
+<p>Solutions if utilization is low:</p>
+<ol class="arabic">
+<li><p><strong>Data loading bottleneck</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Increase number of data loading workers</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">num_workers</span><span class="o">=</span><span class="mi">8</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Model too small</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Check for CPU bottleneck</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monitor CPU usage</span>
+<span class="n">top</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>I/O bottleneck</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Move data to faster storage (SSD)</span>
+<span class="c1"># Or use memory-mapped datasets</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Checkpoints Not Being Saved</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">No</span> <span class="n">checkpoint</span> <span class="n">directory</span> <span class="n">created</span>
+</pre></div>
+</div>
+<p>Solutions:</p>
+<ol class="arabic">
+<li><p>Check checkpoint directory permissions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">la</span> <span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+</pre></div>
+</div>
+</li>
+<li><p>Verify checkpoint configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">cfg</span> <span class="n">job</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">checkpoint</span>
+</pre></div>
+</div>
+</li>
+<li><p>Create directory if missing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use absolute path:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">checkpoint_dir</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Model Not Improving on Validation</strong></p>
+<p>Symptoms:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Validation</span> <span class="n">accuracy</span> <span class="n">flat</span>
+<span class="n">Training</span> <span class="n">loss</span> <span class="n">decreases</span> <span class="n">but</span> <span class="n">validation</span> <span class="n">stagnates</span>
+</pre></div>
+</div>
+<p>Causes and solutions:</p>
+<ol class="arabic">
+<li><p><strong>Overfitting</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add validation set diversity</span>
+<span class="c1"># Reduce model capacity</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">.</span><span class="n">lora_rank</span><span class="o">=</span><span class="mi">8</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Wrong reward signal</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check reward function</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">agent_tunix.rewards</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_answer</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">check_answer</span><span class="p">(</span><span class="s1">&#39;The answer is 4.&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">))</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Validation set too small</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use larger validation set</span>
+<span class="c1"># Or fewer validation steps</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">eval_interval_steps</span><span class="o">=</span><span class="mi">1000</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Distribution mismatch</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure test set matches training data</span>
+<span class="c1"># Or fine-tune on test distribution</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="evaluation-issues">
+<h2>Evaluation Issues<a class="headerlink" href="#evaluation-issues" title="Link to this heading"></a></h2>
+<p><strong>No Checkpoints Found</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">No</span> <span class="n">checkpoint</span> <span class="n">found</span> <span class="ow">in</span><span class="p">:</span> <span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span><span class="n">actor</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Solutions:</p>
+<ol class="arabic">
+<li><p>Verify training completed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">la</span> <span class="n">outputs</span><span class="o">/</span><span class="n">tunix</span><span class="o">-</span><span class="n">grpo</span><span class="o">/*/</span>
+</pre></div>
+</div>
+</li>
+<li><p>Check for checkpoints:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">find</span> <span class="o">.</span> <span class="o">-</span><span class="n">name</span> <span class="s2">&quot;*actor*&quot;</span> <span class="o">-</span><span class="nb">type</span> <span class="n">d</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use absolute path:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">checkpoint_dir</span><span class="o">=/</span><span class="n">absolute</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">checkpoints</span><span class="o">/</span><span class="n">ckpts</span><span class="o">/</span>
+</pre></div>
+</div>
+</li>
+<li><p>Train if not done:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>CUDA Memory During Evaluation</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">RuntimeError</span><span class="p">:</span> <span class="n">CUDA</span> <span class="n">out</span> <span class="n">of</span> <span class="n">memory</span> <span class="n">during</span> <span class="n">evaluation</span>
+</pre></div>
+</div>
+<p>Solutions:</p>
+<ol class="arabic">
+<li><p>Reduce batch size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+</li>
+<li><p>Reduce sequence length:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">generation</span><span class="o">.</span><span class="n">max_generation_steps</span><span class="o">=</span><span class="mi">256</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use CPU:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">device</span><span class="o">=</span><span class="n">cpu</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Evaluation Takes Too Long</strong></p>
+<p>Solutions:</p>
+<ol class="arabic">
+<li><p>Use greedy decoding (faster):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">inference_config</span><span class="o">=</span><span class="n">greedy</span>
+</pre></div>
+</div>
+</li>
+<li><p>Reduce evaluation samples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">evaluation</span><span class="o">.</span><span class="n">num_samples</span><span class="o">=</span><span class="mi">100</span>
+</pre></div>
+</div>
+</li>
+<li><p>Reduce number of passes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">evaluation</span><span class="o">.</span><span class="n">num_passes</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use smaller model checkpoint:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">step</span><span class="o">=</span><span class="mi">100</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Metric Results Don’t Match Training</strong></p>
+<p>Causes:</p>
+<ol class="arabic">
+<li><p><strong>Different inference config</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use same as training</span>
+<span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">inference_config</span><span class="o">=</span><span class="n">greedy</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Different checkpoint</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use latest</span>
+<span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Different data</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure same dataset</span>
+<span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">cfg</span> <span class="n">job</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">dataset</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Randomness</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set seed</span>
+<span class="n">python</span> <span class="n">evaluate</span><span class="o">.</span><span class="n">py</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="configuration-issues">
+<h2>Configuration Issues<a class="headerlink" href="#configuration-issues" title="Link to this heading"></a></h2>
+<p><strong>Invalid Configuration</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ConfigError</span><span class="p">:</span> <span class="n">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="s1">&#39;model/custom.yaml&#39;</span>
+</pre></div>
+</div>
+<p>Solutions:</p>
+<ol class="arabic">
+<li><p>List available configs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">info</span> <span class="n">config</span><span class="o">-</span><span class="n">groups</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">model</span>
+</pre></div>
+</div>
+</li>
+<li><p>Check file exists:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="n">conf</span><span class="o">/</span><span class="n">model</span><span class="o">/</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use default if custom missing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Conflicting Overrides</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ConfigCompositionException</span><span class="p">:</span> <span class="n">Could</span> <span class="ow">not</span> <span class="n">override</span>
+</pre></div>
+</div>
+<p>Solutions:</p>
+<ol class="arabic">
+<li><p>Check config hierarchy:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">info</span> <span class="n">defaults</span><span class="o">-</span><span class="n">tree</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use correct path:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Correct</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span>
+
+<span class="c1"># Wrong</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use force override if needed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">++</span><span class="n">optimizer</span><span class="o">.</span><span class="n">new_param</span><span class="o">=</span><span class="n">value</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Missing Configuration Group</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ConfigCompositionException</span><span class="p">:</span> <span class="n">Could</span> <span class="ow">not</span> <span class="n">load</span> <span class="n">group</span>
+</pre></div>
+</div>
+<p>Solutions:</p>
+<ol class="arabic">
+<li><p>List defaults:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">info</span> <span class="n">config</span><span class="o">-</span><span class="n">groups</span>
+</pre></div>
+</div>
+</li>
+<li><p>Create missing config:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">touch</span> <span class="n">conf</span><span class="o">/</span><span class="n">scheduler</span><span class="o">/</span><span class="n">custom</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</li>
+<li><p>Update config.yaml defaults:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># conf/config.yaml</span>
+<span class="n">defaults</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">scheduler</span><span class="p">:</span> <span class="n">custom</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="distributed-training-issues">
+<h2>Distributed Training Issues<a class="headerlink" href="#distributed-training-issues" title="Link to this heading"></a></h2>
+<p><strong>NCCL Errors</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">RuntimeError</span><span class="p">:</span> <span class="n">NCCL</span> <span class="n">operation</span> <span class="n">failed</span>
+</pre></div>
+</div>
+<p>Solutions:</p>
+<ol class="arabic">
+<li><p>Check GPU connectivity:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span> <span class="o">-</span><span class="n">L</span>
+</pre></div>
+</div>
+</li>
+<li><p>Enable NCCL debugging:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">NCCL_DEBUG</span><span class="o">=</span><span class="n">INFO</span>
+</pre></div>
+</div>
+</li>
+<li><p>Increase timeout:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">NCCL_P2P_CONNECT_TIMEOUT</span><span class="o">=</span><span class="mi">300</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use single GPU for testing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">.</span><span class="n">mesh_shape</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span><span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Device Mismatch</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">RuntimeError</span><span class="p">:</span> <span class="n">Devices</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">homogeneous</span>
+</pre></div>
+</div>
+<p>Causes:</p>
+<ul class="simple">
+<li><p>Different GPU types in cluster</p></li>
+<li><p>Different compute capabilities</p></li>
+</ul>
+<p>Solution:</p>
+<ul class="simple">
+<li><p>Use same GPU type across all nodes</p></li>
+<li><p>Or use compatible GPUs</p></li>
+</ul>
+<p><strong>Communication Timeout</strong></p>
+<p>Error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">TimeoutError</span><span class="p">:</span> <span class="n">Communication</span> <span class="n">timed</span> <span class="n">out</span>
+</pre></div>
+</div>
+<p>Solutions:</p>
+<ol class="arabic">
+<li><p>Check network:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ping</span> <span class="o">&lt;</span><span class="n">other</span><span class="o">-</span><span class="n">node</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Increase timeout:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">NCCL_P2P_CONNECT_TIMEOUT</span><span class="o">=</span><span class="mi">600</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use slower network:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">NCCL_SOCKET_IFNAME</span><span class="o">=</span><span class="n">eth0</span>  <span class="c1"># Specific network interface</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Uneven GPU Utilization</strong></p>
+<p>Issue: Some GPUs finish faster than others</p>
+<p>Solutions:</p>
+<ol class="arabic">
+<li><p>Check loads:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span> <span class="n">dmon</span> <span class="o">-</span><span class="n">s</span> <span class="n">pm</span>
+</pre></div>
+</div>
+</li>
+<li><p>Adjust batch size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">8</span>
+</pre></div>
+</div>
+</li>
+<li><p>Balance data distribution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">data_seed</span><span class="o">=</span><span class="mi">42</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="debugging-tips">
+<h2>Debugging Tips<a class="headerlink" href="#debugging-tips" title="Link to this heading"></a></h2>
+<p><strong>Enable Verbose Logging</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">log_level</span><span class="o">=</span><span class="n">DEBUG</span>
+</pre></div>
+</div>
+<p><strong>Profile Training</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">profile</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
+<p>Check profile output in logs.</p>
+<p><strong>Inspect Configuration</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">cfg</span> <span class="n">job</span> <span class="o">--</span><span class="n">resolve</span>
+</pre></div>
+</div>
+<p>Shows all interpolations resolved.</p>
+<p><strong>Dry Run Test</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span> <span class="o">--</span><span class="n">dry</span><span class="o">-</span><span class="n">run</span>
+</pre></div>
+</div>
+<p>Validates configuration without training.</p>
+<p><strong>Check Versions</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">flax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">transformers</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hydra</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;JAX: </span><span class="si">{</span><span class="n">jax</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Flax: </span><span class="si">{</span><span class="n">flax</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Transformers: </span><span class="si">{</span><span class="n">transformers</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Hydra: </span><span class="si">{</span><span class="n">hydra</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="s2">&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="getting-help">
+<h2>Getting Help<a class="headerlink" href="#getting-help" title="Link to this heading"></a></h2>
+<p>When reporting issues, include:</p>
+<ol class="arabic simple">
+<li><p>Complete error message and traceback</p></li>
+<li><p>Configuration used (<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run_training.py</span> <span class="pre">--cfg</span> <span class="pre">job</span></code>)</p></li>
+<li><p>GPU information (<code class="docutils literal notranslate"><span class="pre">nvidia-smi</span></code>)</p></li>
+<li><p>Environment info (Python version, package versions)</p></li>
+<li><p>Minimal reproducible example</p></li>
+</ol>
+</section>
+<section id="common-patterns">
+<h2>Common Patterns<a class="headerlink" href="#common-patterns" title="Link to this heading"></a></h2>
+<p><strong>Testing Fix Before Full Run</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test configuration and data loading</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span> <span class="o">--</span><span class="n">dry</span><span class="o">-</span><span class="n">run</span>
+
+<span class="c1"># Run 10 steps to verify</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">quick_test</span>
+
+<span class="c1"># If successful, run full training</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="o">+</span><span class="n">experiment</span><span class="o">=</span><span class="n">full_training</span>
+</pre></div>
+</div>
+<p><strong>Incremental Memory Reduction</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start here</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span>
+
+<span class="c1"># If OOM, reduce batch size</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">2</span>
+
+<span class="c1"># If still OOM, use smaller model</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_270m</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="c1"># If still OOM, reduce LoRA rank</span>
+<span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_270m</span> <span class="n">model</span><span class="o">.</span><span class="n">lora_rank</span><span class="o">=</span><span class="mi">8</span> <span class="n">training</span><span class="o">.</span><span class="n">micro_batch_size</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../guide/training.html"><span class="doc">Training Guide</span></a> - Training guide</p></li>
+<li><p><a class="reference internal" href="../api/train.html"><span class="doc">Training API</span></a> - Training API</p></li>
+<li><p><a class="reference internal" href="../getting_started/configuration.html"><span class="doc">Configuration Guide</span></a> - Configuration reference</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="custom_rewards.html" class="btn btn-neutral float-left" title="Custom Reward Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../references/faq.html" class="btn btn-neutral float-right" title="Frequently Asked Questions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

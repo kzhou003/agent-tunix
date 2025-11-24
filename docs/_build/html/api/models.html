@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Models API &mdash; Agent-Tunix 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data API" href="data.html" />
+    <link rel="prev" title="Evaluation API" href="evaluate.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Agent-Tunix
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/configuration.html">Configuration Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/training.html">Training Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/evaluation.html">Evaluation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/hyperparameter_tuning.html">Hyperparameter Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/experiments.html">Experiments Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../config/overview.html">Configuration Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/model.html">Model Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/optimizer.html">Optimizer Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/training.html">Training Configuration Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="train.html">Training API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evaluate.html">Evaluation API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Models API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#available-models">Available Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-configuration">Model Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lora-low-rank-adaptation">LoRA (Low-Rank Adaptation)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-selection">Module Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-model-configuration">Custom Model Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distributed-training">Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-loading">Model Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#memory-requirements-by-model">Memory Requirements by Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-topics">Advanced Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rewards.html">Rewards API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/distributed_training.html">Distributed Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/custom_rewards.html">Custom Reward Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../references/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Agent-Tunix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Models API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/models.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="models-api">
+<h1>Models API<a class="headerlink" href="#models-api" title="Link to this heading"></a></h1>
+<p>This module contains model architectures and utilities for loading and configuring models.</p>
+<section id="available-models">
+<h2>Available Models<a class="headerlink" href="#available-models" title="Link to this heading"></a></h2>
+<p><strong>Gemma3 270M</strong></p>
+<p>Lightweight model suitable for resource-constrained environments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configuration: conf/model/gemma3_270m.yaml</span>
+<span class="n">model_family</span><span class="p">:</span> <span class="n">gemma3</span>
+<span class="n">model_size</span><span class="p">:</span> <span class="mi">270</span><span class="n">m</span>
+<span class="n">lora_rank</span><span class="p">:</span> <span class="mi">32</span>
+<span class="n">lora_alpha</span><span class="p">:</span> <span class="mf">32.0</span>
+</pre></div>
+</div>
+<p>Use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_270m</span>
+</pre></div>
+</div>
+<p>Memory requirements:</p>
+<ul class="simple">
+<li><p>VRAM: ~11GB (with batch size 1)</p></li>
+<li><p>Single GPU: RTX 2080 Ti or RTX A4000</p></li>
+<li><p>LoRA rank: 8-32 (lower for memory constraints)</p></li>
+</ul>
+<p><strong>Gemma3 1B</strong></p>
+<p>Standard model for balanced performance and efficiency:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configuration: conf/model/gemma3_1b.yaml</span>
+<span class="n">model_family</span><span class="p">:</span> <span class="n">gemma3</span>
+<span class="n">model_size</span><span class="p">:</span> <span class="mi">1</span><span class="n">b</span>
+<span class="n">lora_rank</span><span class="p">:</span> <span class="mi">32</span>
+<span class="n">lora_alpha</span><span class="p">:</span> <span class="mf">32.0</span>
+</pre></div>
+</div>
+<p>Use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_1b</span>
+</pre></div>
+</div>
+<p>Memory requirements:</p>
+<ul class="simple">
+<li><p>VRAM: ~48GB (with batch size 4)</p></li>
+<li><p>Single GPU: RTX A6000</p></li>
+<li><p>LoRA rank: 16-64</p></li>
+</ul>
+<p><strong>Gemma3 4B</strong></p>
+<p>Larger model for higher capacity tasks:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model_family</span><span class="p">:</span> <span class="n">gemma3</span>
+<span class="n">model_size</span><span class="p">:</span> <span class="mi">4</span><span class="n">b</span>
+<span class="n">lora_rank</span><span class="p">:</span> <span class="mi">64</span>
+<span class="n">lora_alpha</span><span class="p">:</span> <span class="mf">64.0</span>
+</pre></div>
+</div>
+<p>Use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">gemma3_4b</span>
+</pre></div>
+</div>
+<p>Memory requirements:</p>
+<ul class="simple">
+<li><p>VRAM: ~80GB (with batch size 8)</p></li>
+<li><p>Multiple GPUs: H100 or A100</p></li>
+<li><p>LoRA rank: 32-128</p></li>
+</ul>
+</section>
+<section id="model-configuration">
+<h2>Model Configuration<a class="headerlink" href="#model-configuration" title="Link to this heading"></a></h2>
+<p>Key configuration parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="p">:</span>
+  <span class="n">model_family</span><span class="p">:</span> <span class="n">gemma3</span>           <span class="c1"># Model family name</span>
+  <span class="n">model_size</span><span class="p">:</span> <span class="mi">1</span><span class="n">b</span>                 <span class="c1"># Size variant (270m, 1b, 4b)</span>
+  <span class="n">lora_rank</span><span class="p">:</span> <span class="mi">32</span>                  <span class="c1"># LoRA rank for low-rank adaptation</span>
+  <span class="n">lora_alpha</span><span class="p">:</span> <span class="mf">32.0</span>               <span class="c1"># LoRA alpha scaling factor</span>
+  <span class="n">lora_module_path</span><span class="p">:</span> <span class="s2">&quot;.*pattern&quot;</span>  <span class="c1"># Regex for which layers to apply LoRA</span>
+  <span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>            <span class="c1"># Parallelism shape</span>
+                <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span><span class="s2">&quot;tp&quot;</span><span class="p">]]</span>   <span class="c1"># fsdp: fully sharded, tp: tensor parallel</span>
+</pre></div>
+</div>
+</section>
+<section id="lora-low-rank-adaptation">
+<h2>LoRA (Low-Rank Adaptation)<a class="headerlink" href="#lora-low-rank-adaptation" title="Link to this heading"></a></h2>
+<p>LoRA is a parameter-efficient fine-tuning technique that:</p>
+<ol class="arabic simple">
+<li><p>Freezes the base model weights</p></li>
+<li><p>Adds low-rank trainable adapters to specified layers</p></li>
+<li><p>Reduces trainable parameters from 100% to ~1%</p></li>
+</ol>
+<p>Configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lora_rank</span><span class="p">:</span> <span class="mi">32</span>           <span class="c1"># Rank of adaptation matrices (4-128)</span>
+<span class="n">lora_alpha</span><span class="p">:</span> <span class="mf">32.0</span>        <span class="c1"># Scaling factor (usually = rank)</span>
+</pre></div>
+</div>
+<p>Higher rank = more capacity but more parameters and memory.</p>
+<p>Typical settings:</p>
+<ul class="simple">
+<li><p>Memory constrained (11GB): rank 8-16</p></li>
+<li><p>Standard (48GB): rank 32-64</p></li>
+<li><p>High capacity (80GB+): rank 64-128</p></li>
+</ul>
+<section id="module-selection">
+<h3>Module Selection<a class="headerlink" href="#module-selection" title="Link to this heading"></a></h3>
+<p>Control which layers get LoRA:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lora_module_path</span><span class="p">:</span> <span class="s2">&quot;.*q_einsum|.*kv_einsum|.*gate_proj|.*down_proj|.*up_proj|.*attn_vec_einsum&quot;</span>
+</pre></div>
+</div>
+<p>This regex pattern applies LoRA to:</p>
+<ul class="simple">
+<li><p>Attention projections (q, k, v einsum operations)</p></li>
+<li><p>MLP layers (gate, up, down projections)</p></li>
+</ul>
+</section>
+</section>
+<section id="custom-model-configuration">
+<h2>Custom Model Configuration<a class="headerlink" href="#custom-model-configuration" title="Link to this heading"></a></h2>
+<p>Create a custom model in <code class="docutils literal notranslate"><span class="pre">conf/model/custom.yaml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model_family</span><span class="p">:</span> <span class="n">gemma3</span>
+<span class="n">model_size</span><span class="p">:</span> <span class="mi">4</span><span class="n">b</span>
+<span class="n">lora_rank</span><span class="p">:</span> <span class="mi">16</span>
+<span class="n">lora_alpha</span><span class="p">:</span> <span class="mf">16.0</span>
+<span class="n">lora_module_path</span><span class="p">:</span> <span class="s2">&quot;.*q_einsum|.*kv_einsum|.*gate_proj|.*down_proj|.*up_proj|.*attn_vec_einsum&quot;</span>
+<span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Use it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_training</span><span class="o">.</span><span class="n">py</span> <span class="n">model</span><span class="o">=</span><span class="n">custom</span>
+</pre></div>
+</div>
+</section>
+<section id="distributed-training">
+<h2>Distributed Training<a class="headerlink" href="#distributed-training" title="Link to this heading"></a></h2>
+<p>For multi-GPU training, configure mesh shape:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Single GPU</span>
+<span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+
+<span class="c1"># 2 GPUs in a row (data parallelism)</span>
+<span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+
+<span class="c1"># 4 GPUs in a 2x2 grid</span>
+<span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+
+<span class="c1"># 4 GPUs in a line (tensor parallelism)</span>
+<span class="n">mesh_shape</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;fsdp&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><strong>fsdp</strong>: Fully Sharded Data Parallel - shards model across GPUs</p></li>
+<li><p><strong>tp</strong>: Tensor Parallel - splits tensors across GPUs</p></li>
+</ul>
+</section>
+<section id="model-loading">
+<h2>Model Loading<a class="headerlink" href="#model-loading" title="Link to this heading"></a></h2>
+<p>Models are loaded from:</p>
+<ol class="arabic simple">
+<li><p><strong>Hugging Face Hub</strong>: For public models</p></li>
+<li><p><strong>Kaggle Models</strong>: For Kaggle-hosted weights</p></li>
+<li><p><strong>Local checkpoint</strong>: For previous training runs</p></li>
+</ol>
+<p>The framework automatically handles model downloading and caching.</p>
+</section>
+<section id="memory-requirements-by-model">
+<h2>Memory Requirements by Model<a class="headerlink" href="#memory-requirements-by-model" title="Link to this heading"></a></h2>
+<p>Based on batch size and LoRA rank:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RTX</span> <span class="mi">2080</span> <span class="n">Ti</span> <span class="p">(</span><span class="mi">11</span><span class="n">GB</span><span class="p">):</span>
+<span class="o">-</span> <span class="n">Model</span><span class="p">:</span> <span class="n">gemma3_270m</span>
+<span class="o">-</span> <span class="n">Batch</span> <span class="n">size</span><span class="p">:</span> <span class="mi">1</span>
+<span class="o">-</span> <span class="n">LoRA</span> <span class="n">rank</span><span class="p">:</span> <span class="mi">8</span><span class="o">-</span><span class="mi">16</span>
+
+<span class="n">RTX</span> <span class="n">A6000</span> <span class="p">(</span><span class="mi">48</span><span class="n">GB</span><span class="p">):</span>
+<span class="o">-</span> <span class="n">Model</span><span class="p">:</span> <span class="n">gemma3_1b</span>
+<span class="o">-</span> <span class="n">Batch</span> <span class="n">size</span><span class="p">:</span> <span class="mi">4</span>
+<span class="o">-</span> <span class="n">LoRA</span> <span class="n">rank</span><span class="p">:</span> <span class="mi">32</span><span class="o">-</span><span class="mi">64</span>
+
+<span class="n">H100</span><span class="o">/</span><span class="n">A100</span> <span class="p">(</span><span class="mi">80</span><span class="n">GB</span><span class="p">):</span>
+<span class="o">-</span> <span class="n">Model</span><span class="p">:</span> <span class="n">gemma3_4b</span>
+<span class="o">-</span> <span class="n">Batch</span> <span class="n">size</span><span class="p">:</span> <span class="mi">8</span>
+<span class="o">-</span> <span class="n">LoRA</span> <span class="n">rank</span><span class="p">:</span> <span class="mi">64</span><span class="o">-</span><span class="mi">128</span>
+</pre></div>
+</div>
+</section>
+<section id="advanced-topics">
+<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Link to this heading"></a></h2>
+<p>See <a class="reference internal" href="../advanced/distributed_training.html"><span class="doc">Distributed Training</span></a> for:</p>
+<ul class="simple">
+<li><p>Tensor parallel training</p></li>
+<li><p>Fully sharded data parallel setup</p></li>
+<li><p>Multi-node distributed training</p></li>
+</ul>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../guide/training.html"><span class="doc">Training Guide</span></a> - Training guide</p></li>
+<li><p><a class="reference internal" href="../advanced/distributed_training.html"><span class="doc">Distributed Training</span></a> - Distributed training setup</p></li>
+<li><p><a class="reference internal" href="train.html"><span class="doc">Training API</span></a> - Training API reference</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="evaluate.html" class="btn btn-neutral float-left" title="Evaluation API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="data.html" class="btn btn-neutral float-right" title="Data API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agent-Tunix Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

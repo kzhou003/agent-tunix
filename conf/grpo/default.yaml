@@ -1,0 +1,5 @@
+# GRPO algorithm configuration
+num_generations: 4
+num_iterations: 1
+beta: 0.08
+epsilon: 0.2
